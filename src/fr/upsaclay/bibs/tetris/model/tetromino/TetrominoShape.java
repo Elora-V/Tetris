@@ -1,9 +1,6 @@
 package fr.upsaclay.bibs.tetris.model.tetromino;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
@@ -66,7 +63,7 @@ public enum TetrominoShape {
 	
 	private static final Random RANDOM = new Random();
 	
-	
+	final Set<TetrisCell[][]> listPosition;
 	
 	public static Tetromino randomTetromino() {
 		TetrominoShape randomShape = values()[RANDOM.nextInt(values().length)];
@@ -75,26 +72,64 @@ public enum TetrominoShape {
 	
 	
 	private TetrominoShape(TetrisCell[][] initialShape) {
-		/// Write your code here
+
+		listPosition=new HashSet<TetrisCell[][]>();
+
+		// ajout de la position initiale à la liste des positions :
+		this.listPosition.add(initialShape);
+
+		// on veut ajouter les autres positions :
+		for (int r=0;r<3;r++) { // fait les 3 rotations
+			TetrisCell[][] position = new TetrisCell[initialShape.length][initialShape.length]; //nouvelle position crée
+			// on la remplit en appliquant la rotation à droite
+			for (int i = 0; i < initialShape.length; i++) {
+				for (int j = 0; j < initialShape.length; j++) {
+					position[i][j] = initialShape[initialShape.length - 1 - j][i];
+				}
+			}
+			this.listPosition.add(position); // on l'ajoute à la liste
+			initialShape=position.clone(); //on indique que la version tournée est la nouvelle position initiale
+		}
 	}
 	
 	
 	public TetrisCell getType() {
-		throw new UnsupportedOperationException("Not implemented");
+		TetrisCell[][] position=listPosition[0]; //récupère une position
+		for (int i=0;i<getBoxSize();i+=1){
+			for (int j=0;j<getBoxSize();j+=1){
+				if(position[i][j]!=TetrisCell.EMPTY){ // si c'est pas une cellule vide on renvoie le type de la cellule
+					return position[i][j];
+				}
+			}
+		}
+		return TetrisCell.EMPTY;
 	}
-	
+
 	public int getNumberOfRotations() {
-		throw new UnsupportedOperationException("Not implemented");
+		return listPosition.size();
 	}
 	
 	public int getBoxSize() {
-		throw new UnsupportedOperationException("Not implemented");
+		TetrisCell[][] position=listPosition[0];
+		System.out.println();
+		return position.length; // nombre de ligne d'une position
 	}
 	
 	public Tetromino getTetromino(int rotationNumber) {
-		throw new UnsupportedOperationException("Not implemented");
+		//throw new UnsupportedOperationException("Not implemented");
+		return listPosition[rotationNumber];
 	}
-	
-	
+
 
 }
+
+// calcul rotation droite:
+//copyTabShape =...
+//for (int i = 0; i < tabShape.length; i++) {
+//	for (int j = 0; j < tabShape.length; j++) {
+//		tabShape[i][j] = copyTabShape[tabShape.length - 1 - j][i];
+//	}
+//}
+// calcul rotation gauche:
+// avec copyTabShape[j][tabShape.length - 1 - i];
+
