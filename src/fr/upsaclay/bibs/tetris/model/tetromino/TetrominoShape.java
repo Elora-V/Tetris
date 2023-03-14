@@ -32,41 +32,42 @@ public enum TetrominoShape {
 		{TetrisCell.I,		TetrisCell.I,		TetrisCell.I,		TetrisCell.I},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	}),
+	},4),
 	OSHAPE(new TetrisCell[][] {
 		{TetrisCell.O, TetrisCell.O},
 		{TetrisCell.O, TetrisCell.O}
-	}),
+	},1),
 	TSHAPE(new TetrisCell[][] {
 		{TetrisCell.EMPTY,	TetrisCell.T,		TetrisCell.EMPTY},
 		{TetrisCell.T,		TetrisCell.T,		TetrisCell.T},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	}),
+	},4),
 	LSHAPE(new TetrisCell[][] {
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.L},
 		{TetrisCell.L,		TetrisCell.L,		TetrisCell.L},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	}),
+	},4),
 	JSHAPE(new TetrisCell[][] {
 		{TetrisCell.J,		TetrisCell.EMPTY,	TetrisCell.EMPTY},
 		{TetrisCell.J,		TetrisCell.J,		TetrisCell.J},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	}),
+	},4),
 	ZSHAPE(new TetrisCell[][] {
 		{TetrisCell.Z,		TetrisCell.Z,		TetrisCell.EMPTY},
 		{TetrisCell.EMPTY,	TetrisCell.Z,		TetrisCell.Z},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	}),
+	},4),
 	SSHAPE(new TetrisCell[][] {
 		{TetrisCell.EMPTY,	TetrisCell.S,		TetrisCell.S},
 		{TetrisCell.S,		TetrisCell.S,		TetrisCell.EMPTY},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	});
+	},4);
 	
 	
 	private static final Random RANDOM = new Random();
 	
-	
+	final TetrisCell[][] tabShape; // ajout
+	final int numberRotation;
 	
 	public static Tetromino randomTetromino() {
 		TetrominoShape randomShape = values()[RANDOM.nextInt(values().length)];
@@ -74,21 +75,29 @@ public enum TetrominoShape {
 	}
 	
 	
-	private TetrominoShape(TetrisCell[][] initialShape) {
-		/// Write your code here
+	private TetrominoShape(TetrisCell[][] initialShape, int numberRotation) {
+		this.tabShape=initialShape;
+		this.numberRotation=numberRotation; // ajout d'un élément à shape pour stocker nombre rotation possible
 	}
 	
 	
 	public TetrisCell getType() {
-		throw new UnsupportedOperationException("Not implemented");
+		for (int i=0;i<tabShape.length;i+=1){
+			for (int j=0;j<tabShape[i].length;j+=1){
+				if(tabShape[i][j]!=TetrisCell.EMPTY){ // si c'est pas une cellule vide on renvoie le type de la cellule
+					return tabShape[i][j];
+				}
+			}
+		}
+		return TetrisCell.EMPTY;
 	}
 	
 	public int getNumberOfRotations() {
-		throw new UnsupportedOperationException("Not implemented");
+		return numberRotation;
 	}
 	
 	public int getBoxSize() {
-		throw new UnsupportedOperationException("Not implemented");
+		return tabShape.length; // nombre de ligne
 	}
 	
 	public Tetromino getTetromino(int rotationNumber) {
