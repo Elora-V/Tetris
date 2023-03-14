@@ -32,36 +32,36 @@ public enum TetrominoShape {
 		{TetrisCell.I,		TetrisCell.I,		TetrisCell.I,		TetrisCell.I},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	},4),
+	}),
 	OSHAPE(new TetrisCell[][] {
 		{TetrisCell.O, TetrisCell.O},
 		{TetrisCell.O, TetrisCell.O}
-	},1),
+	}),
 	TSHAPE(new TetrisCell[][] {
 		{TetrisCell.EMPTY,	TetrisCell.T,		TetrisCell.EMPTY},
 		{TetrisCell.T,		TetrisCell.T,		TetrisCell.T},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	},4),
+	}),
 	LSHAPE(new TetrisCell[][] {
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.L},
 		{TetrisCell.L,		TetrisCell.L,		TetrisCell.L},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	},4),
+	}),
 	JSHAPE(new TetrisCell[][] {
 		{TetrisCell.J,		TetrisCell.EMPTY,	TetrisCell.EMPTY},
 		{TetrisCell.J,		TetrisCell.J,		TetrisCell.J},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	},4),
+	}),
 	ZSHAPE(new TetrisCell[][] {
 		{TetrisCell.Z,		TetrisCell.Z,		TetrisCell.EMPTY},
 		{TetrisCell.EMPTY,	TetrisCell.Z,		TetrisCell.Z},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	},4),
+	}),
 	SSHAPE(new TetrisCell[][] {
 		{TetrisCell.EMPTY,	TetrisCell.S,		TetrisCell.S},
 		{TetrisCell.S,		TetrisCell.S,		TetrisCell.EMPTY},
 		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
-	},4);
+	});
 	
 	
 	private static final Random RANDOM = new Random();
@@ -75,9 +75,9 @@ public enum TetrominoShape {
 	}
 	
 	
-	private TetrominoShape(TetrisCell[][] initialShape, int numberRotation) {
+	private TetrominoShape(TetrisCell[][] initialShape) {
 		this.tabShape=initialShape;
-		this.numberRotation=numberRotation; // ajout d'un élément à shape pour stocker nombre rotation possible
+		this.numberRotation=...; //calculer nb de rotation différente
 	}
 	
 	
@@ -91,7 +91,7 @@ public enum TetrominoShape {
 		}
 		return TetrisCell.EMPTY;
 	}
-	
+
 	public int getNumberOfRotations() {
 		return numberRotation;
 	}
@@ -103,7 +103,17 @@ public enum TetrominoShape {
 	public Tetromino getTetromino(int rotationNumber) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
-	
-	
+
 
 }
+
+// calcul rotation droite:
+//copyTabShape =...
+//for (int i = 0; i < tabShape.length; i++) {
+//	for (int j = 0; j < tabShape.length; j++) {
+//		tabShape[i][j] = copyTabShape[tabShape.length - 1 - j][i];
+//	}
+//}
+// calcul rotation gauche:
+// avec copyTabShape[j][tabShape.length - 1 - i];
+
