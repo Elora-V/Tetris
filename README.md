@@ -5,7 +5,7 @@ Ce repo contient l'ensemble des fichiers nécessaires à la réalisation de votr
 ## Membres du groupes :
 
 * Vigo Elora
-* Nom Prénom
+* Perronno Alexandre
 
 ## Objectif et rendu
 
