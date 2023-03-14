@@ -4,7 +4,7 @@ Ce repo contient l'ensemble des fichiers nécessaires à la réalisation de votr
 
 ## Membres du groupes :
 
-* Nom Prénom
+* Vigo Elora
 * Nom Prénom
 
 ## Objectif et rendu
