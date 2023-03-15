@@ -89,8 +89,20 @@ public enum TetrominoShape {
 				}
 			}
 
-			// on l'ajoute à la liste si elle y est pas déja :
-			if ( !listPosition.contains(initialShape)) {
+			// on l'ajoute à la liste si elle y est pas déja : (marchait pas avec contains ??)
+			boolean listContain=true;
+			int l=0;
+			while( listContain && l<listPosition.size()){
+				for (int i = 0; i < position.length; i++) {
+					for (int j = 0; j < position.length; j++) {
+						if(position[i][j] != listPosition.get(l)[i][j]){
+							listContain=false;
+						}
+					}
+				}
+				l++;
+			}
+			if ( !listContain) {
 				listPosition.add(position);
 			}
 			initialShape=position.clone(); //on indique que la version tournée est la nouvelle position initiale
