@@ -25,45 +25,46 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
  */
 public enum TetrominoShape {
 	ISHAPE(new TetrisCell[][] {
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY},
-		{TetrisCell.I,		TetrisCell.I,		TetrisCell.I,		TetrisCell.I},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY},
+			{TetrisCell.I,		TetrisCell.I,		TetrisCell.I,		TetrisCell.I},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
 	}),
 	OSHAPE(new TetrisCell[][] {
-		{TetrisCell.O, TetrisCell.O},
-		{TetrisCell.O, TetrisCell.O}
+			{TetrisCell.O, TetrisCell.O},
+			{TetrisCell.O, TetrisCell.O}
 	}),
 	TSHAPE(new TetrisCell[][] {
-		{TetrisCell.EMPTY,	TetrisCell.T,		TetrisCell.EMPTY},
-		{TetrisCell.T,		TetrisCell.T,		TetrisCell.T},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
+			{TetrisCell.EMPTY,	TetrisCell.T,		TetrisCell.EMPTY},
+			{TetrisCell.T,		TetrisCell.T,		TetrisCell.T},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
 	}),
 	LSHAPE(new TetrisCell[][] {
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.L},
-		{TetrisCell.L,		TetrisCell.L,		TetrisCell.L},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.L},
+			{TetrisCell.L,		TetrisCell.L,		TetrisCell.L},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
 	}),
 	JSHAPE(new TetrisCell[][] {
-		{TetrisCell.J,		TetrisCell.EMPTY,	TetrisCell.EMPTY},
-		{TetrisCell.J,		TetrisCell.J,		TetrisCell.J},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
+			{TetrisCell.J,		TetrisCell.EMPTY,	TetrisCell.EMPTY},
+			{TetrisCell.J,		TetrisCell.J,		TetrisCell.J},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
 	}),
 	ZSHAPE(new TetrisCell[][] {
-		{TetrisCell.Z,		TetrisCell.Z,		TetrisCell.EMPTY},
-		{TetrisCell.EMPTY,	TetrisCell.Z,		TetrisCell.Z},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
+			{TetrisCell.Z,		TetrisCell.Z,		TetrisCell.EMPTY},
+			{TetrisCell.EMPTY,	TetrisCell.Z,		TetrisCell.Z},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
 	}),
 	SSHAPE(new TetrisCell[][] {
-		{TetrisCell.EMPTY,	TetrisCell.S,		TetrisCell.S},
-		{TetrisCell.S,		TetrisCell.S,		TetrisCell.EMPTY},
-		{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
+			{TetrisCell.EMPTY,	TetrisCell.S,		TetrisCell.S},
+			{TetrisCell.S,		TetrisCell.S,		TetrisCell.EMPTY},
+			{TetrisCell.EMPTY,	TetrisCell.EMPTY,	TetrisCell.EMPTY}
 	});
+
 	
 	
 	private static final Random RANDOM = new Random();
 	
-	final Set<TetrisCell[][]> listPosition;
+	final List<TetrisCell[][]> listPosition;
 	
 	public static Tetromino randomTetromino() {
 		TetrominoShape randomShape = values()[RANDOM.nextInt(values().length)];
@@ -73,10 +74,10 @@ public enum TetrominoShape {
 	
 	private TetrominoShape(TetrisCell[][] initialShape) {
 
-		listPosition=new HashSet<TetrisCell[][]>();
+		listPosition=new ArrayList<>();
 
 		// ajout de la position initiale à la liste des positions :
-		this.listPosition.add(initialShape);
+		listPosition.add(initialShape);
 
 		// on veut ajouter les autres positions :
 		for (int r=0;r<3;r++) { // fait les 3 rotations
@@ -87,14 +88,25 @@ public enum TetrominoShape {
 					position[i][j] = initialShape[initialShape.length - 1 - j][i];
 				}
 			}
-			this.listPosition.add(position); // on l'ajoute à la liste
+
+			// on l'ajoute à la liste si elle y est pas déja : (marchait pas avec contains pour array 2D ??)
+			boolean listContain=false;
+			for (TetrisCell[][] p: listPosition){
+				if (Arrays.deepEquals(position,p)){
+					listContain=true;
+				}
+			}
+			if ( !listContain) {
+				listPosition.add(position);
+			}
 			initialShape=position.clone(); //on indique que la version tournée est la nouvelle position initiale
 		}
+
 	}
 	
 	
 	public TetrisCell getType() {
-		TetrisCell[][] position=listPosition[0]; //récupère une position
+		TetrisCell[][] position=listPosition.get(0); //récupère une position
 		for (int i=0;i<getBoxSize();i+=1){
 			for (int j=0;j<getBoxSize();j+=1){
 				if(position[i][j]!=TetrisCell.EMPTY){ // si c'est pas une cellule vide on renvoie le type de la cellule
@@ -110,14 +122,14 @@ public enum TetrominoShape {
 	}
 	
 	public int getBoxSize() {
-		TetrisCell[][] position=listPosition[0];
+		TetrisCell[][] position=listPosition.get(0);
 		System.out.println();
 		return position.length; // nombre de ligne d'une position
 	}
 	
 	public Tetromino getTetromino(int rotationNumber) {
-		//throw new UnsupportedOperationException("Not implemented");
-		return listPosition[rotationNumber];
+		throw new UnsupportedOperationException("Not implemented");
+		//return listPosition.get(rotationNumber); //renvoi pas un tetromino, pas compris ce que c'est
 	}
 
 
