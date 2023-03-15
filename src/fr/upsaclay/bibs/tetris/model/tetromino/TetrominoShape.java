@@ -128,12 +128,17 @@ public enum TetrominoShape {
 	}
 	
 	public Tetromino getTetromino(int rotationNumber) {
-		throw new UnsupportedOperationException("Not implemented");
-		//return listPosition.get(rotationNumber); //renvoi pas un tetromino, pas compris ce que c'est
+		//throw new UnsupportedOperationException("Not implemented");
+		return new TetrominoImpl( this ,rotationNumber);
+		
 	}
 
 
 }
+
+//note pour moi (à supprimer lors du rendu)
+
+// throw new UnsupportedOperationException("Not implemented");
 
 // calcul rotation droite:
 //copyTabShape =...
