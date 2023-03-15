@@ -89,18 +89,12 @@ public enum TetrominoShape {
 				}
 			}
 
-			// on l'ajoute à la liste si elle y est pas déja : (marchait pas avec contains ??)
-			boolean listContain=true;
-			int l=0;
-			while( listContain && l<listPosition.size()){
-				for (int i = 0; i < position.length; i++) {
-					for (int j = 0; j < position.length; j++) {
-						if(position[i][j] != listPosition.get(l)[i][j]){
-							listContain=false;
-						}
-					}
+			// on l'ajoute à la liste si elle y est pas déja : (marchait pas avec contains pour array 2D ??)
+			boolean listContain=false;
+			for (TetrisCell[][] p: listPosition){
+				if (Arrays.deepEquals(position,p)){
+					listContain=true;
 				}
-				l++;
 			}
 			if ( !listContain) {
 				listPosition.add(position);
