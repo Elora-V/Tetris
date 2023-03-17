@@ -128,7 +128,6 @@ public enum TetrominoShape {
 	}
 	
 	public Tetromino getTetromino(int rotationNumber) {
-		//throw new UnsupportedOperationException("Not implemented");
 		return new TetrominoImpl( this ,rotationNumber);
 		
 	}
