@@ -74,7 +74,7 @@ public interface TetrominoProvider {
 	 * @return the tetromino to be returned by next in n steps
 	 */
 	public Tetromino showNext(int n);
-	
+
 	
 	/**
 	 * Return an instance of a list tetromino provier from the given list
@@ -82,7 +82,7 @@ public interface TetrominoProvider {
 	 * @return a list tetromino provider
 	 */
 	public static TetrominoProvider listTetrominoProvider(List<Tetromino> tetrominos) {
-		throw new UnsupportedOperationException("Not implemented");
+		return new TetrominoProviderFromList(tetrominos); // provider à partir d'une liste
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public interface TetrominoProvider {
 	 * @return a random tetromino provider
 	 */
 	public static TetrominoProvider randomTetrominoProvider() {
-		throw new UnsupportedOperationException("Not implemented");
+		return new TetrominoProviderRandom();
 	}
 	
 	/**

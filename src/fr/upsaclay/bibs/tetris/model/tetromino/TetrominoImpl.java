@@ -100,6 +100,23 @@ public class TetrominoImpl implements Tetromino{
         else{ return true;}
 
     }
+
+
+    @Override
+    public String toString(){
+        String tetro="\n";
+        for (int i=0;i<typeShape.getBoxSize();i++){
+            for (int j=0;j<typeShape.getBoxSize();j++){
+                if(cell(i,j).equals(TetrisCell.EMPTY)){
+                    tetro+=' ';
+                }else {
+                    tetro += cell(i, j).toString();
+                }
+            }
+            tetro+='\n';
+        }
+        return tetro;
+    }
     /**
      * The box size
      *
