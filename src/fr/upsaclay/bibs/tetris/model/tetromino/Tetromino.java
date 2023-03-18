@@ -46,7 +46,7 @@ public interface Tetromino {
 	/**
 	 * Return the rotation number
 	 * 
-	 * @return
+	 * @return the rotation number
 	 */
 	public int getRotationNumber();
 	

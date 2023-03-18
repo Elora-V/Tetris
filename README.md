@@ -6,6 +6,7 @@ Ce repo contient l'ensemble des fichiers nécessaires à la réalisation de votr
 
 * Vigo Elora
 * Perronno Alexandre
+* Michalopoulos Lambros
 
 ## Objectif et rendu
 
