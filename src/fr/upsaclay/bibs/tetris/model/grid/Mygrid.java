@@ -74,7 +74,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
     public void printGrid(PrintStream out) {
         for (int i = 0; i < numligne; i++) {
             for (int j = 0; j < numcolonne; j++) {
-                out.print(Mygrid_case[i][j].getClass());
+                out.print(Mygrid_case[i][j] + " ");
             }
             out.println();
         }
@@ -212,7 +212,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @param tetromino a Tetromino
      */
     public void setTetromino(Tetromino tetromino){
-        throw new UnsupportedOperationException("Not implemented");
+
     }
 
     /**

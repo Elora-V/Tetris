@@ -739,7 +739,7 @@ class TetrisGridTest {
 		PrintStream ps = new PrintStream(os);
 		grid.printGrid(ps);
 		String output = os.toString("UTF-8");
-		assertEquals(output, expected);
+		assertEquals(output,expected);
 	}
 	
 	@Test
