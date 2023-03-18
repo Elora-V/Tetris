@@ -17,7 +17,7 @@ import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
  * The lines are indexed staring at 0 from the top
  * 
  * We provide extensive testing for this interface:
- * you need to write a class that implemets the interface as well 
+ * you need to write a class that implements the interface as well
  * as the static method getEmptyGrid which creates an instance of the 
  * interface.
  * 
@@ -156,9 +156,9 @@ public interface TetrisGrid extends TetrisGridView {
 	 *         that were full before packing
 	 */
 	public List<Integer> pack();
-	
-	
-	
+
+
+
 	/**
 	 * Return an empty Tetris Grid
 	 * if nblines or nbcols are not strictly positive integers, it throws an IllegalAgumentException
@@ -167,6 +167,11 @@ public interface TetrisGrid extends TetrisGridView {
 	 * @return an empty tetris grid with no tetromino
 	 */
 	public static TetrisGrid getEmptyGrid(int nblines, int nbcols) {
-		throw new UnsupportedOperationException("Not implemented");
+		if(nblines <= 0 || nbcols <= 0){
+			throw new IllegalArgumentException("Number of columns or lines incorrect");
+		}
+
+		return new Mygrid(nblines,nbcols);
+
 	}
 }
