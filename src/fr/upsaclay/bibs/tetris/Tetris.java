@@ -16,8 +16,8 @@ import fr.upsaclay.bibs.tetris.control.manager.GameType;
 public class Tetris {
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> new ...().initialize()); // indiquer la classe du controller qui lance le jeu
-		
+		SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize()); // indiquer la classe du controller qui lance le jeu
+
 	}
 
 }
