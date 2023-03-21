@@ -24,6 +24,15 @@ public enum ManagerAction {
 	 */
 	PAUSE,
 	/**
+	 * Resume the current game
+	 */
+	RESUME,
+	/**
+	 * Go back on settings to start a new game
+	 */
+	RESTART,
+
+	/**
 	 * Quit the current game
 	 */
 	QUIT,

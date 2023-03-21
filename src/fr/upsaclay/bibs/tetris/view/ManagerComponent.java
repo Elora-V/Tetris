@@ -38,6 +38,8 @@ public interface ManagerComponent {
 	 * 
 	 * @return the file if selected, null otherwise
 	 */
-	public File selectFile();
+	public default File selectFile(){
+		return null;  // a changer (jsp si il faut la def ici, elle est declarée ici de base)
+	}
 
 }

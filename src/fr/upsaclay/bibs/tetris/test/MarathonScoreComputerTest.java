@@ -15,7 +15,7 @@ import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
 
 class MarathonScoreComputerTest {
-
+ 
 	@Test
 	void testCreate() {
 		ScoreComputer scoreComputer = ScoreComputer.getScoreComputer(TetrisMode.MARATHON);
