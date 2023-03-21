@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
 import fr.upsaclay.bibs.tetris.TetrisMode;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 
 public class ScoreComputerImpl implements ScoreComputer {
@@ -20,7 +21,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 	int AfterActionlevel;
 	int AfterActionlines;
 	
-	//int comboCount;
+	int comboCount = -1;
 	
 	public ScoreComputerImpl(TetrisMode mode) {
 		this.scoreMode = mode;
@@ -80,9 +81,13 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 * 
 		 * @param action a Tetris action
 		 * @param gridView a view of a tetris grid
-		 */ BeforeActionscore = score;
+		  	BeforeActionscore = score;
 			BeforeActionlevel = level;
 			BeforeActionlines = lines;
+			// sert pour les drop 
+			 * 
+			 */
+		throw new UnsupportedOperationException("Not implemented");
 		
 	}
 
@@ -100,13 +105,22 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 * went down and update the score accordingly
 		 * 
 		 * @param gridView a view of a tetris grid
-		 */
+		 
 		AfterActionscore = score;
 		AfterActionlevel = level;
 		AfterActionlines = lines;
+		// sert pour les drop 
+		throw new IllegalStateException() ;
+		// sert pour les drop 
+			 * 
+			 */
+		throw new UnsupportedOperationException("Not implemented");
 		
 	}
-
+	public int registerMergePack(TetrisGridView gridView) {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+	
 	@Override
 	public void registerMergePack(List<Integer> packResult, TetrisGridView gridView) {
 		/**
@@ -117,6 +131,26 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 * @param packResult the result of the pack
 		 * @param gridView a view of a tetris grid 
 		 */
+		// c'est ici que l'on calcule le score
+		// 		1 (single) 	40
+		// 		2 (double) 	100
+		// 		3 (triple) 	300
+		// 		4 (tetris) 	1200 
+		//fois le niveau
+		
+		packResult =gridView.fullLines();
+		if (packResult.size()==1) {
+			score = score + 40 * level;
+		}
+		else if (packResult.size()== 2) {
+			score = score + 100 * level;
+		}
+		else if (packResult.size()== 3) {
+			score = score + 300 * level;
+		}
+		else if (packResult.size()== 4) {
+			score = score + 1200* level;
+		}
 		
 	}
 

@@ -170,8 +170,20 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @param lineNumber the line number (top line is 0)
      * @return true if the line is full, false otherwise
      */
+    /*
+     * fonction qui verifie si une ligne donnéé est rempli 
+     * on parcour la ligne 
+     * si une case est vide on retourne faux
+     * sinon vrai
+     */
     public boolean isFull(int lineNumber){
-        throw new UnsupportedOperationException("Not implemented");
+    	boolean flag = true;
+    	for (int i=0; i< numcolonne;i++) {
+    		   if ( Mygrid_case[lineNumber][i] == TetrisCell.EMPTY) {
+    			   flag = false;
+    		   }
+    		}
+        return flag;
     }
 
     /**
@@ -179,8 +191,20 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @param lineNumber the line number (top line is 0)
      * @return true if the line is empty, false otherwise
      */
+    /*
+     * fonction qui verifie si une ligne donnéé est rempli 
+     * on parcour la ligne 
+     * si une case est pleine on retourne faux
+     * sinon vrai
+     */
     public boolean isEmpty(int lineNumber){
-        throw new UnsupportedOperationException("Not implemented");
+    	boolean flag = true;
+    	for (int i=0; i< numcolonne;i++) {
+    		   if ( Mygrid_case[lineNumber][i] != TetrisCell.EMPTY) {
+    			   flag = false;
+    		   }
+    		}
+        return flag;
     }
 
     /**
