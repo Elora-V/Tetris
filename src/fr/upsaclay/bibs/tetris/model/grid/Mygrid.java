@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.tetris.model.grid;
 
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
 
 import java.io.PrintStream;
 import java.sql.Array;
@@ -13,10 +14,18 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
     int numligne;
     int numcolonne;
 
+    Tetromino tet;
+
+    TetrisCoordinates tcoord;
+
+
+
     // constructeur
     public Mygrid(int numligne,int numcolonne){
         this.numcolonne = numcolonne;
         this.numligne = numligne;
+        this.tet = null;
+        this.tcoord = null;
 
         Mygrid_case = new TetrisCell[numligne][numcolonne];
 
@@ -84,16 +93,20 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * Return if the grid has a tetromino
      * @return true if a tetromino has been attached
      */
-    public boolean hasTetromino(){
-            for (int i = 0; i < numligne; i++) {
-                for (int j = 0; j < numcolonne; j++) {
-                    if(Mygrid_case[i][j]!= TetrisCell.EMPTY){
-                        return true;
-                    }
+//    public boolean hasTetromino(){
+//            for (int i = 0; i < numligne; i++) {
+//                for (int j = 0; j < numcolonne; j++) {
+//                    if(Mygrid_case[i][j]!= TetrisCell.EMPTY){
+//                        return true;
+//                    }
+//
+//                }
+//            }
+//            return false;
+//    }
 
-                }
-            }
-            return false;
+    public boolean hasTetromino(){
+        return tet != null;
     }
 
     /**
@@ -101,7 +114,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return a Tetromino
      */
     public Tetromino getTetromino(){
-        throw new UnsupportedOperationException("Not implemented");
+        return tet;
     }
 
     /**
@@ -109,7 +122,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return some TetrisCoordinates
      */
     public TetrisCoordinates getCoordinates(){
-        throw new UnsupportedOperationException("Not implemented");
+        return tcoord;
     }
 
     /**
@@ -119,11 +132,23 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      *
      * If there is a current tetromino but no coordinates, an IllegalStateException is thrown
      * @param i the line number
-     * @param j the col nomber
+     * @param j the col number
      * @return the visible cell
      */
     public TetrisCell visibleCell(int i, int j){
-        throw new UnsupportedOperationException("Not implemented");
+        if(tcoord == null){
+           throw new IllegalStateException("No coordinates");
+        }
+
+        int it = tcoord.getLine();
+        int jt = tcoord.getCol();
+
+        if(tet != null && it <= i && i <= it - 1 + tet.getBoxSize() && jt <= j && j <= jt - 1 + tet.getBoxSize()){
+            return tet.cell(i-it,j-jt);
+        }
+        else{
+            return gridCell(i, j);
+        }
     }
 
 
@@ -206,13 +231,12 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
 
 
 
-
     /**
      * Sets a tetromino to the grid
      * @param tetromino a Tetromino
      */
     public void setTetromino(Tetromino tetromino){
-
+        tet = tetromino;
     }
 
     /**
@@ -220,7 +244,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @param coordinates some TetrisCoordinates for the tetromino
      */
     public void setCoordinates(TetrisCoordinates coordinates){
-        throw new UnsupportedOperationException("Not implemented");
+       tcoord = coordinates;
     }
 
 
@@ -230,7 +254,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * col -- (numberOfCols() - tetromino box size)/2
      */
     public void setAtStartingCoordinates(){
-        throw new UnsupportedOperationException("Not implemented");
+        setCoordinates(new TetrisCoordinates(0,(numberOfCols()- tet.getBoxSize())/2));
     }
 
 

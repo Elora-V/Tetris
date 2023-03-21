@@ -744,15 +744,15 @@ class TetrisGridTest {
 	
 	@Test
 	void testTetromino() {
-		TetrisGrid grid = TetrisGrid.getEmptyGrid(10, 5);
+		TetrisGrid grid = TetrisGrid.getEmptyGrid(10, 5); // We create a grid
 		/* test that a newly creaded gird does not have a tetromino */
 		assertFalse(grid.hasTetromino());
 		/* sets tetromino and coordinates and test result */
-		Tetromino tet = TetrominoShape.OSHAPE.getTetromino(0);
-		TetrisCoordinates coords = new TetrisCoordinates(0,1);
-		grid.setTetromino(tet);
-		grid.setCoordinates(coords);
-		assertTrue(grid.hasTetromino());
+		Tetromino tet = TetrominoShape.OSHAPE.getTetromino(0); // We create the tetromino
+		TetrisCoordinates coords = new TetrisCoordinates(0,1); // We apply coordinates to this tetromino
+		grid.setTetromino(tet); // We put it randomly on the grid
+		grid.setCoordinates(coords); // We place the tetromino on the grid according to it's coordinates
+		assertTrue(grid.hasTetromino()); // We verify that the grid has a tetromino
 		assertEquals(grid.getTetromino(), tet);
 		assertEquals(grid.getCoordinates(), coords);
 	}
