@@ -29,6 +29,9 @@ public interface ScoreComputer {
 	public static final int STARTING_LEVEL = 1;
 	public static final int STARTING_LINES = 0;
 	
+	
+	
+	
 	/**
 	 * The level of the game
 	 * 
@@ -37,6 +40,7 @@ public interface ScoreComputer {
 	 * @return the level
 	 */
 	public int getLevel();
+
 	
 	/**
 	 * The number of full lines that were realized by the player from
@@ -106,6 +110,7 @@ public interface ScoreComputer {
 	public static ScoreComputer getScoreComputer(TetrisMode mode, int initialScore, int initialLevel, int initialLines) {
 		switch(mode) {
 		case MARATHON:
+			return new ScoreComputerImpl( mode, initialScore, initialLevel, initialLines);
 		default:
 			throw new UnsupportedOperationException("Not implemented");
 		
