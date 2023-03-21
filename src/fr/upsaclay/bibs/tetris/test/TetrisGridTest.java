@@ -602,6 +602,13 @@ class TetrisGridTest {
 		}
 		for(int i = 0; i < g.numberOfLines(); i++) {
 			for(int j = 0; j < g.numberOfCols(); j++) {
+
+
+//				System.out.print("i="+i+" j="+j+" moi :");
+//				System.out.print(g.gridCell(i, j));
+//				System.out.print(" voulu:");
+//				System.out.println(cells[i][j]);
+
 				if(g.gridCell(i, j) != cells[i][j]) {
 					return false;
 				}
@@ -623,7 +630,6 @@ class TetrisGridTest {
 		}
 		for(int i = 0; i < g.numberOfLines(); i++) {
 			for(int j = 0; j < g.numberOfCols(); j++) {
-
 				if(g.visibleCell(i, j) != cells[i][j]) {
 					return false;
 				}
