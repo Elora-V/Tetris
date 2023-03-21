@@ -16,6 +16,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
     public GamePanelImpl() {
         super();
+        setPreferredSize(new Dimension(700,700)); // a changer
         // Create the loop timer
         timer = new Timer(1, null);
     }
