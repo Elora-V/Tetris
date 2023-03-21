@@ -163,7 +163,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return true if some non empty cells are overlapping
      */
     public boolean hasConflicts(){
-        throw new UnsupportedOperationException("Not implemented");
+    	throw new UnsupportedOperationException("Not implemented");
     }
 
     /**
