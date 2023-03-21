@@ -33,7 +33,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     public GameFrameImpl(String name) {
         super(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
 
         // Create the drawPanel (where we draw the grid)
         gamePanel = new GamePanelImpl();
@@ -50,13 +50,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
-        add( gamePanel, BorderLayout.WEST );
         add( controlPanel, BorderLayout.EAST);
-        controlPanel.setPreferredSize(new Dimension(300, 500 ));
+        //add( gamePanel, BorderLayout.CENTER );
+        controlPanel.setPreferredSize(new Dimension(300, 700 ));
             // height a def 'gamePanel.getPreferredSize().height )' quand on aura dimension game panel
 
         ///////////////// Creation des éléments de management//////////////
-        this.createManagerComponents();
+        createManagerComponents();
 
         ///////////////// The initial panel /////////////////
         initialPanel = new JPanel();
@@ -67,27 +67,27 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  The play panel (when the game is running) /////////////////
         playPanel = new JPanel();
         playPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        initialPanel.add(pauseButton);
+        playPanel.add(pauseButton);
         controlPanel.add(playPanel);
 
         /////////////////  The pause panel (when the game is on pause) /////////////////
         pausePanel = new JPanel();
         pausePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        initialPanel.add(resumeButton);
-        initialPanel.add(quitButton);
-        initialPanel.add(restartButton);
+        pausePanel.add(quitButton);
+        pausePanel.add(resumeButton);
+        pausePanel.add(restartButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
         endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        initialPanel.add(restartButton);
-        initialPanel.add(quitButton);
+        endPanel.add(restartButton);
+        endPanel.add(quitButton);
         controlPanel.add(endPanel);
 
 
         pack();
-        this.drawManagementView();
+        drawManagementView();
         setVisible(true);
     }
 
@@ -99,6 +99,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawManagementView(){
+        //gamePanel.drawManagementView();
         initialPanel.setVisible(true);
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
@@ -165,7 +166,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         resumeButton.setManagerAction(ManagerAction.RESUME);
         quitButton=new ManagerButton("Quit Tetris");
         quitButton.setManagerAction(ManagerAction.QUIT);
-        startButton=new ManagerButton("Restart a new game");
+        restartButton=new ManagerButton("Restart a new game");
         restartButton.setManagerAction(ManagerAction.RESTART);
 
         ///// Bouton radio

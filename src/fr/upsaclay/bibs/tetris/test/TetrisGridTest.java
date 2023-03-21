@@ -623,6 +623,7 @@ class TetrisGridTest {
 		}
 		for(int i = 0; i < g.numberOfLines(); i++) {
 			for(int j = 0; j < g.numberOfCols(); j++) {
+
 				if(g.visibleCell(i, j) != cells[i][j]) {
 					return false;
 				}

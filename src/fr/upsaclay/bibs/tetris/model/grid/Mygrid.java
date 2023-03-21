@@ -16,7 +16,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
 
     Tetromino tet;
 
-    TetrisCoordinates tcoord;
+    TetrisCoordinates tcoord; // coordinates of the left top corner of the tetromino in the grid
 
 
 
@@ -136,19 +136,25 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return the visible cell
      */
     public TetrisCell visibleCell(int i, int j){
-        if(tcoord == null){
-           throw new IllegalStateException("No coordinates");
-        }
 
-        int it = tcoord.getLine();
-        int jt = tcoord.getCol();
+        if(tet != null) { // si il y a un tetromino :
+            if(tcoord == null){ // si on a pas les coordonnées :
+                throw new IllegalStateException("No coordinates");
+            }
+            int it = tcoord.getLine();
+            int jt = tcoord.getCol();
 
-        if(tet != null && it <= i && i <= it - 1 + tet.getBoxSize() && jt <= j && j <= jt - 1 + tet.getBoxSize()){
-            return tet.cell(i-it,j-jt);
+            // si la case demandée est au niveau d'un tetromino :
+            if (it <= i && i <= it - 1 + tet.getBoxSize() && jt <= j && j <= jt - 1 + tet.getBoxSize()) {
+                if (tet.cell(i - it, j - jt)!= TetrisCell.EMPTY){ // si la case du tetromino n'est pas vide:
+                    return tet.cell(i - it, j - jt);
+                }
+
+            }
         }
-        else{
-            return gridCell(i, j);
-        }
+        // si on est dans aucun des cas précedents :
+        return gridCell(i, j);  // renvoir information de la grille
+
     }
 
 

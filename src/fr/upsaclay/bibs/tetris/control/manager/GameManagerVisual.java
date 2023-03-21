@@ -6,6 +6,7 @@ import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.GameFrame;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
+import fr.upsaclay.bibs.tetris.view.ManagerComponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +18,10 @@ public class GameManagerVisual extends AbstractGameManager  {
 
     private GameFrame view;
 
+
+
     public GameManagerVisual() {
-        view = new GameFrameImpl("View tetris"); // on donne au controlleur la fenetre
+        view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre
 
     }
     /**
@@ -36,68 +39,6 @@ public class GameManagerVisual extends AbstractGameManager  {
 
     }
 
-    /**
-     * Sets the game mode
-     * @param mode a TetrisMode
-     */
-    public void setGameMode(TetrisMode mode){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Return the game mode
-     * @return a TetrisMode
-     */
-    public TetrisMode getGameMode(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Sets the tetromino provider
-     * @param provider a TetrominoProvider
-     */
-    public void setTetrominoProvider(TetrominoProvider provider){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Return the current tetromino povider
-     * @return the TetrominoProvider
-     */
-    public TetrominoProvider getTetrominoProvider(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Sets the player type
-     * @param playerType a PlayerType
-     */
-    public void setPlayerType(PlayerType playerType){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Return the current player type
-     * @return a PlayerType
-     */
-    public PlayerType getPlayerType(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Return the number of lines
-     * @return the number of lines
-     */
-    public int getNumberOfLines(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Return the number of cols
-     * @return the number of cols
-     */
-    public int getNumberOfCols(){
-        throw new UnsupportedOperationException("Not implemented");}
 
     // Actions
 
@@ -122,8 +63,29 @@ public class GameManagerVisual extends AbstractGameManager  {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    public void actionPerformed(ActionEvent e){
-        throw new UnsupportedOperationException("Not implemented");
+    public void actionPerformed(ActionEvent e) {
+
+        ManagerComponent comp = (ManagerComponent) e.getSource();
+        switch (comp.getManagerAction()) {
+            case START:
+                view.drawGamePlayView();
+                break;
+            case PAUSE:
+                view.drawGamePauseView();
+                break;
+            case RESUME:
+                view.drawGamePlayView();
+                break;
+            case RESTART:
+                view.drawManagementView();
+                break;
+            case QUIT:
+                //System.exit(0);
+                break;
+            default:
+                break;
+
+        }
     }
 
 
@@ -162,7 +124,7 @@ public class GameManagerVisual extends AbstractGameManager  {
     /**
      * starts the player (i.e. the actual game)
      */
-    public void startPlayer(){
+    public void startPlayer() {
         throw new UnsupportedOperationException("Not implemented");
     }
 
@@ -187,7 +149,8 @@ public class GameManagerVisual extends AbstractGameManager  {
      */
     public void save(File file) throws FileNotFoundException {
 
-        throw new UnsupportedOperationException("Not implemented");}
+        throw new UnsupportedOperationException("Not implemented");
+    }
 
 
 
