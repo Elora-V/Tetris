@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
 
 import java.io.PrintStream;
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Mygrid implements TetrisGrid,TetrisGridView {
@@ -212,7 +213,13 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return a list of line numbers (top line is 0)
      */
     public List<Integer> fullLines(){
-        throw new UnsupportedOperationException("Not implemented");
+    	List<Integer> list1 = new ArrayList<Integer>();
+    	for (int i=0; i< numligne;i++) {
+ 		   	if (isFull(i)==true) {
+ 			   list1.add(i);
+ 		   	}
+ 		   }
+    	return list1;
     }
 
     /**
@@ -220,7 +227,13 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return true if the full grid is empty
      */
     public boolean isEmpty(){
-        throw new UnsupportedOperationException("Not implemented");
+    	boolean flag = true;
+    	for (int i=0; i< numligne;i++) {
+ 		   	if (isEmpty(i)==false) {
+ 		   	flag = false;
+ 		   	}
+ 		   }
+    	return flag;
     }
 
     /**
