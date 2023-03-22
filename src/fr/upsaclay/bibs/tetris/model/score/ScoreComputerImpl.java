@@ -166,8 +166,10 @@ public class ScoreComputerImpl implements ScoreComputer {
 		
 		incComboCount(combo);	
 		
+		if (combo==true) {
+			score = score + 50 * level * comboCount;
+		}
 		
-		score = score + 50 * level * comboCount;
 		lines = lines + packResult.size();
 		if (lines > 5 && lines % 5 == 0 ) {
 			level ++;

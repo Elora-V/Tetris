@@ -429,8 +429,28 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      *         that were full before packing
      */
     public List<Integer> pack(){
-        return fullLines();
-        // pas fini d'implémenté
+    	
+    	List<Integer> listfullLines = fullLines();//liste des ligne complete avant pack
+    	
+    	for (int i=0 ; i < listfullLines.size(); i++) {
+    		for (int j=0 ;j< numcolonne; j++) {
+    			int ic = listfullLines.get(i);
+    			Mygrid_case[ic][j]=TetrisCell.EMPTY;// remplace les ligne pleine par des ligne vide
+    		}
+    	}
+    	// on doit faire dessendre les ligne audessu des ligne suprimer
+    	for (int i=0 ; i < listfullLines.size(); i++) {
+    		for (int j=0 ;j< numcolonne; j++) {
+    			int ig = listfullLines.get(i);
+    			while (ig!=0) {
+    				Mygrid_case[ig][j]=Mygrid_case[ig-1][j];
+    				ig--;
+    			}
+    			Mygrid_case[0][j]=TetrisCell.EMPTY;
+    		}
+    	}
+        return listfullLines;//renvoie la liste des ligne pleine
+        
     }
 
 }
