@@ -170,9 +170,9 @@ public interface GameManager {
 	 */
 	public static GameManager getGameManager(GameType type) {
 		switch (type){
-//			case SIMPLE:
-//				throw new UnsupportedOperationException("Not implemented");
-//
+			case SIMPLE:
+				return new GameManagerSimple();
+
 			case VISUAL:
 				return new GameManagerVisual();
 
