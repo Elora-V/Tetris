@@ -12,6 +12,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 	int score;
 	int level;
 	int lines;
+	int comboCount;
 	
 	int BeforeActionscore;
 	int BeforeActionlevel;
@@ -21,13 +22,14 @@ public class ScoreComputerImpl implements ScoreComputer {
 	int AfterActionlevel;
 	int AfterActionlines;
 	
-	int comboCount = -1;
+	
 	
 	public ScoreComputerImpl(TetrisMode mode) {
 		this.scoreMode = mode;
 		this.score = STARTING_SCORE;
 		this.level = STARTING_LEVEL;
 		this.lines = STARTING_LINES;
+		this.comboCount = STARTING_COMBO;
 	}
 	
 	public ScoreComputerImpl(TetrisMode mode,int score, int level, int lines) {
@@ -35,6 +37,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 		this.score = score;
 		this.level = level;
 		this.lines = lines;
+		this.comboCount = STARTING_COMBO;
 	}
 	
 	@Override 
@@ -66,7 +69,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 * 
 		 * return ComboCount
 		 */
-		return 0;
+		return comboCount;
 	}
 
 	@Override
@@ -132,24 +135,53 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 * @param gridView a view of a tetris grid 
 		 */
 		// c'est ici que l'on calcule le score
-		// 		1 (single) 	40
-		// 		2 (double) 	100
-		// 		3 (triple) 	300
-		// 		4 (tetris) 	1200 
+		// 		1 (single) 	100
+		// 		2 (double) 	300
+		// 		3 (triple) 	500
+		// 		4 (tetris) 	800 
 		//fois le niveau
 		
-		packResult =gridView.fullLines();
+		boolean combo= false;
+		
+		
 		if (packResult.size()==1) {
-			score = score + 40 * level;
+			score = score + 100 * level;
+			combo = true;
+			
 		}
 		else if (packResult.size()== 2) {
-			score = score + 100 * level;
+			score = score + 300 * level;
+			combo = true;
+			
 		}
 		else if (packResult.size()== 3) {
-			score = score + 300 * level;
+			score = score + 500 * level;
+			combo = true;
+			
 		}
-		else if (packResult.size()== 4) {
-			score = score + 1200* level;
+		else  if (packResult.size()== 4) {
+			score = score + 800 * level;
+			combo = true;
+		}
+		
+		incComboCount(combo);	
+		
+		
+		score = score + 50 * level * comboCount;
+		lines = lines + packResult.size();
+		if (lines > 5 && lines % 5 == 0 ) {
+			level ++;
+		}
+		
+	}
+
+	@Override
+	public void incComboCount(boolean combo) {
+		if (combo == true) {
+			comboCount ++;
+		}
+		else {
+			comboCount = -1;
 		}
 		
 	}

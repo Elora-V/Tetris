@@ -371,8 +371,33 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * After the operation, the current tetromino and coordinates are set to null
      */
     public void merge(){
-        throw new UnsupportedOperationException("Not implemented");
+
+        if(hasTetromino()) { // si il y a un tetromino :
+
+            if(tcoord == null){ // si on a pas les coordonnées :
+                throw new IllegalStateException("No coordinates"); // on lève une erreur
+            }
+
+            // sinon on peut récupérer les coordonnées
+            int it = tcoord.getLine(); // i du tetromino
+            int jt = tcoord.getCol();  // j du tetromino
+            // pour chaque case au niveau d'un tetromino :
+            for(int i=it;i<=it - 1 + tet.getBoxSize();i++) {
+                for (int j = jt; j <=jt - 1 + tet.getBoxSize(); j++) {
+                    // verification que i et j dépasse pas de la grille, de plus on veut pas remplacer une valeur par le empty d'un tetromino
+                    if(i >=0 && i< numligne && j >=0 && j< numcolonne && tet.cell(i - it, j - jt)!=TetrisCell.EMPTY ) {
+
+                        Mygrid_case[i][j] = tet.cell(i - it, j - jt); // on remplace par la case du tétromino
+                    }
+                }
+            }
+            // après avoir merge on peut 'enlever' le tetromino
+            tet=null;
+            tcoord=null;
+        }
+
     }
+ 
 
     /**
      * Move the current tetromino as much down as possible without getting a conflict
@@ -396,7 +421,8 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      *         that were full before packing
      */
     public List<Integer> pack(){
-        throw new UnsupportedOperationException("Not implemented");
+        return fullLines();
+        // pas fini d'implémenté
     }
 
 }

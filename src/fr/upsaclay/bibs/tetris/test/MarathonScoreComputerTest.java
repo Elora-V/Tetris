@@ -415,6 +415,7 @@ class MarathonScoreComputerTest {
 		scoreComputer.registerMergePack(lines, grid.getView());
 		assertEquals(scoreComputer.getComboCount(), -1);
 		assertEquals(scoreComputer.getScore(), 1050);
+		
 		// new lines without combo
 		grid.setTetromino(TetrominoShape.OSHAPE.getTetromino(0));
 		grid.setCoordinates(new TetrisCoordinates(18,8));
