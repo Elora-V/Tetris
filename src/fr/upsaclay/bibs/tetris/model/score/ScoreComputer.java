@@ -28,7 +28,7 @@ public interface ScoreComputer {
 	public static final int STARTING_SCORE = 0;
 	public static final int STARTING_LEVEL = 1;
 	public static final int STARTING_LINES = 0;
-	
+	public static final int STARTING_COMBO = -1;
 	
 	
 	
@@ -67,6 +67,11 @@ public interface ScoreComputer {
 	 * @return
 	 */
 	public int getComboCount();
+	
+	/**
+	 * methode pour incrementer les combo
+	 */
+	public void incComboCount(boolean combo);
 	
 	/**
 	 * Update the score and internal state using the information
