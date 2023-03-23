@@ -495,20 +495,6 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
             throw new UnsupportedOperationException("Not implemented");
         }
 
-
-        /**
-         * "Pack" the grid
-         * i.e. remove all full lines and replace them with empty lines on top
-         *
-         * No "gravity" is applied on remaining cells (a cell can be above an empty cell)
-         *
-         * @return the list of line indexes that have been "packed". These are the indices of lines
-         *         that were full before packing
-         */
-        public List<Integer> pack () {
-            throw new UnsupportedOperationException("Not implemented");
-        }
-
     /**
      * "Pack" the grid
      * i.e. remove all full lines and replace them with empty lines on top
@@ -543,4 +529,4 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
         
     }
 
-
+}
