@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
 
 import java.io.PrintStream;
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Mygrid implements TetrisGrid,TetrisGridView {
@@ -16,7 +17,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
 
     Tetromino tet;
 
-    TetrisCoordinates tcoord;
+    TetrisCoordinates tcoord; // coordinates of the left top corner of the tetromino in the grid
 
 
 
@@ -136,6 +137,7 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return the visible cell
      */
     public TetrisCell visibleCell(int i, int j){
+<<<<<<< HEAD
         if(tcoord == null){
            throw new IllegalStateException("No coordinates"); // The tetromino doesn't have coordinates
         }
@@ -149,7 +151,29 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
         }
         else{
             return gridCell(i, j); // We return the cell of the grid
+=======
+
+        if(hasTetromino()) { // si il y a un tetromino :
+            if(tcoord == null){ // si on a pas les coordonnées :
+                throw new IllegalStateException("No coordinates"); // on lève une erreur
+            }
+            // sinon on peut récupérer les coordonnées
+            int it = tcoord.getLine();
+            int jt = tcoord.getCol();
+
+            // si la case demandée est au niveau d'un tetromino :
+            if (it <= i && i <= it - 1 + tet.getBoxSize() && jt <= j && j <= jt - 1 + tet.getBoxSize()) {
+                if (tet.cell(i - it, j - jt)!= TetrisCell.EMPTY){ // si la case du tetromino n'est pas vide:
+                    return tet.cell(i - it, j - jt); // on renvoie la case du tétromino
+                }
+
+            }
+>>>>>>> 5c37c8225808b783161d2def77aab289a6e05d0b
         }
+        // si on est dans aucun des cas précedents :
+        // (pas de tétromino, pas sur une case avec le tétromino, sur une case avec le tétromino qui est empty)
+        return gridCell(i, j);  // renvoie la case de la grille
+
     }
 
 
@@ -171,8 +195,20 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @param lineNumber the line number (top line is 0)
      * @return true if the line is full, false otherwise
      */
+    /*
+     * fonction qui verifie si une ligne donnéé est rempli 
+     * on parcour la ligne 
+     * si une case est vide on retourne faux
+     * sinon vrai
+     */
     public boolean isFull(int lineNumber){
-        throw new UnsupportedOperationException("Not implemented");
+    	boolean flag = true;
+    	for (int i=0; i< numcolonne;i++) {
+    		   if ( Mygrid_case[lineNumber][i] == TetrisCell.EMPTY) {
+    			   flag = false;
+    		   }
+    		}
+        return flag;
     }
 
     /**
@@ -180,8 +216,20 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @param lineNumber the line number (top line is 0)
      * @return true if the line is empty, false otherwise
      */
+    /*
+     * fonction qui verifie si une ligne donnéé est rempli 
+     * on parcour la ligne 
+     * si une case est pleine on retourne faux
+     * sinon vrai
+     */
     public boolean isEmpty(int lineNumber){
-        throw new UnsupportedOperationException("Not implemented");
+    	boolean flag = true;
+    	for (int i=0; i< numcolonne;i++) {
+    		   if ( Mygrid_case[lineNumber][i] != TetrisCell.EMPTY) {
+    			   flag = false;
+    		   }
+    		}
+        return flag;
     }
 
     /**
@@ -189,7 +237,13 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return a list of line numbers (top line is 0)
      */
     public List<Integer> fullLines(){
-        throw new UnsupportedOperationException("Not implemented");
+    	List<Integer> list1 = new ArrayList<Integer>();
+    	for (int i=0; i< numligne;i++) {
+ 		   	if (isFull(i)==true) {
+ 			   list1.add(i);
+ 		   	}
+ 		   }
+    	return list1;
     }
 
     /**
@@ -197,7 +251,13 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * @return true if the full grid is empty
      */
     public boolean isEmpty(){
-        throw new UnsupportedOperationException("Not implemented");
+    	boolean flag = true;
+    	for (int i=0; i< numligne;i++) {
+ 		   	if (isEmpty(i)==false) {
+ 		   	flag = false;
+ 		   	}
+ 		   }
+    	return flag;
     }
 
     /**
@@ -335,7 +395,31 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      * After the operation, the current tetromino and coordinates are set to null
      */
     public void merge(){
-        throw new UnsupportedOperationException("Not implemented");
+
+        if(hasTetromino()) { // si il y a un tetromino :
+
+            if(tcoord == null){ // si on a pas les coordonnées :
+                throw new IllegalStateException("No coordinates"); // on lève une erreur
+            }
+
+            // sinon on peut récupérer les coordonnées
+            int it = tcoord.getLine(); // i du tetromino
+            int jt = tcoord.getCol();  // j du tetromino
+            // pour chaque case au niveau d'un tetromino :
+            for(int i=it;i<=it - 1 + tet.getBoxSize();i++) {
+                for (int j = jt; j <=jt - 1 + tet.getBoxSize(); j++) {
+                    // verification que i et j dépasse pas de la grille, de plus on veut pas remplacer une valeur par le empty d'un tetromino
+                    if(i >=0 && i< numligne && j >=0 && j< numcolonne && tet.cell(i - it, j - jt)!=TetrisCell.EMPTY ) {
+
+                        Mygrid_case[i][j] = tet.cell(i - it, j - jt); // on remplace par la case du tétromino
+                    }
+                }
+            }
+            // après avoir merge on peut 'enlever' le tetromino
+            tet=null;
+            tcoord=null;
+        }
+
     }
 
     /**

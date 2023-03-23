@@ -134,6 +134,7 @@ public interface GameManager {
 	 * @throws FileNotFoundException if the file cannot be read
 	 * @throws IOException if there is an error while scanning the file following the file format
 	 */
+
 	public void loadFromFile(File file) throws FileNotFoundException, IOException;
 	
 	/**
@@ -168,8 +169,21 @@ public interface GameManager {
 	 * @return a GameManager
 	 */
 	public static GameManager getGameManager(GameType type) {
-		throw new UnsupportedOperationException("Not implemented");
+		switch (type){
+//			case SIMPLE:
+//				throw new UnsupportedOperationException("Not implemented");
+//
+			case VISUAL:
+				return new GameManagerVisual();
+
+			default:
+				return null;
+
+		}
+
 	}
+
+
 	
 	
 }
