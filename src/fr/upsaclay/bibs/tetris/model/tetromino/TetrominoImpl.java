@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -145,7 +146,33 @@ public class TetrominoImpl implements Tetromino{
      */
     @Override
     public List<TetrisCoordinates> wallKicksFromRight(){
-        throw new UnsupportedOperationException("Not implemented");
+        List<TetrisCoordinates> wallKicks = new ArrayList<>();
+
+        switch (typeShape) {
+            case ISHAPE:
+                wallKicks.add(new TetrisCoordinates(0, 0));
+                wallKicks.add(new TetrisCoordinates(-2, 0));
+                wallKicks.add(new TetrisCoordinates(1, 0));
+                wallKicks.add(new TetrisCoordinates(-2, -1));
+                wallKicks.add(new TetrisCoordinates(+1, +2));
+                break;
+            case OSHAPE:
+                wallKicks.add(new TetrisCoordinates(0, 0));
+                break;
+            case TSHAPE:
+            case SSHAPE:
+            case ZSHAPE:
+            case JSHAPE:
+            case LSHAPE:
+                wallKicks.add(new TetrisCoordinates(0, 0));
+                wallKicks.add(new TetrisCoordinates(-1, 0));
+                wallKicks.add(new TetrisCoordinates(-1, 1));
+                wallKicks.add(new TetrisCoordinates(0, -2));
+                wallKicks.add(new TetrisCoordinates(-1, -2));
+                break;
+        }
+        return wallKicks;
+
     }
 
     /**
@@ -163,8 +190,32 @@ public class TetrominoImpl implements Tetromino{
 
     @Override
     public List<TetrisCoordinates> wallKicksFromLeft(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
+            List<TetrisCoordinates> wallKicks = new ArrayList<>();
 
+            switch (typeShape) {
+                case ISHAPE:
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 0));
+                    wallKicks.add(new TetrisCoordinates(2, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 2));
+                    wallKicks.add(new TetrisCoordinates(2, -1));
+                    break;
+                case OSHAPE:
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    break;
+                case TSHAPE:
+                case SSHAPE:
+                case ZSHAPE:
+                case JSHAPE:
+                case LSHAPE:
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(1, 0));
+                    wallKicks.add(new TetrisCoordinates(1, 1));
+                    wallKicks.add(new TetrisCoordinates(0, -2));
+                    wallKicks.add(new TetrisCoordinates(1, -2));
+                    break;
+            }
 
+            return wallKicks;
+        }
 }
