@@ -137,17 +137,18 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
      */
     public TetrisCell visibleCell(int i, int j){
         if(tcoord == null){
-           throw new IllegalStateException("No coordinates");
+           throw new IllegalStateException("No coordinates"); // The tetromino doesn't have coordinates
         }
 
-        int it = tcoord.getLine();
-        int jt = tcoord.getCol();
+        int it = tcoord.getLine(); // Retrieve the coordinates of tetromino
+        int jt = tcoord.getCol(); // Retrieve the coordinates of tetromino
 
-        if(tet != null && it <= i && i <= it - 1 + tet.getBoxSize() && jt <= j && j <= jt - 1 + tet.getBoxSize()){
-            return tet.cell(i-it,j-jt);
+
+        if(tet != null && it <= i && i <= it - 1 + tet.getBoxSize() && jt <= j && j <= jt - 1 + tet.getBoxSize()){ // CHecks if ij is in the tetromino
+            return tet.cell(i-it,j-jt); // We return the cell of the tetromino
         }
         else{
-            return gridCell(i, j);
+            return gridCell(i, j); // We return the cell of the grid
         }
     }
 
