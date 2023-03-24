@@ -50,9 +50,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
-        add( controlPanel, BorderLayout.EAST);
+
         //add( gamePanel, BorderLayout.CENTER );
-        controlPanel.setPreferredSize(new Dimension(300, 700 ));
+        controlPanel.setPreferredSize(new Dimension(200, 700 ));
+        add( controlPanel, BorderLayout.EAST);
             // height a def 'gamePanel.getPreferredSize().height )' quand on aura dimension game panel
 
         ///////////////// Creation des éléments de management//////////////

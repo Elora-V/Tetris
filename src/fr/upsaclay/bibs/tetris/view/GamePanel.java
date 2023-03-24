@@ -6,6 +6,8 @@ import java.util.List;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 
+import javax.swing.*;
+
 /**
  * A suggested interface for handling the visual interface of the game
  * 

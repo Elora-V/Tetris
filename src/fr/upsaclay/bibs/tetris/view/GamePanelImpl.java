@@ -10,13 +10,29 @@ import java.util.List;
 
 public class GamePanelImpl extends JPanel implements GamePanel {
 
-    int nblines;
-    int nbcols;
+    int nblines=12;
+    int nbcols=7;
+
+    TetrisGridView grid;
+
+    JPanel gameInfoPanel;
+    JPanel gridPanel;
+    JPanel actualTetroPanel;
+    JPanel nextTetroPanel;
+    JPanel scorepanel;
+
     Timer timer;
 
     public GamePanelImpl() {
         super();
-        setPreferredSize(new Dimension(700,700)); // a changer
+
+        gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
+        gridPanel=new JPanel(); // sous-panel pour la grille (droite)
+
+        actualTetroPanel=new JPanel(); // sera dans nextTetroPanel en haut
+        nextTetroPanel=new JPanel(); // sera au milieu de nextTetroPanel
+        scorepanel=new JPanel(); //sera en bas de nextTetroPanel
+
         // Create the loop timer
         timer = new Timer(1, null);
     }
@@ -26,8 +42,19 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void initialize(){
-        setBackground(Color.WHITE);
-        // et ajout de ligne verticale?
+
+        ////////////// gridPanel ////////////////////////
+        gridPanel.setPreferredSize(new Dimension(nbcols*GameFrame.PIXELS_PER_CELL,nblines*GameFrame.PIXELS_PER_CELL));
+        gridPanel.setBackground(Color.WHITE);
+        add(gridPanel,BorderLayout.EAST);
+
+        ////////////// nextTetroPanel ////////////////////////
+        gameInfoPanel.setPreferredSize(new Dimension(300,700)); // taille a changer
+        gameInfoPanel.add(actualTetroPanel,BorderLayout.NORTH);
+        gameInfoPanel.add(nextTetroPanel,BorderLayout.CENTER);
+        gameInfoPanel.add(scorepanel,BorderLayout.SOUTH);
+        add(gameInfoPanel,BorderLayout.WEST);
+
     }
 
     /**
@@ -68,7 +95,11 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-
+    //@Override
+    public void paintComponent(Graphics g){
+        throw new UnsupportedOperationException("Not implemented");
+        //grid.drawLine(...);
+    }
     /**
      * Sets the number of lines in the game
      * @param nblines
@@ -95,7 +126,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void setGridView(TetrisGridView view){
-        throw new UnsupportedOperationException("Not implemented");
+        grid=view;
     }
 
     /**
