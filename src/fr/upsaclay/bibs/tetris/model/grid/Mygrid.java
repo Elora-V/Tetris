@@ -493,7 +493,16 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
          * If there is no tetromino or no coordinates, it throws an IllegalStateException
          */
         public void hardDrop () {
-            throw new UnsupportedOperationException("Not implemented");
+            if (tcoord == null) { // si on a pas les coordonnées :
+                throw new IllegalStateException("No coordinates"); // on lève une erreur
+            }
+
+            int row = tcoord.getLine();
+
+            while (tryMove(TetrisCoordinates.DOWN) == true){
+                row ++;
+            }
+            setCoordinates(new TetrisCoordinates(row,tcoord.getCol()));
         }
 
     /**
