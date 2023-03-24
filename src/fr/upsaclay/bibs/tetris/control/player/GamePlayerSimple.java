@@ -81,6 +81,7 @@ public class GamePlayerSimple implements GamePlayer{
         return score.getScore();
     }
 
+
     /**
      * Return the line score (the number of completed lines)
      * @return the lines score

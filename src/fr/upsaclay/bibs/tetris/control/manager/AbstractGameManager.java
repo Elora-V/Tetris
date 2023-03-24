@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.tetris.control.manager;
 
 import fr.upsaclay.bibs.tetris.TetrisMode;
+import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 
@@ -14,6 +15,7 @@ public abstract class AbstractGameManager implements GameManager, ActionListener
     private PlayerType playerType;
     private int nbline;
     private int nbcol;
+    private GamePlayer gamePlayer;
 
     public abstract void actionPerformed(ActionEvent e);
 
@@ -36,6 +38,17 @@ public abstract class AbstractGameManager implements GameManager, ActionListener
         return mode;
     }
 
+    /**
+     * Return the player
+     * @return a GamePlayer
+     */
+    public GamePlayer getPlayer(){
+        return gamePlayer;
+    }
+
+    public void setGamePlayer(GamePlayer gamePlayer){ //ajout de cette fonction
+        this.gamePlayer=gamePlayer;
+    }
     /**
      * Sets the tetromino provider
      * @param provider a TetrominoProvider

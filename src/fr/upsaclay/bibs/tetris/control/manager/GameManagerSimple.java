@@ -2,6 +2,7 @@ package fr.upsaclay.bibs.tetris.control.manager;
 
 import fr.upsaclay.bibs.tetris.TetrisMode;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
+import fr.upsaclay.bibs.tetris.control.player.GamePlayerVisual;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
@@ -16,8 +17,7 @@ public class GameManagerSimple extends AbstractGameManager {
 
 
     public GameManagerSimple() {
-        throw new UnsupportedOperationException("Not implemented");
-
+        createPlayer();
     }
     /**
      * Initialize the game Manager
@@ -42,16 +42,10 @@ public class GameManagerSimple extends AbstractGameManager {
      * UnsupportedOperationException
      */
     public void createPlayer(){
-        throw new UnsupportedOperationException("Not implemented");
+        super.setGamePlayer(new GamePlayerVisual(...));
     }
 
-    /**
-     * Return the player
-     * @return a GamePlayer
-     */
-    public GamePlayer getPlayer(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
+
 
     public void actionPerformed(ActionEvent e) {
 
