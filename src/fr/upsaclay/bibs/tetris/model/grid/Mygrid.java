@@ -378,27 +378,27 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
          * @return true if the tetromino has been rotated, false otherwise
          */
         public boolean tryRotateRight () {
+            // si on n'a pas de tetromino ou de coordonées :
             if (tet == null || tcoord == null) {
-                throw new IllegalStateException("No tetromino or coordinates");
+                throw new IllegalStateException("No tetromino or coordinates"); // on lève une erreur
             }
-            System.out.println("TEst " + tet.getRotationNumber());
-            Tetromino rotateR = tet.rotateRight();
-            System.out.println("TEst2 " + rotateR.getRotationNumber());
-            TetrisCoordinates[] kicks = tet.wallKicksFromRight().toArray(new TetrisCoordinates[0]);
 
-            int Old_line = tcoord.getLine();
-            int Old_col = tcoord.getCol();
-
-            for (TetrisCoordinates kick : kicks) {
-                int New_line = tcoord.getLine() + kick.getLine();
-                int New_col = tcoord.getCol() +  kick.getCol();
-                setCoordinates(new TetrisCoordinates(New_line,New_col));
-                if(!hasConflicts()){
-                    setTetromino(rotateR);
-                    return true;
-                }
+            setTetromino(tet.rotateRight()); // on tourne le tétromino
+            if(!hasConflicts()){ // si il n'y a pas de problème : on sort de la fonction (et on renvoit vrai)
+                return true;
             }
-            setCoordinates(new TetrisCoordinates(Old_line,Old_col));
+
+            // sinon on doit appliquer wallkicks :
+            List<TetrisCoordinates> kicks=tet.wallKicksFromRight(); // on récupère les mouvements à tester
+
+            for (TetrisCoordinates kick : kicks) { // on les test un par un :
+               boolean moveDone= tryMove(kick); // soit on a bougé et moveDone=true, soit on n'a pas bougé et moveDone=false
+               if(moveDone){ // si on a bougé on ne veut pas essayé les autres conditions : on fait un return
+                   return true;
+               }
+            }
+            // si on a tout testé et qu'aucun mouvement n'est bon : on annule la rotation à droite
+            setTetromino(tet.rotateLeft());
             return false;
         }
 
@@ -420,27 +420,29 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
          * @return true if the tetromino has been rotated, false otherwise
          */
         public boolean tryRotateLeft () {
+            // si on n'a pas de tetromino ou de coordonées :
             if (tet == null || tcoord == null) {
-                throw new IllegalStateException("No tetromino or coordinates");
+                throw new IllegalStateException("No tetromino or coordinates"); // on lève une erreur
             }
-            Tetromino rotateL = tet.rotateLeft();
-            TetrisCoordinates[] kicks = tet.wallKicksFromRight().toArray(new TetrisCoordinates[0]);
 
-            int Old_line = tcoord.getLine();
-            int Old_col = tcoord.getCol();
+            setTetromino(tet.rotateLeft()); // on tourne le tétromino
+            if(!hasConflicts()){ // si il n'y a pas de problème : on sort de la fonction (et on renvoit vrai)
+                return true;
+            }
 
-            for (TetrisCoordinates kick : kicks) {
-                System.out.print(kick);
-                int New_line = tcoord.getLine() + kick.getLine();
-                int New_col = tcoord.getCol() + kick.getCol();
-                setCoordinates(new TetrisCoordinates(New_line,New_col));
-                if(!hasConflicts()){
-                    setTetromino(rotateL);
+            // sinon on doit appliquer wallkicks :
+            List<TetrisCoordinates> kicks=tet.wallKicksFromLeft(); // on récupère les mouvements à tester
+
+            for (TetrisCoordinates kick : kicks) { // on les test un par un :
+                boolean moveDone= tryMove(kick); // soit on a bougé et moveDone=true, soit on n'a pas bougé et moveDone=false
+                if(moveDone){ // si on a bougé on ne veut pas essayé les autres conditions : on fait un return
                     return true;
                 }
             }
-            setCoordinates(new TetrisCoordinates(Old_line,Old_col));
+            // si on a tout testé et qu'aucun mouvement n'est bon : on annule la rotation à droite
+            setTetromino(tet.rotateRight());
             return false;
+
         }
 
         /**

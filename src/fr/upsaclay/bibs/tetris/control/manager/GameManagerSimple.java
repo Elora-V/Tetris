@@ -4,24 +4,19 @@ import fr.upsaclay.bibs.tetris.TetrisMode;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
-import fr.upsaclay.bibs.tetris.view.GameFrame;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class GameManagerVisual extends AbstractGameManager{
-
-    private GameFrame view;
+public class GameManagerSimple extends AbstractGameManager {
 
 
-
-    public GameManagerVisual() {
-        view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre
+    public GameManagerSimple() {
+        throw new UnsupportedOperationException("Not implemented");
 
     }
     /**
@@ -34,13 +29,8 @@ public class GameManagerVisual extends AbstractGameManager{
      * In visual mode, this is where the game frame can be launched
      */
     public void initialize(){
-        view.initialize();
-        view.attachManagerActionListener(this);
-
+        throw new UnsupportedOperationException("Not implemented");
     }
-
-
-    // Actions
 
 
     /**
@@ -68,18 +58,19 @@ public class GameManagerVisual extends AbstractGameManager{
         ManagerComponent comp = (ManagerComponent) e.getSource();
         switch (comp.getManagerAction()) {
             case START:
-                view.drawGamePlayView();
+
                 break;
             case PAUSE:
-                view.drawGamePauseView();
+
                 break;
             case RESUME:
-                view.drawGamePlayView();
+
                 break;
             case RESTART:
-                view.drawManagementView();
+
                 break;
             case QUIT:
+
                 break;
             default:
                 break;
@@ -150,7 +141,6 @@ public class GameManagerVisual extends AbstractGameManager{
 
         throw new UnsupportedOperationException("Not implemented");
     }
-
 
 
 }
