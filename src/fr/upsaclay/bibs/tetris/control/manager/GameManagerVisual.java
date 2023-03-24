@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class GameManagerVisual extends AbstractGameManager  {
+public class GameManagerVisual extends AbstractGameManager{
 
     private GameFrame view;
 
@@ -80,7 +80,6 @@ public class GameManagerVisual extends AbstractGameManager  {
                 view.drawManagementView();
                 break;
             case QUIT:
-                //System.exit(0);
                 break;
             default:
                 break;
