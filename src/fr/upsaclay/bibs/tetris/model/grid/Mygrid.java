@@ -354,8 +354,6 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
             setCoordinates(new TetrisCoordinates(New_line,New_col));
 
             if (hasConflicts()) {
-                System.out.print(tcoord.getLine());
-                System.out.print(tcoord.getCol());
                 setCoordinates(new TetrisCoordinates(Old_line,Old_col));
                 return false;
             }
@@ -383,16 +381,17 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
             if (tet == null || tcoord == null) {
                 throw new IllegalStateException("No tetromino or coordinates");
             }
+            System.out.println("TEst " + tet.getRotationNumber());
             Tetromino rotateR = tet.rotateRight();
+            System.out.println("TEst2 " + rotateR.getRotationNumber());
             TetrisCoordinates[] kicks = tet.wallKicksFromRight().toArray(new TetrisCoordinates[0]);
 
             int Old_line = tcoord.getLine();
             int Old_col = tcoord.getCol();
 
             for (TetrisCoordinates kick : kicks) {
-                System.out.print(kick);
                 int New_line = tcoord.getLine() + kick.getLine();
-                int New_col = tcoord.getCol() + kick.getCol();
+                int New_col = tcoord.getCol() +  kick.getCol();
                 setCoordinates(new TetrisCoordinates(New_line,New_col));
                 if(!hasConflicts()){
                     setTetromino(rotateR);

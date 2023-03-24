@@ -150,11 +150,32 @@ public class TetrominoImpl implements Tetromino{
 
         switch (typeShape) {
             case ISHAPE:
-                wallKicks.add(new TetrisCoordinates(0, 0));
-                wallKicks.add(new TetrisCoordinates(-2, 0));
-                wallKicks.add(new TetrisCoordinates(1, 0));
-                wallKicks.add(new TetrisCoordinates(-2, -1));
-                wallKicks.add(new TetrisCoordinates(+1, +2));
+                if(getRotationNumber() == 1 ) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(-2, 0));
+                    wallKicks.add(new TetrisCoordinates(1, 0));
+                    wallKicks.add(new TetrisCoordinates(-2, -1));
+                    wallKicks.add(new TetrisCoordinates(1, 2));
+                } else if (getRotationNumber()  == 2) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(2, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 0));
+                    wallKicks.add(new TetrisCoordinates(2, 1));
+                    wallKicks.add(new TetrisCoordinates(-1, -2));
+                } else if (getRotationNumber()  == 3) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 0));
+                    wallKicks.add(new TetrisCoordinates(2, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 2));
+                    wallKicks.add(new TetrisCoordinates(+2, -1));
+                } else if (getRotationNumber() == 0) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(1, 0));
+                    wallKicks.add(new TetrisCoordinates(-2, 0));
+                    wallKicks.add(new TetrisCoordinates(1, 2));
+                    wallKicks.add(new TetrisCoordinates(-2, -1));
+                }
+
                 break;
             case OSHAPE:
                 wallKicks.add(new TetrisCoordinates(0, 0));
@@ -164,11 +185,31 @@ public class TetrominoImpl implements Tetromino{
             case ZSHAPE:
             case JSHAPE:
             case LSHAPE:
-                wallKicks.add(new TetrisCoordinates(0, 0));
-                wallKicks.add(new TetrisCoordinates(-1, 0));
-                wallKicks.add(new TetrisCoordinates(-1, 1));
-                wallKicks.add(new TetrisCoordinates(0, -2));
-                wallKicks.add(new TetrisCoordinates(-1, -2));
+                if(getRotationNumber() == 1 ) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 1));
+                    wallKicks.add(new TetrisCoordinates(0, -2));
+                    wallKicks.add(new TetrisCoordinates(-1, -2));
+                } else if (getRotationNumber() == 2) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(0, 1));
+                    wallKicks.add(new TetrisCoordinates(-1, 1));
+                    wallKicks.add(new TetrisCoordinates(2, 0));
+                    wallKicks.add(new TetrisCoordinates(2, 1));
+                } else if (getRotationNumber() == 3) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(1, 0));
+                    wallKicks.add(new TetrisCoordinates(1, -1));
+                    wallKicks.add(new TetrisCoordinates(0,2));
+                    wallKicks.add(new TetrisCoordinates(1, 2));
+                } else if (getRotationNumber() == 0) {
+                    wallKicks.add(new TetrisCoordinates(0, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 0));
+                    wallKicks.add(new TetrisCoordinates(-1, 1));
+                    wallKicks.add(new TetrisCoordinates(0, -2));
+                    wallKicks.add(new TetrisCoordinates(-1, -2));
+                }
                 break;
         }
         return wallKicks;
