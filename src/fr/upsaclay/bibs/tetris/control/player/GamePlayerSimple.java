@@ -107,6 +107,23 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
     /**
+     * Return if the game is over
+     *
+     * A game is over if adding a new tetromino created a conflict or if the tetromino provider is empty
+     *
+     * @return true if the game is over
+     */
+    public boolean isOver(){
+        if( !provider.hasNext()){
+            return true;
+        }
+        if ( grid.hasConflicts()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Starts the player
      *
      * If it is the beginning of the game, it should put a new Tetromino on the grid
@@ -128,22 +145,7 @@ public class GamePlayerSimple implements GamePlayer{
         activeGame=false;
     }
 
-    /**
-     * Return if the game is over
-     *
-     * A game is over if adding a new tetromino created a conflict or if the tetromino provider is empty
-     *
-     * @return true if the game is over
-     */
-    public boolean isOver(){
-        if( !provider.hasNext()){
-            return true;
-        }
-        if ( grid.hasConflicts()){ //???
-            return true;
-        }
-        return false;
-    }
+
 
     /**
      * Return a grid view of the TetrisGrid
@@ -153,6 +155,13 @@ public class GamePlayerSimple implements GamePlayer{
         return grid;
     }
 
+    /**
+     * Return the held tetromino (saved for later)
+     * @return the held tetromino if it exists or null
+     */
+    public Tetromino getHeldTetromino(){
+        return tetroHold;
+    }
 
     /**
      * do the actions after a merge (when tetromino from grid is null):
@@ -162,10 +171,16 @@ public class GamePlayerSimple implements GamePlayer{
      *
      */
     public void ActionWhenMerge(){
-
+        alreadyHold=false; //on peut hold le prochain tetromino car on a fait un merge
+        score.registerMergePack(grid.pack(), grid);
         // changement de delai si changement de niveau à faire (ici ou pas ) ??
+
+        // on donne le tétromino suivant
         grid.setTetromino(provider.next());
         grid.setAtStartingCoordinates();
+        if(isOver()){
+            activeGame=false;
+        }
 
     }
 
@@ -188,40 +203,52 @@ public class GamePlayerSimple implements GamePlayer{
                 return grid.tryMove(TetrisCoordinates.RIGHT);
 
             case DOWN:
+                score.registerBeforeAction(TetrisAction.DOWN,grid);
                 boolean moveDown= grid.tryMove(TetrisCoordinates.DOWN);
+                score.registerAfterAction(grid);
+
                 // si on a pas pu descendre le tetromino :
                 if(!moveDown) {
                     grid.merge(); // alors on merge car on touche le sol (ou le tetromino d'en dessous)
-                    //ActionWhenMerge();
+                    ActionWhenMerge();
                     return false; // et on dit qu'on a pas fait le mouvement
                 }
                 return true; // si on est descendu : on renvoie vrai
 
             case START_SOFT_DROP:
+                score.registerBeforeAction(TetrisAction.START_SOFT_DROP, grid);
                 softDrop=true;
                 return true;
+
             case END_SOFT_DROP:   // A FAIRE DANS BOUCLE
                 softDrop=false;
+                score.registerAfterAction(grid);
                 return true;
+
             case HARD_DROP:
-                score.registerBeforeAction();
+                score.registerBeforeAction(TetrisAction.HARD_DROP, grid);
                 grid.hardDrop();
-                score.registerAfterAction();
+                score.registerAfterAction(grid);
+                grid.merge();
+                ActionWhenMerge();
                 return true;
+
             case ROTATE_RIGHT:
                 return grid.tryRotateRight();
             case ROTATE_LEFT:
                 return grid.tryRotateLeft();
-            case HOLD:                                         // REPASSER A FALSE BOUCLE
+
+            case HOLD:
                 if(!alreadyHold) {
                     Tetromino tetroInHold = getHeldTetromino(); // tetromino retenu
                     Tetromino actualTetro = grid.getTetromino(); // tetromino qui tombe
                     tetroHold = actualTetro; // tetromino retenu change, il devient celui qui tombe
+                    // on donne un tetromino à la grille
                     if (tetroInHold != null) {
-                        grid.setTetromino(tetroInHold);
+                        grid.setTetromino(tetroInHold); // celui retenu
                         grid.setAtStartingCoordinates();
                     } else {
-                        grid.setTetromino(provider.next());
+                        grid.setTetromino(provider.next()); // ou le suivant si aps de tetromino retenu
                         grid.setAtStartingCoordinates();
                     }
                     alreadyHold=true;
@@ -233,13 +260,5 @@ public class GamePlayerSimple implements GamePlayer{
         }
     }
 
-
-    /**
-     * Return the held tetromino (saved for later)
-     * @return the held tetromino if it exists or null
-     */
-    public Tetromino getHeldTetromino(){
-        return tetroHold;
-    }
 
 }

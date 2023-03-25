@@ -18,7 +18,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener {
 
     int delay; // in ms
 
-    //contient la vue
+    //contient la vue :
     GamePanel panel;
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
