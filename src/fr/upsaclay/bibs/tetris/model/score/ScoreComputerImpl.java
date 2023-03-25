@@ -14,17 +14,14 @@ public class ScoreComputerImpl implements ScoreComputer {
 	int lines;
 	int comboCount;
 	
-	int BeforeActionscore;
-	int BeforeActionlevel;
-	int BeforeActionlines;
-	
-	int AfterActionscore;
-	int AfterActionlevel;
-	int AfterActionlines;
-	
-	
+	boolean SoftDrop = false;
+	boolean HardDrop = false;
+	int scoreBefore = 0;
+	int linesBefore = 0;
+	boolean registerBeforeAction =false;
 	
 	public ScoreComputerImpl(TetrisMode mode) {
+		// ne sert à rien à priori
 		this.scoreMode = mode;
 		this.score = STARTING_SCORE;
 		this.level = STARTING_LEVEL;
@@ -75,23 +72,32 @@ public class ScoreComputerImpl implements ScoreComputer {
 	@Override
 	public void registerBeforeAction(TetrisAction action, TetrisGridView gridView) {
 		/**
-	
-
-		 * Tlorsqu'une action est decidé et avant qu'elle soit execupter
+		 * met à jour le score et etat interne en utilisant les informations
+		 * il est appelé lorsqu'une action est decidé et avant qu'elle soit execupté
 		 * 
 		 * Example: before a "hard drop", you need to save the tetromino position because
 		 * it will be used to computer the score
 		 * 
 		 * @param action a Tetris action
-		 * @param gridView a view of a tetris grid
-		  	BeforeActionscore = score;
-			BeforeActionlevel = level;
-			BeforeActionlines = lines;
-			// sert pour les drop 
-			 * 
-			 */
-		throw new UnsupportedOperationException("Not implemented");
-		
+		 * @param gridView a view of a tetris grid	
+	 */
+		registerBeforeAction =true;
+			// sert pour les drop
+		switch (action){
+		case START_SOFT_DROP:
+			SoftDrop = true;
+		case END_SOFT_DROP:
+			SoftDrop = false;
+		case HARD_DROP:
+			HardDrop = true;
+		case DOWN:
+			if (SoftDrop == true) {
+				scoreBefore = 1;
+			}
+			else if (HardDrop == true) {
+				scoreBefore = 2;
+			}
+		}		
 	}
 
 	@Override
@@ -107,22 +113,25 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 * Example: after a hard drop, you can compute the number of lines the tetromino
 		 * went down and update the score accordingly
 		 * 
-		 * @param gridView a view of a tetris grid
-		 
-		AfterActionscore = score;
-		AfterActionlevel = level;
-		AfterActionlines = lines;
+		 * @param gridView a view of a tetris grid 
+		*/
+	
 		// sert pour les drop 
-		throw new IllegalStateException() ;
-		// sert pour les drop 
-			 * 
-			 */
-		throw new UnsupportedOperationException("Not implemented");
+		
+		if(!registerBeforeAction) {
+			throw new IllegalStateException(); 
+		}
+		else {
+			score =score + scoreBefore;
+			scoreBefore = 0;
+			HardDrop = false;
+			score =score + scoreBefore;
+			scoreBefore = 0;
+			HardDrop = false;
+		}
 		
 	}
-	public int registerMergePack(TetrisGridView gridView) {
-		throw new UnsupportedOperationException("Not implemented");
-	}
+	
 	
 	@Override
 	public void registerMergePack(List<Integer> packResult, TetrisGridView gridView) {
