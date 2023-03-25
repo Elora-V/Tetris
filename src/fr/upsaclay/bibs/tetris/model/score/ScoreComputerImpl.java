@@ -14,27 +14,25 @@ public class ScoreComputerImpl implements ScoreComputer {
 	int lines;
 	int comboCount;
 	
-	boolean SoftDrop = false;
-	boolean HardDrop = false;
-	int scoreBefore = 0;
-	int linesBefore = 0;
-	boolean registerBeforeAction =false;
+	boolean SoftDrop;
+	boolean HardDrop;
+	int scoreBefore;
+	int linesBefore;
+	boolean registerBeforeAction;
 	
-	public ScoreComputerImpl(TetrisMode mode) {
-		// ne sert à rien à priori
-		this.scoreMode = mode;
-		this.score = STARTING_SCORE;
-		this.level = STARTING_LEVEL;
-		this.lines = STARTING_LINES;
-		this.comboCount = STARTING_COMBO;
-	}
-	
+
 	public ScoreComputerImpl(TetrisMode mode,int score, int level, int lines) {
 		this.scoreMode = mode;
 		this.score = score;
 		this.level = level;
 		this.lines = lines;
 		this.comboCount = STARTING_COMBO;
+		
+		this.SoftDrop = false;
+		this.HardDrop = false;
+		this.scoreBefore = 0;
+		this.linesBefore = 0;
+		this.registerBeforeAction =false;
 	}
 	
 	@Override 
@@ -68,7 +66,16 @@ public class ScoreComputerImpl implements ScoreComputer {
 		 */
 		return comboCount;
 	}
-
+	@Override
+	public int getScoreBefore() {
+		// renvoi le score actuel
+		return scoreBefore;
+	}
+	@Override
+	public boolean getSoftDrop() {
+		// renvoi le score actuel
+		return SoftDrop;
+	}
 	@Override
 	public void registerBeforeAction(TetrisAction action, TetrisGridView gridView) {
 		/**
@@ -83,21 +90,31 @@ public class ScoreComputerImpl implements ScoreComputer {
 	 */
 		registerBeforeAction =true;
 			// sert pour les drop
+		
 		switch (action){
 		case START_SOFT_DROP:
 			SoftDrop = true;
+			scoreBefore = 0;
+			break;
 		case END_SOFT_DROP:
 			SoftDrop = false;
+			scoreBefore =0;
+			break;
 		case HARD_DROP:
 			HardDrop = true;
+			scoreBefore = 2;
+			break;
 		case DOWN:
-			if (SoftDrop == true) {
-				scoreBefore = 1;
+			if (SoftDrop) {
+			scoreBefore = 1;
+			break;
 			}
-			else if (HardDrop == true) {
-				scoreBefore = 2;
-			}
+			scoreBefore = 0;
+			break;
+		default:
+			break;
 		}		
+		
 	}
 
 	@Override
@@ -121,14 +138,11 @@ public class ScoreComputerImpl implements ScoreComputer {
 		if(!registerBeforeAction) {
 			throw new IllegalStateException(); 
 		}
-		else {
-			score =score + scoreBefore;
-			scoreBefore = 0;
-			HardDrop = false;
-			score =score + scoreBefore;
-			scoreBefore = 0;
-			HardDrop = false;
-		}
+		score =score + scoreBefore;
+		scoreBefore = 0;
+		HardDrop = false;
+		registerBeforeAction =false;	
+		
 		
 	}
 	
