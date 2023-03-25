@@ -957,6 +957,7 @@ class TetrisGridTest {
 		grid.setTetromino(TetrominoShape.ISHAPE.getTetromino(0));
 		grid.setCoordinates(new TetrisCoordinates(0,0));
 		assertTrue(grid.tryRotateRight());
+
 		assertEquals(grid.getTetromino(), TetrominoShape.ISHAPE.getTetromino(1));
 		assertEquals(grid.getCoordinates(), new TetrisCoordinates(0,0));
 		assertTrue(testEqualVisibles(grid, smallGridRightRotatedI));
@@ -997,6 +998,7 @@ class TetrisGridTest {
 		grid.setTetromino(TetrominoShape.TSHAPE.getTetromino(2));
 		grid.setCoordinates(new TetrisCoordinates(0,1));
 		assertTrue(grid.tryRotateLeft());
+		TetrominoShape.TSHAPE.getTetromino(1);
 		assertEquals(grid.getTetromino(), TetrominoShape.TSHAPE.getTetromino(1));
 		assertEquals(grid.getCoordinates(), new TetrisCoordinates(0,1));
 		assertTrue(testEqualVisibles(grid, smallGridRightRotatedT));
@@ -1047,9 +1049,14 @@ class TetrisGridTest {
 		grid.setTetromino(TetrominoShape.LSHAPE.getTetromino(0));
 		grid.setCoordinates(new TetrisCoordinates(0,1));
 		assertTrue(grid.tryRotateRight());
+		System.out.println(TetrominoShape.LSHAPE.getTetromino(0));
+		System.out.println(TetrominoShape.LSHAPE.getTetromino(1));
+		System.out.println(TetrominoShape.LSHAPE.getTetromino(2));
+		System.out.println(TetrominoShape.LSHAPE.getTetromino(3));
 		assertEquals(grid.getTetromino(), TetrominoShape.LSHAPE.getTetromino(1));
 		assertEquals(grid.getCoordinates(), new TetrisCoordinates(0,0));
 		assertFalse(grid.hasConflicts());
+
 		assertTrue(testEqualVisibles(grid, wallKickGrid1WithL));
 	}
 	

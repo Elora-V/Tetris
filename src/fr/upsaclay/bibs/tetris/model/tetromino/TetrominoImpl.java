@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -145,7 +146,44 @@ public class TetrominoImpl implements Tetromino{
      */
     @Override
     public List<TetrisCoordinates> wallKicksFromRight(){
-        throw new UnsupportedOperationException("Not implemented");
+        // il faut faire attention à nos coordonnées : sur le site x et y sont inversés par rapport à nous
+
+        //de plus changement de signe de la seconde coordonnée ?? (non fait dans test, donc j'ai mis pareil)
+        switch (typeShape) {
+            case ISHAPE:
+                switch (rotation) {
+                    case 0:
+                        return Arrays.asList(new TetrisCoordinates(0,1), new TetrisCoordinates(0,-2), new TetrisCoordinates(2,1), new TetrisCoordinates(-1,-2));
+                    case 1:
+                        return Arrays.asList(new TetrisCoordinates(0,-2), new TetrisCoordinates(0,1), new TetrisCoordinates(1,-2), new TetrisCoordinates(-2,1));
+                    case 2:
+                        return Arrays.asList(new TetrisCoordinates(0,-1), new TetrisCoordinates(0,2), new TetrisCoordinates(-2,-1), new TetrisCoordinates(1,2)) ;
+                    case 3:
+                        return Arrays.asList(new TetrisCoordinates(0,2), new TetrisCoordinates(0,-1), new TetrisCoordinates(-1,2), new TetrisCoordinates(2,-1));
+                }
+
+            case TSHAPE:
+            case SSHAPE:
+            case ZSHAPE:
+            case JSHAPE:
+            case LSHAPE:
+                switch (rotation) {
+                    case 0:
+                        return Arrays.asList(TetrisCoordinates.LEFT, new TetrisCoordinates(1,-1), new TetrisCoordinates(-2,0), new TetrisCoordinates(-2,-1));
+                    case 1:
+                        return Arrays.asList(TetrisCoordinates.LEFT, new TetrisCoordinates(-1,-1), new TetrisCoordinates(2,0), new TetrisCoordinates(2,-1));
+                    case 2:
+                        return Arrays.asList(TetrisCoordinates.RIGHT, new TetrisCoordinates(1,1), new TetrisCoordinates(-2,0), new TetrisCoordinates(-2,1));
+                    case 3:
+                        return Arrays.asList(TetrisCoordinates.RIGHT, new TetrisCoordinates(-1,1), new TetrisCoordinates(2,0), new TetrisCoordinates(2,1));
+                }
+
+            case OSHAPE:
+            default:
+                return Arrays.asList();
+
+        }
+
     }
 
     /**
@@ -163,8 +201,42 @@ public class TetrominoImpl implements Tetromino{
 
     @Override
     public List<TetrisCoordinates> wallKicksFromLeft(){
-        throw new UnsupportedOperationException("Not implemented");
+        switch (typeShape) {
+            case ISHAPE:
+                switch (rotation) {
+                    case 0:
+                        return Arrays.asList(new TetrisCoordinates(0,2), new TetrisCoordinates(0,-1), new TetrisCoordinates(-1,2), new TetrisCoordinates(2,-1));
+                    case 1:
+                        return Arrays.asList(new TetrisCoordinates(0,1), new TetrisCoordinates(0,-2), new TetrisCoordinates(2,1), new TetrisCoordinates(-1,-2));
+                    case 2:
+                        return Arrays.asList(new TetrisCoordinates(0,-2), new TetrisCoordinates(0,1), new TetrisCoordinates(1,-2), new TetrisCoordinates(-2,1));
+                    case 3:
+                        return Arrays.asList(new TetrisCoordinates(0,-1), new TetrisCoordinates(0,2), new TetrisCoordinates(-2,-1), new TetrisCoordinates(1,2));
+                }
+
+            case TSHAPE:
+            case SSHAPE:
+            case ZSHAPE:
+            case JSHAPE:
+            case LSHAPE:
+                switch (rotation) {
+                    case 0:
+                        return Arrays.asList(TetrisCoordinates.RIGHT, new TetrisCoordinates(1,1), new TetrisCoordinates(-2,0), new TetrisCoordinates(-2,1));
+                    case 1:
+                        return Arrays.asList(TetrisCoordinates.LEFT, new TetrisCoordinates(-1,-1), new TetrisCoordinates(2,0), new TetrisCoordinates(2,-1));
+
+                    case 2:
+                        return Arrays.asList(TetrisCoordinates.LEFT, new TetrisCoordinates(1,-1), new TetrisCoordinates(-2,0), new TetrisCoordinates(-2,-1));
+
+                    case 3:
+                        return Arrays.asList(TetrisCoordinates.RIGHT, new TetrisCoordinates(-1,1), new TetrisCoordinates(2,0), new TetrisCoordinates(2,1));
+                }
+
+            case OSHAPE:
+            default:
+                return Arrays.asList();
+
+        }
+
     }
-
-
 }
