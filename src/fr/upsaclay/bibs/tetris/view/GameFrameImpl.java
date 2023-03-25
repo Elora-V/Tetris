@@ -105,6 +105,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
+        // gamePanel.drawManagementView();
     }
 
     /**
@@ -119,6 +120,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(true);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
+        // gamePanel.drawGamePlayView();
     }
 
     /**
@@ -130,6 +132,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
         endPanel.setVisible(false);
+        // gamePanel.drawGamePauseView();
     }
 
     /**
@@ -141,6 +144,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(true);
+        // gamePanel.drawEndGameView();
     }
     /**
      * Return the panel handling the game action
@@ -207,7 +211,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void startGameKeyListener(KeyListener listener){
-        throw new UnsupportedOperationException("Not implemented");
+        addKeyListener(listener);
+        //requestFocus(); à ajouter si on voit que c'est necessaire
     }
 
     /**
@@ -219,7 +224,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void stopGameKeyListener(KeyListener listener){
-        throw new UnsupportedOperationException("Not implemented");
+        removeKeyListener(listener);
     }
 
     /**

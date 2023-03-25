@@ -13,6 +13,7 @@ import java.io.PrintStream;
 
 public class GamePlayerSimple implements GamePlayer{
 
+    // contient le modèle
     PlayerType typeHuman;
     ScoreComputer score;
     TetrisGrid grid;
@@ -24,10 +25,13 @@ public class GamePlayerSimple implements GamePlayer{
     boolean softDrop=false;
     boolean alreadyHold=false;
 
+    int delay;
+
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
         this.initialize(grid, scoreComputer, provider);
         this.typeHuman=type;
+        delay=INITIAL_DELAY;
     }
     /**
      * Initialiaze the player
@@ -49,6 +53,12 @@ public class GamePlayerSimple implements GamePlayer{
         return typeHuman;
     }
 
+    public void setAlreadyHold(boolean alreadyHold){
+        this.alreadyHold=alreadyHold;
+    }
+    public boolean getAlreadyHold(){
+        return alreadyHold;
+    }
     /**
      * Sets a print stream for logging player actions
      * @param out
@@ -65,11 +75,9 @@ public class GamePlayerSimple implements GamePlayer{
         return score.getLevel();
     }
 
-    public boolean getAlreadyHold(){
-        return alreadyHold;
-    }
 
-    public boolean getsolfdrop(){
+
+    public boolean getsoftdrop(){
         return softDrop;
     }
 
@@ -80,6 +88,7 @@ public class GamePlayerSimple implements GamePlayer{
     public int getScore(){
         return score.getScore();
     }
+
 
     /**
      * Return the line score (the number of completed lines)
@@ -107,8 +116,9 @@ public class GamePlayerSimple implements GamePlayer{
         if(beginning) {
             grid.setTetromino(provider.next());
             grid.setAtStartingCoordinates();
+            beginning=false;
         }
-        beginning=false;
+
     }
 
     /**
@@ -143,6 +153,22 @@ public class GamePlayerSimple implements GamePlayer{
         return grid;
     }
 
+
+    /**
+     * do the actions after a merge (when tetromino from grid is null):
+     * recalculate score,
+     * change of delay if change of level,
+     * set new tetromino
+     *
+     */
+    public void ActionWhenMerge(){
+
+        // changement de delai si changement de niveau à faire (ici ou pas ) ??
+        grid.setTetromino(provider.next());
+        grid.setAtStartingCoordinates();
+
+    }
+
     /**
      * Performs the received TetrisAction
      *
@@ -160,8 +186,17 @@ public class GamePlayerSimple implements GamePlayer{
                 return grid.tryMove(TetrisCoordinates.LEFT);
             case MOVE_RIGHT:
                 return grid.tryMove(TetrisCoordinates.RIGHT);
+
             case DOWN:
-                return grid.tryMove(TetrisCoordinates.DOWN);
+                boolean moveDown= grid.tryMove(TetrisCoordinates.DOWN);
+                // si on a pas pu descendre le tetromino :
+                if(!moveDown) {
+                    grid.merge(); // alors on merge car on touche le sol (ou le tetromino d'en dessous)
+                    //ActionWhenMerge();
+                    return false; // et on dit qu'on a pas fait le mouvement
+                }
+                return true; // si on est descendu : on renvoie vrai
+
             case START_SOFT_DROP:
                 softDrop=true;
                 return true;
@@ -169,7 +204,9 @@ public class GamePlayerSimple implements GamePlayer{
                 softDrop=false;
                 return true;
             case HARD_DROP:
+                score.registerBeforeAction();
                 grid.hardDrop();
+                score.registerAfterAction();
                 return true;
             case ROTATE_RIGHT:
                 return grid.tryRotateRight();
@@ -204,4 +241,5 @@ public class GamePlayerSimple implements GamePlayer{
     public Tetromino getHeldTetromino(){
         return tetroHold;
     }
+
 }
