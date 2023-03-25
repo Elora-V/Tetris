@@ -7,6 +7,8 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.GamePanel;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
+
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,12 +17,15 @@ import java.awt.event.ActionEvent;
 public class GamePlayerVisual extends GamePlayerSimple implements KeyListener {
 
     int delay; // in ms
+
+    //contient la vue
     GamePanel panel;
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
        super(grid, scoreComputer, provider,type);
        panel= new GamePanelImpl();
+       delay=500; //a changer par la valeur initiale
 
     }
 //communication game panel, calcul delay, score (recolter données pr score),debut-pause-fin,listener clavier,placer tetro,provider
@@ -28,36 +33,42 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener {
 
     /**
      *
-     * utilise start de la classe mère pour
-     * donner un premier tetromino
+     * initialize panel (?)
      */
     public void initialize(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * Return the calculated delay, it depend on the level
-     * and the state of softdrop (delay quicker if softdrop true)
-     *
-     */
-    public void WhichDelay(){
-        throw new UnsupportedOperationException("Not implemented");
-        //utilisera probablement la variable delay, l'augmentera et change le delay avec setdelay (il faut aussi changer sa valeur dans le champs)
+        panel.initialize();
+        //panel.setLoopAction(...); //?
+        panel.setLoopDelay(delay);
 
     }
 
+    /**
+     * Starts the player
+     *
+     * If it is the beginning of the game, it should put a new Tetromino on the grid
+     */
+    @Override
+    public void start(){
+        super.start();
+    }
 
     /**
-     * do the actions after a merge (when tetromino from grid is null):
-     * recalculate score,
-     * change of delay if change of level,
-     * set new tetromino
-     *
+     * Pause the player
      */
+    @Override
+    public void pause(){
+        super.pause();
+    }
+
+    @Override
+    public boolean isOver(){return super.isOver();}
+
+
+    @Override
     public void ActionWhenMerge(){
-        throw new UnsupportedOperationException("Not implemented");
+        super.ActionWhenMerge();
+        // ... mettre a jour le panneau pour qu'il affiche le nouveau score, la nouvelle grille (si ligne effacer à cause merge)...
     }
-
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
@@ -83,6 +94,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener {
                 //....faire les autres
 
             }
+        panel.update();
 
     }
 

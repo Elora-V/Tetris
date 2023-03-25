@@ -2,8 +2,11 @@ package fr.upsaclay.bibs.tetris.control.manager;
 
 import fr.upsaclay.bibs.tetris.TetrisMode;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
+import fr.upsaclay.bibs.tetris.control.player.GamePlayerSimple;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayerVisual;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
+import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.GameFrame;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
@@ -17,12 +20,15 @@ import java.io.IOException;
 
 public class GameManagerVisual extends AbstractGameManager{
 
+    // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
     private GameFrame view;
 
 
     public GameManagerVisual() {
-        view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre
-        createPlayer();
+        initialize();
+        super.loadNewGame();
+        view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
+
     }
     /**
      * Initialize the game Manager
@@ -33,7 +39,9 @@ public class GameManagerVisual extends AbstractGameManager{
      *
      * In visual mode, this is where the game frame can be launched
      */
+    @Override
     public void initialize(){
+        super.initialize();
         view.initialize();
         view.attachManagerActionListener(this);
 
@@ -51,13 +59,19 @@ public class GameManagerVisual extends AbstractGameManager{
      * If there is no implementation for player type in this game type, throws an
      * UnsupportedOperationException
      */
+    @Override
     public void createPlayer(){
-        super.setGamePlayer(new GamePlayerVisual(...));
+        try {
+            super.setGamePlayer(new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
+        }catch (Exception e){
+            throw new UnsupportedOperationException();
+        }
     }
 
 
     public void actionPerformed(ActionEvent e) {
-
+        super.actionPerformed(e); // action à réaliser côté 'logistique'
+        // puis ajoute les actions 'visuelles' :
         ManagerComponent comp = (ManagerComponent) e.getSource();
         switch (comp.getManagerAction()) {
             case START:
@@ -81,69 +95,21 @@ public class GameManagerVisual extends AbstractGameManager{
     }
 
 
-    /**
-     * Load a new empty game
-     *
-     * This creates a new player if needed and initialize the player with the new game
-     *
-     * It does not start the player, so the player should be on "pause" i.e. not active
-     */
-    public void loadNewGame(){
-        throw new UnsupportedOperationException("Not implemented");
-    }
 
-    /**
-     * Loads a game read from a file
-     *
-     * This creates a new player if needed and initialize the player with the new game
-     *
-     * It does not start the player, so the player should be on "pause" i.e. not active
-     *
-     * A game file contains information about the game state (grid, score, level, etc.)
-     *
-     * It does not contain: the tetromino provider, the held tetromino saved in game
-     *
-     * See project description for file format
-     *
-     * @param file a file
-     * @throws FileNotFoundException if the file cannot be read
-     * @throws IOException if there is an error while scanning the file following the file format
-     */
-    public void loadFromFile(File file) throws FileNotFoundException, IOException{
-        throw new UnsupportedOperationException("Not implemented");
-    }
 
     /**
      * starts the player (i.e. the actual game)
      */
     public void startPlayer() {
-        throw new UnsupportedOperationException("Not implemented");
+        super.getPlayer().start();
     }
 
     /**
      * pause the player
      */
     public void pausePlayer(){
-        throw new UnsupportedOperationException("Not implemented");
+        super.getPlayer().pause();
     }
-
-    /**
-     * Save the game
-     *
-     * A game file contains information about the game state (grid, score, level, etc.)
-     *
-     * It does not contain: the tetromino provider, the held tetromino saved in game
-     *
-     * See project description for file format
-     *
-     * @param file a file
-     * @throws FileNotFoundException if one cannot write in the file
-     */
-    public void save(File file) throws FileNotFoundException {
-
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
 
 
 }

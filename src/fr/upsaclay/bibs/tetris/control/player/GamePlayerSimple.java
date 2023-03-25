@@ -13,6 +13,7 @@ import java.io.PrintStream;
 
 public class GamePlayerSimple implements GamePlayer{
 
+    // contient le modèle
     PlayerType typeHuman;
     ScoreComputer score;
     TetrisGrid grid;
@@ -49,6 +50,12 @@ public class GamePlayerSimple implements GamePlayer{
         return typeHuman;
     }
 
+    public void setAlreadyHold(boolean alreadyHold){
+        this.alreadyHold=alreadyHold;
+    }
+    public boolean getAlreadyHold(){
+        return alreadyHold;
+    }
     /**
      * Sets a print stream for logging player actions
      * @param out
@@ -65,11 +72,9 @@ public class GamePlayerSimple implements GamePlayer{
         return score.getLevel();
     }
 
-    public boolean getAlreadyHold(){
-        return alreadyHold;
-    }
 
-    public boolean getsolfdrop(){
+
+    public boolean getsoftdrop(){
         return softDrop;
     }
 
@@ -108,8 +113,9 @@ public class GamePlayerSimple implements GamePlayer{
         if(beginning) {
             grid.setTetromino(provider.next());
             grid.setAtStartingCoordinates();
+            beginning=false;
         }
-        beginning=false;
+
     }
 
     /**
@@ -142,6 +148,47 @@ public class GamePlayerSimple implements GamePlayer{
      */
     public TetrisGridView getGridView(){
         return grid;
+    }
+
+    /**
+     * Return the calculated delay, it depend on the level
+     * and the state of softdrop (delay quicker if softdrop true)
+     *
+     */
+    public void WhichDelay(){
+        throw new UnsupportedOperationException("Not implemented");
+        //utilisera probablement la variable delay, l'augmentera et change le delay avec setdelay (il faut aussi changer sa valeur dans le champs)
+
+    }
+
+    /**
+     * verify conditions to see if the grid is ready to do a merge
+     * @return  true if the merge has been done, false otherwise
+     */
+    public boolean TryMerge(){
+
+       boolean moveDown= performAction(TetrisAction.DOWN);
+    // si on a pu descendre le tetromino :
+       if(moveDown){
+           boolean moveUp= grid.tryMove(TetrisCoordinates.UP); // on annule le mouvement (on remonte)
+           return false; // on est pas en bas, donc on merge pas
+       }else{
+           // si on a pas pu faire le mouvement :
+           grid.merge();
+           return true;
+       }
+
+    }
+
+    /**
+     * do the actions after a merge (when tetromino from grid is null):
+     * recalculate score,
+     * change of delay if change of level,
+     * set new tetromino
+     *
+     */
+    public void ActionWhenMerge(){
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     /**
@@ -205,4 +252,5 @@ public class GamePlayerSimple implements GamePlayer{
     public Tetromino getHeldTetromino(){
         return tetroHold;
     }
+
 }
