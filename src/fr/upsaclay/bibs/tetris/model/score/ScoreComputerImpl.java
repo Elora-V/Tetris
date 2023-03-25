@@ -90,7 +90,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 	 */
 		registerBeforeAction =true;
 			// sert pour les drop
-		
+		linesBefore = gridView.getCoordinates().getLine();
 		switch (action){
 		case START_SOFT_DROP:
 			SoftDrop = true;
@@ -138,7 +138,8 @@ public class ScoreComputerImpl implements ScoreComputer {
 		if(!registerBeforeAction) {
 			throw new IllegalStateException(); 
 		}
-		score =score + scoreBefore;
+		int nbLigne= gridView.getCoordinates().getLine() - linesBefore ;
+		score =score + scoreBefore * nbLigne ;
 		scoreBefore = 0;
 		HardDrop = false;
 		registerBeforeAction =false;	
