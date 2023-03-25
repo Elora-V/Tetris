@@ -159,7 +159,7 @@ public interface GameManager {
 	 * @param file a file
 	 * @throws FileNotFoundException if one cannot write in the file
 	 */
-	public void save(File file) throws FileNotFoundException;
+	public void save(File file) throws FileNotFoundException,IOException;
 	
 	
 	

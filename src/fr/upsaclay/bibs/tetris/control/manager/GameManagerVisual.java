@@ -68,9 +68,18 @@ public class GameManagerVisual extends AbstractGameManager{
         }
     }
 
+    public void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines){ // mettre erreur ??
+        try {
+            super.setGamePlayer( new GamePlayerVisual(grid, ScoreComputer.getScoreComputer(mode, score, level, lines), super.getTetrominoProvider(), super.getPlayerType()));
+
+        }catch (Exception e){
+            throw new UnsupportedOperationException();
+        }
+    }
 
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e); // action à réaliser côté 'logistique'
+
         // puis ajoute les actions 'visuelles' :
         ManagerComponent comp = (ManagerComponent) e.getSource();
         switch (comp.getManagerAction()) {

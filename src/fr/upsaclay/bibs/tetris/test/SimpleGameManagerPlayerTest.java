@@ -574,7 +574,7 @@ class SimpleGameManagerPlayerTest {
 	}
 	
 	@Test
-	void testSaveGameEmpty() throws FileNotFoundException {
+	void testSaveGameEmpty() throws FileNotFoundException,IOException {
 		GameManager simpleManager = GameManager.getGameManager(GameType.SIMPLE);
 		simpleManager.initialize();
 		simpleManager.loadNewGame();
@@ -585,7 +585,7 @@ class SimpleGameManagerPlayerTest {
 	}
 	
 	@Test
-	void testSaveGameNonEmpty() throws FileNotFoundException {
+	void testSaveGameNonEmpty() throws FileNotFoundException,IOException {
 		GameManager simpleManager = GameManager.getGameManager(GameType.SIMPLE);
 		simpleManager.initialize();
 		simpleManager.loadNewGame();

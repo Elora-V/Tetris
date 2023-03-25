@@ -201,6 +201,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 		
 	}
 
+
 	@Override
 	public void incComboCount(boolean combo) {
 		if (combo == true) {
