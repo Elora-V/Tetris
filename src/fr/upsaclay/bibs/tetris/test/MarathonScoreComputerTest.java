@@ -324,8 +324,16 @@ class MarathonScoreComputerTest {
 		TetrisGrid grid = TetrisGrid.getEmptyGrid(20, 10);
 		grid.setTetromino(TetrominoShape.ISHAPE.getTetromino(0));
 		grid.setCoordinates(new TetrisCoordinates(0,0));
+		assertEquals(scoreComputer.getScore(),0);
+		assertEquals(scoreComputer.getScoreBefore(),0);
+		assertEquals(scoreComputer.getSoftDrop(),false);
 		scoreComputer.registerBeforeAction(TetrisAction.START_SOFT_DROP, grid.getView());
+		assertEquals(scoreComputer.getScore(),0);
+		assertEquals(scoreComputer.getSoftDrop(),true);
+		assertEquals(scoreComputer.getScoreBefore(),0);
 		scoreComputer.registerAfterAction(grid.getView());
+		assertEquals(scoreComputer.getScore(),0);
+		assertEquals(scoreComputer.getScoreBefore(),0);
 		scoreComputer.registerBeforeAction(TetrisAction.DOWN, grid.getView());
 		grid.tryMove(TetrisCoordinates.DOWN);
 		scoreComputer.registerAfterAction(grid.getView());

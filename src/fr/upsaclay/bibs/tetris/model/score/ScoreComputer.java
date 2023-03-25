@@ -55,6 +55,8 @@ public interface ScoreComputer {
 	 * @return the score
 	 */
 	public int getScore();
+	public int getScoreBefore();
+	public boolean getSoftDrop();
 	
 	/**
 	 * The combo count (bonus for multiple wins in a row)

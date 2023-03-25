@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.tetris.control.manager;
 import fr.upsaclay.bibs.tetris.TetrisMode;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
+import fr.upsaclay.bibs.tetris.model.score.ScoreComputerImpl;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
 
