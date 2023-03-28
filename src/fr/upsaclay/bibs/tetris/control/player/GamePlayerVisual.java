@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 
 import java.awt.event.ActionEvent;
 
-public class GamePlayerVisual extends GamePlayerSimple implements KeyListener {
+public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,ActionListener {
 
     int delay; // in ms
 
@@ -99,5 +99,9 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener {
     }
 
 
-
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        super.performAction(TetrisAction.DOWN);
+        panel.setLoopDelay( super.whichDelay());
+    }
 }

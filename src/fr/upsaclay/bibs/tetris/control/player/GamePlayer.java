@@ -21,7 +21,6 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 public interface GamePlayer {
 
 
-	public static final int INITIAL_DELAY = 500; // in ms (valeur mise au hasard pour le moment)
 
 	/**
 	 * Initialiaze the player 

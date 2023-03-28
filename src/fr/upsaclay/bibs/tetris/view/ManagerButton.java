@@ -4,6 +4,7 @@ import fr.upsaclay.bibs.tetris.TetrisAction;
 import fr.upsaclay.bibs.tetris.control.manager.ManagerAction;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class ManagerButton extends JButton implements ManagerComponent  {
@@ -12,6 +13,8 @@ public class ManagerButton extends JButton implements ManagerComponent  {
 
     public ManagerButton(String text) {
         super(text);
+        setForeground(Color.DARK_GRAY);
+        setBackground(Color.WHITE);
     }
     /**
      * Set the Manager action attached to the component
