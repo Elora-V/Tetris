@@ -45,6 +45,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         view.initialize(); // initialisation de la vue
         view.attachManagerActionListener(this); // ajout de listener à la vue
 
+        // faire les autres liens avec la vue :
+                // donner les elements necessaire à la view : grille, provider?
+
     }
 
 

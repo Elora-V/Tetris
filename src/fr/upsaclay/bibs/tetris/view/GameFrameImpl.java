@@ -41,8 +41,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         // Create the control panel
         controlPanel = new JPanel();
 
-        // Creating the parameter lists (a faire)
-
 
     }
     @Override

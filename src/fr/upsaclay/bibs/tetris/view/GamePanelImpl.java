@@ -7,6 +7,7 @@ import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.security.Provider;
 import java.util.List;
 
 public class GamePanelImpl extends JPanel implements GamePanel {
@@ -15,6 +16,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     int nbcols=GameManager.DEFAULT_COLS;
 
     TetrisGridView grid;
+    Provider provider; // set
 
     JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
     JPanel gridPanel; // pour la grille
@@ -106,7 +108,22 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     //@Override
     public void paintComponent(Graphics g){
         throw new UnsupportedOperationException("Not implemented");
+
+        // la grille :
         //grid.drawLine(...);
+
+        //double boucle i j
+        // dans boucle: recup type cellule avec cellVisible(i,j)
+        // appelé methode qui renvoie couleur
+        // colorier le carré correpondant (sachant qu'il est de longueur et hauteur GameFrame.PIXELS_PER_CELL)
+
+        // scorepanel : text affiche level et score
+
+        // nexttetrominopanel : text: 'next :'
+        // + tetromino (avec new function)
+
+        // holdtetrominopanel : text: 'hold:'
+        // + tetromino
     }
     /**
      * Sets the number of lines in the game
