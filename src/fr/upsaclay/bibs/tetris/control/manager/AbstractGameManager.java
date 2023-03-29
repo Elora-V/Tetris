@@ -41,12 +41,7 @@ public abstract class AbstractGameManager implements GameManager {
     /////////// Actions ///////////////////
 
     public void initialize(){
-        //les commandes suivantes n'ont pas fonctionnées, donc on a directement mis en valeur par default
-        //les commandes suivantes n'ont pas fonctionnées, donc on a directement mis en valeur par default
-
-//        setTetrominoProvider(DEFAULT_PROVIDER);
-//        setGameMode(DEFAULT_MODE);
-//        setPlayerType(DEFAULT_PLAYER_TYPE );
+        // pour le moment pas d'actions spéciales à faire
     }
 
     /**
@@ -60,6 +55,10 @@ public abstract class AbstractGameManager implements GameManager {
         createPlayer();
     }
 
+    /**
+     * Load a player from a saved game (ajout par rapport à l'interface GameManager)
+     *
+     */
     public abstract void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines);
     /**
      * starts the player (i.e. the actual game)
