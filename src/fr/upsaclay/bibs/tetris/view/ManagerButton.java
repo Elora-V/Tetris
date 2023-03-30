@@ -7,6 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
+/**
+*  
+* c'est une extension de JButton qui implemente ManagerCompoment
+* et qui communique avec le controleur en utilisant Swing
+*
+*/
 public class ManagerButton extends JButton implements ManagerComponent  {
 
     private ManagerAction action;

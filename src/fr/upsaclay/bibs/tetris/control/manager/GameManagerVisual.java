@@ -89,9 +89,11 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         switch (action) {
             case START:
                 view.drawGamePlayView();
+                             
                 break;
             case PAUSE:
                 view.drawGamePauseView();
+                
                 break;
             case RESUME:
                 view.drawGamePlayView();
@@ -119,7 +121,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     }
 
     /**
-     * pause the player
+     * pause the player 
      */
     public void pausePlayer(){
         super.getPlayer().pause();

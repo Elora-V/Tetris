@@ -8,6 +8,7 @@ import fr.upsaclay.bibs.tetris.view.GamePanel;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
 
+
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -73,25 +74,51 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
 
-    }
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
 
     }
     /**
-     * do the action from the keyboard
-     *
+     * Fait les differentes actions en fonction des touches relachée du clavier
+     *on a preferé pour des raisons ergonomiques l'utilisation des touches zqsd aux fléches
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+    	 switch (e.getKeyCode()) {
+    	 	case KeyEvent.VK_S:
+    	 		super.performAction(TetrisAction.END_SOFT_DROP);
+    	 		break;
+    	 }
+    }
+    	 
+    /**
+     * Fait les differentes actions en fonction des touches pressées du clavier
+     *on a preferé pour des raisons ergonomiques l'utilisation des touches zqsd aux fléches
      */
     @Override
     public void keyPressed(KeyEvent e) {
         if (super.getGridView().getTetromino() != null) // on ne fait les actions que si on a un tétromino surlequel les appliquer
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_Q:
                     super.performAction(TetrisAction.MOVE_LEFT);
                     break;
-
-                //....faire les autres
+                case KeyEvent.VK_D:
+                    super.performAction(TetrisAction.MOVE_RIGHT);
+                    break;
+                case KeyEvent.VK_S:
+                    super.performAction(TetrisAction.START_SOFT_DROP);
+                    break;
+                case KeyEvent.VK_Z:
+                    super.performAction(TetrisAction.HOLD);
+                    break;
+                case KeyEvent.VK_A:
+                    super.performAction(TetrisAction.ROTATE_LEFT);
+                    break;
+                case KeyEvent.VK_E:
+                    super.performAction(TetrisAction.ROTATE_RIGHT);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    super.performAction(TetrisAction.HARD_DROP);
+                    break;                  
 
             }
         panel.update();
