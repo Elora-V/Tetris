@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
-    GamePanel gamePanel; // au centre : la grille
+    GamePanelImpl gamePanel; // au centre : la grille
     JPanel controlPanel; // à droite : les options de jeu
 
 
@@ -41,8 +41,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         // Create the control panel
         controlPanel = new JPanel();
 
-        // Creating the parameter lists (a faire)
-
 
     }
     @Override
@@ -50,11 +48,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
-
-        //add( gamePanel, BorderLayout.CENTER );
-        controlPanel.setPreferredSize(new Dimension(200, 700 ));
+        add( gamePanel, BorderLayout.CENTER );
+        controlPanel.setPreferredSize(new Dimension(200, gamePanel.getPreferredSize().height));
         add( controlPanel, BorderLayout.EAST);
-            // height a def 'gamePanel.getPreferredSize().height )' quand on aura dimension game panel
+
 
         ///////////////// Creation des éléments de management//////////////
         createManagerComponents();
@@ -100,7 +97,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawManagementView(){
-        //gamePanel.drawManagementView();
         initialPanel.setVisible(true);
         playPanel.setVisible(false);
         pausePanel.setVisible(false);

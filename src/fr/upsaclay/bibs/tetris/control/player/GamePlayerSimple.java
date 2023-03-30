@@ -8,6 +8,7 @@ import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputerImpl;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
 
@@ -31,7 +32,7 @@ public class GamePlayerSimple implements GamePlayer{
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
         this.initialize(grid, scoreComputer, provider);
         this.typeHuman=type;
-        delay=INITIAL_DELAY;
+        delay=GamePanelImpl.INITIAL_DELAY;
     }
     /**
      * Initialiaze the player
@@ -114,10 +115,19 @@ public class GamePlayerSimple implements GamePlayer{
      * @return true if the game is over
      */
     public boolean isOver(){
+        // utilisation de cette fonction avant de redonner un tetromino
         if( !provider.hasNext()){
             return true;
         }
-        if ( grid.hasConflicts()){
+        Tetromino nextTetro=provider.showNext(0); // regarde le tetromino suivant
+        grid.setTetromino(nextTetro); // on le met dans la grille (pour tester si il tient)
+        grid.setAtStartingCoordinates(); // on le place
+        boolean conflict= grid.hasConflicts(); // on regarde si il y a un conflict
+        // on enlève le tetromino de la grille dans tout les cas, car le role de cette fonction n,'est pas le placement de tetromino
+        grid.setTetromino(null);
+        grid.setCoordinates(null);
+        // si il y a eu conflict, le jeu est fini
+        if (conflict){
             return true;
         }
         return false;
@@ -176,10 +186,13 @@ public class GamePlayerSimple implements GamePlayer{
         // changement de delai si changement de niveau à faire (ici ou pas ) ??
 
         // on donne le tétromino suivant
-        grid.setTetromino(provider.next());
-        grid.setAtStartingCoordinates();
-        if(isOver()){
+        if(isOver()){ // on vérifie d'abord que le jeu n'est pas fini
             activeGame=false;
+            System.out.println("passage en false");
+        }
+        if (activeGame) {
+            grid.setTetromino(provider.next());
+            grid.setAtStartingCoordinates();
         }
 
     }
@@ -222,6 +235,7 @@ public class GamePlayerSimple implements GamePlayer{
 
             case END_SOFT_DROP:   // A FAIRE DANS BOUCLE
                 softDrop=false;
+                score.registerBeforeAction(TetrisAction.END_SOFT_DROP, grid);
                 score.registerAfterAction(grid);
                 return true;
 
@@ -261,4 +275,14 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
 
+    protected int whichDelay() {
+        delay=GamePanelImpl.INITIAL_DELAY-100;
+        if(softDrop){
+            delay=delay-100; // si on est en softdrop le delay diminue
+        }
+        if(delay <= GamePanelImpl.MIN_DELAY){ // on ne vaut pas descendre en dessous de cette valeur
+            delay=GamePanelImpl.MIN_DELAY;
+        }
+        return delay;
+    }
 }
