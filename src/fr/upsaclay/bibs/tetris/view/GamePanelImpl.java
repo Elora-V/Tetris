@@ -125,21 +125,20 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     }
 
     //@Override
-<<<<<<< HEAD
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
 
-        for(int i;i < tcoord.getLine();i++){
-            for(int j; j <tcoord.getCol();j++){
-                if(....){
-                    g.fillRect(i*GameFrame.PIXELS_PER_CELL,j*GameFrame.PIXELS_PER_CELL,GameFrame.PIXELS_PER_CELL,GameFrame.PIXELS_PER_CELL);
+        for (int i; i < tcoord.getLine(); i++) {
+            for (int j; j < tcoord.getCol(); j++) {
+                if (....){
+                    g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                 }
             }
             drawB
         }
-=======
-   // public void paintComponent(Graphics g){
-     //   throw new UnsupportedOperationException("Not implemented paintComponent");
->>>>>>> 4ce4b9cbc34d54d10060ff6e210356113950aa2f
+
+        // public void paintComponent(Graphics g){
+        //   throw new UnsupportedOperationException("Not implemented paintComponent");
+
 
         // la grille :
         //grid.drawLine(...);
@@ -156,7 +155,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         // holdtetrominopanel : text: 'hold:'
         // + tetromino
-   // }
+        // }
+    }
     /**
      * Sets the number of lines in the game
      * @param nblines
