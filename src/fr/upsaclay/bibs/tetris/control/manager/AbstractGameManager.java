@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.tetris.control.manager;
 
+import fr.upsaclay.bibs.tetris.TetrisAction;
 import fr.upsaclay.bibs.tetris.TetrisMode;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayerSimple;
@@ -24,14 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class AbstractGameManager implements GameManager, ActionListener {
+public abstract class AbstractGameManager implements GameManager {
 
     // le modèle :
-    private TetrominoProvider provider;
-    private TetrisMode mode;
-    private PlayerType playerType;
-    private int nbline;
-    private int nbcol;
+    private TetrominoProvider provider=DEFAULT_PROVIDER;
+    private TetrisMode mode=DEFAULT_MODE;
+    private PlayerType playerType=DEFAULT_PLAYER_TYPE ;
+    private int nbline=DEFAULT_LINES;
+    private int nbcol=DEFAULT_COLS;
     private GamePlayer gamePlayer;
 
     // la vue est dans la classe fille visual
@@ -40,11 +41,7 @@ public abstract class AbstractGameManager implements GameManager, ActionListener
     /////////// Actions ///////////////////
 
     public void initialize(){
-        setTetrominoProvider(DEFAULT_PROVIDER);
-        setGameMode(DEFAULT_MODE);
-        setPlayerType(DEFAULT_PLAYER_TYPE );
-        nbline=DEFAULT_LINES;
-        nbcol=DEFAULT_COLS;
+        // pour le moment pas d'actions spéciales à faire
     }
 
     /**
@@ -58,6 +55,10 @@ public abstract class AbstractGameManager implements GameManager, ActionListener
         createPlayer();
     }
 
+    /**
+     * Load a player from a saved game (ajout par rapport à l'interface GameManager)
+     *
+     */
     public abstract void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines);
     /**
      * starts the player (i.e. the actual game)
@@ -73,10 +74,9 @@ public abstract class AbstractGameManager implements GameManager, ActionListener
         getPlayer().pause();
     }
 
-    public void actionPerformed(ActionEvent e) { //action 'logistique', le coté visuelle est ajoutée dans managerVisual
+    public void actionPerformed(ManagerAction action) { //action 'logistique', le coté visuelle est ajoutée dans managerVisual
 
-        ManagerComponent comp = (ManagerComponent) e.getSource();
-        switch (comp.getManagerAction()) {
+        switch ( action) {
             case START:
                 gamePlayer.start();
                 break;

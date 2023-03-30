@@ -18,16 +18,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class GameManagerVisual extends AbstractGameManager{
+public class GameManagerVisual extends AbstractGameManager implements ActionListener{
 
     // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
-    private GameFrame view;
+    private GameFrameImpl view;
 
 
     public GameManagerVisual() {
-        initialize();
-        super.loadNewGame();
+        super.loadNewGame(); // creation du player
         view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
+        initialize(); // initialisation du player et de la vue
 
     }
     /**
@@ -41,9 +41,12 @@ public class GameManagerVisual extends AbstractGameManager{
      */
     @Override
     public void initialize(){
-        super.initialize();
-        view.initialize();
-        view.attachManagerActionListener(this);
+        super.initialize(); // initialisation du player
+        view.initialize(); // initialisation de la vue
+        view.attachManagerActionListener(this); // ajout de listener à la vue
+
+        // faire les autres liens avec la vue :
+                // donner les elements necessaire à la view : grille, provider?
 
     }
 
@@ -62,7 +65,7 @@ public class GameManagerVisual extends AbstractGameManager{
     @Override
     public void createPlayer(){
         try {
-            super.setGamePlayer(new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
+            super.setGamePlayer(new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfLines()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
         }catch (Exception e){
             throw new UnsupportedOperationException();
         }
@@ -78,11 +81,12 @@ public class GameManagerVisual extends AbstractGameManager{
     }
 
     public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e); // action à réaliser côté 'logistique'
-
+        ManagerComponent comp = (ManagerComponent) e.getSource(); // on récupère le boutton clické
+        ManagerAction action = comp.getManagerAction(); // on récupère l'action
+        super.actionPerformed(action); // action à réaliser côté 'logistique'         // block ici
         // puis ajoute les actions 'visuelles' :
-        ManagerComponent comp = (ManagerComponent) e.getSource();
-        switch (comp.getManagerAction()) {
+
+        switch (action) {
             case START:
                 view.drawGamePlayView();
                 break;
@@ -101,6 +105,7 @@ public class GameManagerVisual extends AbstractGameManager{
                 break;
 
         }
+
     }
 
 
