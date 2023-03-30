@@ -1,6 +1,8 @@
 package fr.upsaclay.bibs.tetris.view;
 
 import fr.upsaclay.bibs.tetris.control.manager.GameManager;
+import fr.upsaclay.bibs.tetris.model.grid.Mygrid;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 
@@ -18,7 +20,12 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     TetrisGridView grid;
     Provider provider; // set
 
+    Tetromino tetromino;
+    TetrisCoordinates tcoord;
+
     JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
+
+
     JPanel gridPanel; // pour la grille
 
     // les sous-panel de gameInfoPanel :
@@ -31,8 +38,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public static final int MIN_DELAY=100;
 
     public GamePanelImpl() {
-        super();
-
         gridPanel=new JPanel(); // sous-panel pour la grille (droite)
 
         gridPanel.setBackground(Color.WHITE); // MARCHE PAS ??
@@ -66,6 +71,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         add(gameInfoPanel,BorderLayout.WEST);
 
     }
+
 
     /**
      * Draw itself for the "management view" (before a game is started,
@@ -107,7 +113,15 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
     //@Override
     public void paintComponent(Graphics g){
-        throw new UnsupportedOperationException("Not implemented");
+
+        for(int i;i < tcoord.getLine();i++){
+            for(int j; j <tcoord.getCol();j++){
+                if(....){
+                    g.fillRect(i*GameFrame.PIXELS_PER_CELL,j*GameFrame.PIXELS_PER_CELL,GameFrame.PIXELS_PER_CELL,GameFrame.PIXELS_PER_CELL);
+                }
+            }
+            drawB
+        }
 
         // la grille :
         //grid.drawLine(...);
