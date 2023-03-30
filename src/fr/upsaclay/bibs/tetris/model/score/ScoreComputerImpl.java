@@ -200,59 +200,7 @@ public class ScoreComputerImpl implements ScoreComputer {
 		}
 		
 	}
-	
-	@Override
-	public void registerMergePack(List<Integer> packResult) {
-		/**
-		 * Update the score and internal state using the information
-		 * 
-		 * This is called after a merge / pack has been performed
-		 * 
-		 * @param packResult the result of the pack
-		 * @param gridView a view of a tetris grid 
-		 */
-		// c'est ici que l'on calcule le score
-		// 		1 (single) 	100
-		// 		2 (double) 	300
-		// 		3 (triple) 	500
-		// 		4 (tetris) 	800 
-		//fois le niveau
-		
-		boolean combo= false;
-		
-		
-		if (packResult.size()==1) {
-			score = score + 100 * level;
-			combo = true;
-			
-		}
-		else if (packResult.size()== 2) {
-			score = score + 300 * level;
-			combo = true;
-			
-		}
-		else if (packResult.size()== 3) {
-			score = score + 500 * level;
-			combo = true;
-			
-		}
-		else  if (packResult.size()== 4) {
-			score = score + 800 * level;
-			combo = true;
-		}
-		
-		incComboCount(combo);	
-		
-		if (combo==true) {
-			score = score + 50 * level * comboCount;
-		}
-		
-		lines = lines + packResult.size();
-		if (lines > 5 && lines % 5 == 0 ) {
-			level ++;
-		}
-		
-	}
+
 
 	@Override
 	public void incComboCount(boolean combo) {

@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.tetris.view;
 
+import fr.upsaclay.bibs.tetris.control.manager.GameManager;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 
@@ -10,14 +11,16 @@ import java.util.List;
 
 public class GamePanelImpl extends JPanel implements GamePanel {
 
-    int nblines=12;
-    int nbcols=7;
+    int nblines= GameManager.DEFAULT_LINES;
+    int nbcols=GameManager.DEFAULT_COLS;
 
     TetrisGridView grid;
 
-    JPanel gameInfoPanel;
-    JPanel gridPanel;
-    JPanel actualTetroPanel;
+    JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
+    JPanel gridPanel; // pour la grille
+
+    // les sous-panel de gameInfoPanel :
+    JPanel HoldTetroPanel;
     JPanel nextTetroPanel;
     JPanel scorepanel;
 
@@ -29,9 +32,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
         gridPanel=new JPanel(); // sous-panel pour la grille (droite)
 
-        actualTetroPanel=new JPanel(); // sera dans nextTetroPanel en haut
-        nextTetroPanel=new JPanel(); // sera au milieu de nextTetroPanel
-        scorepanel=new JPanel(); //sera en bas de nextTetroPanel
+        HoldTetroPanel=new JPanel(); // sera dans nextTetroPanel en bas
+        nextTetroPanel=new JPanel(); // sera en haut de nextTetroPanel
+        scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
 
         // Create the loop timer
         timer = new Timer(1, null);
@@ -50,9 +53,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         ////////////// nextTetroPanel ////////////////////////
         gameInfoPanel.setPreferredSize(new Dimension(300,700)); // taille a changer
-        gameInfoPanel.add(actualTetroPanel,BorderLayout.NORTH);
-        gameInfoPanel.add(nextTetroPanel,BorderLayout.CENTER);
-        gameInfoPanel.add(scorepanel,BorderLayout.SOUTH);
+        gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
+        gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
+        gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
         add(gameInfoPanel,BorderLayout.WEST);
 
     }
@@ -225,6 +228,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void update(){
-        throw new UnsupportedOperationException("Not implemented");
+        gridPanel.repaint();
+        gameInfoPanel.repaint();
     }
 }

@@ -135,17 +135,4 @@ public enum TetrominoShape {
 
 }
 
-//note pour moi (à supprimer lors du rendu)
-
-// throw new UnsupportedOperationException("Not implemented");
-
-// calcul rotation droite:
-//copyTabShape =...
-//for (int i = 0; i < tabShape.length; i++) {
-//	for (int j = 0; j < tabShape.length; j++) {
-//		tabShape[i][j] = copyTabShape[tabShape.length - 1 - j][i];
-//	}
-//}
-// calcul rotation gauche:
-// avec copyTabShape[j][tabShape.length - 1 - i];
 
