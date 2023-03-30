@@ -86,18 +86,4 @@ public abstract class AbstractGameManager implements GameManager, ActionListener
     public int getNumberOfCols(){
         return nbcol;}
 
-    public static AbstractGameManager getGameManager(GameType type,TetrominoProvider provider, TetrisMode mode, PlayerType playerType, int nbline, int nbcol) {
-    	switch(type) {
-		case SIMPLE:
-			return new simpleGameManager(provider, mode, playerType,nbline,nbcol);
-		default:
-			throw new UnsupportedOperationException("Not implemented");
-		
-		}
-    	
-    }
-    public static AbstractGameManager getGameManager(GameType type) {
-    	return getGameManager(type,DEFAULT_PROVIDER, DEFAULT_MODE,DEFAULT_PLAYER_TYPE, DEFAULT_LINES,DEFAULT_COLS);
-    }
-    
 }

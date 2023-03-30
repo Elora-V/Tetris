@@ -113,6 +113,7 @@ public interface ScoreComputer {
 	 * @param gridView a view of a tetris grid 
 	 */
 	public void registerMergePack(List<Integer> packResult, TetrisGridView gridView);
+	public void registerMergePack(List<Integer> packResult);
 	
 	public static ScoreComputer getScoreComputer(TetrisMode mode, int initialScore, int initialLevel, int initialLines) {
 		switch(mode) {
