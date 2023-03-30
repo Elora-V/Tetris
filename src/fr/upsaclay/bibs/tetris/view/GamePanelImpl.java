@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.tetris.view;
 
 import fr.upsaclay.bibs.tetris.control.manager.GameManager;
 import fr.upsaclay.bibs.tetris.model.grid.Mygrid;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
@@ -126,15 +127,21 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
     //@Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         for (int i; i < tcoord.getLine(); i++) {
             for (int j; j < tcoord.getCol(); j++) {
-                if (....){
+                if ( != TetrisCell.EMPTY){
+                    g.setColor(Color.BLUE);
                     g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                    g.setColor(Color.red);
+                    g.drawRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                 }
             }
-            drawB
         }
+
+        g.setColor(Color.black);
+
 
         // public void paintComponent(Graphics g){
         //   throw new UnsupportedOperationException("Not implemented paintComponent");
