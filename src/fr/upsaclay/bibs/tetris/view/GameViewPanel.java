@@ -37,4 +37,11 @@ public interface GameViewPanel {
 	 * Draw itself for when the game is over (show "Game over", adds a restart button, etc.)
 	 */
 	public void drawEndGameView();
+	/**
+	 * Updates the view
+	 */
+	public void update();
+	
+	
 }
+

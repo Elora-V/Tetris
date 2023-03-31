@@ -22,6 +22,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     JPanel playPanel;
     JPanel pausePanel;
     JPanel endPanel;
+    JPanel comandePanel;
 
     // boutons de bases
     ManagerButton startButton;
@@ -29,6 +30,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton resumeButton;
     ManagerButton quitButton;
     ManagerButton restartButton;
+    ManagerButton comandeButton;
 
     public GameFrameImpl(String name) {
         super(name);
@@ -60,6 +62,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
+        initialPanel.add(quitButton);
+        initialPanel.add(comandeButton);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
@@ -82,9 +86,16 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         endPanel.add(restartButton);
         endPanel.add(quitButton);
         controlPanel.add(endPanel);
-
-
+        ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
+        comandePanel = new JPanel();
+        comandePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
+        comandePanel.add(quitButton);
+        comandePanel.add(resumeButton);
+        comandePanel.add(restartButton);
+        comandePanel.add(pausePanel);
+        
         pack();
+        System.out.println("GFI initialize");
         drawManagementView();
         setVisible(true);
     }
@@ -97,11 +108,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawManagementView(){
+    	System.out.println(" gFI drawManagementView");
         initialPanel.setVisible(true);
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
-        // gamePanel.drawManagementView();
+       // gamePanel.drawManagementView();
+        
     }
 
     /**
@@ -112,11 +125,15 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawGamePlayView(){
-        initialPanel.setVisible(false);
-        playPanel.setVisible(true);
+    	initialPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
-        // gamePanel.drawGamePlayView();
+        playPanel.setVisible(true);
+        System.out.println("drawGamePlayView1");
+        gamePanel.drawGamePlayView();
+        System.out.println("drawGamePlayView2");
+        //comandePanel.setVisible(true);
+        
     }
 
     /**
@@ -124,11 +141,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawGamePauseView(){
+    	System.out.println("drawGamePauseView 1");
         initialPanel.setVisible(false);
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
         endPanel.setVisible(false);
-        // gamePanel.drawGamePauseView();
+        gamePanel.drawGamePauseView();
+        System.out.println("drawGamePauseView 2");
     }
 
     /**
@@ -140,7 +159,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(true);
-        // gamePanel.drawEndGameView();
+       gamePanel.drawEndGameView();
+       repaint();
     }
     /**
      * Return the panel handling the game action
@@ -169,6 +189,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quitButton.setManagerAction(ManagerAction.QUIT);
         restartButton=new ManagerButton("Restart a new game");
         restartButton.setManagerAction(ManagerAction.RESTART);
+        comandeButton=new ManagerButton("Control");
 
         ///// Bouton radio
 
@@ -197,7 +218,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quitButton.addActionListener(listener);
     }
 
-    /**
+    /** 
      * Add a key listener (for the keyboard actions) to the
      * frame
      *
@@ -229,7 +250,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void showErrorMessage(String message){
-        throw new UnsupportedOperationException("Not implemented");
+        throw new UnsupportedOperationException("Not implemented ");
     }
 
     /**
@@ -241,7 +262,16 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void setDefaultSetting(ManagerAction action){
-        throw new UnsupportedOperationException("Not implemented");
+        throw new UnsupportedOperationException("Not implemented ");
     }
+    /**
+	 * Updates the view
+	 */
+    @Override
+	public void update() {
+    	 controlPanel.repaint();
+    	 
+	}
+	
 
 }
