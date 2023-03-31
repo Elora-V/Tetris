@@ -57,7 +57,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         nextTetroPanel.setBackground(Color.BLUE);
         scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
         scorepanel.setBackground(Color.RED);
-
+        paintComponent();
         // Create the loop timer
         timer = new Timer(INITIAL_DELAY, null);
     }
@@ -89,10 +89,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawManagementView(){
-    	gameInfoPanel.setVisible(false);
-    	gridPanel.setVisible(true);
-    	update();
-    	System.out.println("GPI drawManagementView ");
+        gameInfoPanel.setVisible(false);
+        gridPanel.setVisible(true);
+        update();
+        System.out.println("GPI drawManagementView ");
     }
 
     /**
@@ -103,10 +103,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePlayView(){
-    	gameInfoPanel.setVisible(true);
-    	gridPanel.setVisible(true);
-    	update();
-    	System.out.println("GPI drawGamePlayView ");
+        gameInfoPanel.setVisible(true);
+        gridPanel.setVisible(true);
+        update();
+        System.out.println("GPI drawGamePlayView ");
     }
 
     /**
@@ -114,10 +114,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePauseView(){
-    	gameInfoPanel.setVisible(true);
-    	gridPanel.setVisible(true);
-    	update();
-    	System.out.println("GPI drawGamePlayView ");
+        gameInfoPanel.setVisible(true);
+        gridPanel.setVisible(true);
+        update();
+        System.out.println("GPI drawGamePlayView ");
     }
 
     /**
@@ -125,18 +125,24 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawEndGameView(){
-    	gameInfoPanel.setVisible(false);
-    	gridPanel.setVisible(false);
-    	update();
+        gameInfoPanel.setVisible(false);
+        gridPanel.setVisible(false);
+        update();
     }
 
-    //@Override
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for(int i =0 ; i < tcoord.getLine(); i++) {
-            for(int j = 0; j < tcoord.getCol(); j++) {
-                if (TetrisCell.T != TetrisCell.EMPTY){
+        for(int i =0 ; i < grid.numberOfLines(); i++) {
+            for (int j = 0; j < grid.numberOfCols(); j++) {
+                Color colcell = ReturnColorCase(grid.visibleCell(i, j));
+                // colorier et la faire apparaitre sur Jpanel
+                // g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+            }
+        }
+
+                if (){
                     g.setColor(ReturnColorCase(TetrominoShape.ISHAPE));
                     g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                     g.setColor(ReturnColorCase(TetrominoShape.ISHAPE));
@@ -170,24 +176,24 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         // }
     }
 
-    public Color ReturnColorCase(TetrominoShape shape) {
+    public Color ReturnColorCase(TetrisCell shape) {
         switch (shape){
-            case ISHAPE:
-                return Color.black;
-            case JSHAPE:
+            case I:
+                return Color.BLUE;
+            case J:
                 return Color.red;
-            case LSHAPE:
+            case L:
                 return Color.CYAN;
-            case SSHAPE:
+            case S:
                 return Color.GREEN;
-            case OSHAPE:
+            case O:
                 return Color.magenta;
-            case ZSHAPE:
+            case Z:
                 return  Color.ORANGE;
-            case TSHAPE:
+            case T:
                 return Color.lightGray;
             default:
-                return Color.yellow;
+                return Color.black;
         }
     }
 
