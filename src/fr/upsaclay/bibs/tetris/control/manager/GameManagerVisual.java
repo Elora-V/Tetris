@@ -105,6 +105,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 System.out.println("GM drawManagementView");
                 break;
             case QUIT:
+            	view.setVisible(false);
+            	view.dispose();
+            	System.exit(1);
                 break;
             default:
                 break;
