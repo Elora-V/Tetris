@@ -51,6 +51,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
         add( gamePanel, BorderLayout.CENTER );
+        
         controlPanel.setPreferredSize(new Dimension(200, gamePanel.getPreferredSize().height));
         add( controlPanel, BorderLayout.EAST);
 
@@ -62,7 +63,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
-        //initialPanel.add(comandeButton);
+        initialPanel.add(quitButton);
+        initialPanel.add(comandeButton);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
@@ -77,6 +79,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
+       // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
@@ -94,6 +97,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         comandePanel.add(pausePanel);
         
         pack();
+        System.out.println("GFI initialize");
         drawManagementView();
         setVisible(true);
     }
@@ -106,6 +110,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawManagementView(){
+    	System.out.println(" gFI drawManagementView");
         initialPanel.setVisible(true);
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
@@ -123,11 +128,14 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     @Override
     public void drawGamePlayView(){
     	initialPanel.setVisible(false);
-        playPanel.setVisible(true);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
+        playPanel.setVisible(true);
+        System.out.println("drawGamePlayView1");
         gamePanel.drawGamePlayView();
-        repaint();
+        System.out.println("drawGamePlayView2");
+        //comandePanel.setVisible(true);
+        
     }
 
     /**
@@ -135,12 +143,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      */
     @Override
     public void drawGamePauseView(){
+    	System.out.println("drawGamePauseView 1");
         initialPanel.setVisible(false);
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
         endPanel.setVisible(false);
         gamePanel.drawGamePauseView();
-        repaint();
+        System.out.println("drawGamePauseView 2");
     }
 
     /**

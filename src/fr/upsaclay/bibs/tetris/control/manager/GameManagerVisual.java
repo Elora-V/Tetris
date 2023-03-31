@@ -27,8 +27,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
         view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
-        initialize(); // initialisation du player et de la vue
-
+        System.out.println("GMV");
+        //initialize(); // initialisation du player et de la vue
+        
     }
     /**
      * Initialize the game Manager
@@ -89,6 +90,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         switch (action) {
             case START:
                 view.drawGamePlayView();
+                System.out.println("GM drawGamePlayView()");
                              
                 break;
             case PAUSE:
@@ -100,6 +102,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 break;
             case RESTART:
                 view.drawManagementView();
+                System.out.println("GM drawManagementView");
                 break;
             case QUIT:
                 break;
@@ -110,7 +113,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
 
     }
 
-
+ 
 
 
     /**
