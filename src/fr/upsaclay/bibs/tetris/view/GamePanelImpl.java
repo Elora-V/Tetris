@@ -1,3 +1,4 @@
+
 package fr.upsaclay.bibs.tetris.view;
 
 import fr.upsaclay.bibs.tetris.control.manager.GameManager;
@@ -35,15 +36,19 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         gridPanel=new JPanel(); // sous-panel pour la grille (droite)
 
-        gridPanel.setBackground(Color.WHITE); // MARCHE PAS ??
+        gridPanel.setBackground(Color.BLACK);
 
         gridPanel.setPreferredSize(new Dimension(nbcols*GameFrame.PIXELS_PER_CELL,nblines*GameFrame.PIXELS_PER_CELL));
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
+        gameInfoPanel.setBackground(Color.BLACK);
         gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
 
         HoldTetroPanel=new JPanel(); // sera dans nextTetroPanel en bas
+        HoldTetroPanel.setBackground(Color.DARK_GRAY);
         nextTetroPanel=new JPanel(); // sera en haut de nextTetroPanel
+        nextTetroPanel.setBackground(Color.BLUE);
         scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
+        scorepanel.setBackground(Color.RED);
 
         // Create the loop timer
         timer = new Timer(INITIAL_DELAY, null);
@@ -75,7 +80,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawManagementView(){
-        throw new UnsupportedOperationException("Not implemented");
+    	gameInfoPanel.setVisible(false);
+    	gridPanel.setVisible(true);
+    	update();
+    	System.out.println("GPI drawManagementView ");
     }
 
     /**
@@ -86,7 +94,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePlayView(){
-        throw new UnsupportedOperationException("Not implemented");
+    	gameInfoPanel.setVisible(true);
+    	gridPanel.setVisible(true);
+    	update();
+    	System.out.println("GPI drawGamePlayView ");
     }
 
     /**
@@ -94,7 +105,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePauseView(){
-        throw new UnsupportedOperationException("Not implemented");
+    	gameInfoPanel.setVisible(true);
+    	gridPanel.setVisible(true);
+    	update();
+    	System.out.println("GPI drawGamePlayView ");
     }
 
     /**
@@ -102,12 +116,14 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawEndGameView(){
-        throw new UnsupportedOperationException("Not implemented");
+    	gameInfoPanel.setVisible(false);
+    	gridPanel.setVisible(false);
+    	update();
     }
 
     //@Override
-    public void paintComponent(Graphics g){
-        throw new UnsupportedOperationException("Not implemented");
+   // public void paintComponent(Graphics g){
+     //   throw new UnsupportedOperationException("Not implemented paintComponent");
 
         // la grille :
         //grid.drawLine(...);
@@ -124,7 +140,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         // holdtetrominopanel : text: 'hold:'
         // + tetromino
-    }
+   // }
     /**
      * Sets the number of lines in the game
      * @param nblines
@@ -254,3 +270,4 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.repaint();
     }
 }
+
