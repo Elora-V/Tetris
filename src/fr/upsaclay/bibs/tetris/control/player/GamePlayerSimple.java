@@ -79,6 +79,9 @@ public class GamePlayerSimple implements GamePlayer{
         return score.getLevel();
     }
 
+    public TetrominoProvider getProvider(){
+        return  provider;
+    }
 
 
     public boolean getsoftdrop(){

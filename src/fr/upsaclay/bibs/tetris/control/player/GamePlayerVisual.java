@@ -44,6 +44,10 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
     }
 
+    public TetrominoProvider getProvider(){
+        return super.getProvider();
+    }
+
     /**
      * Starts the player
      *
