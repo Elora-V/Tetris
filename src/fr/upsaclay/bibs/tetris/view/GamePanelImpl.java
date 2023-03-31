@@ -48,7 +48,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         gridPanel.setPreferredSize(new Dimension(nbcols*GameFrame.PIXELS_PER_CELL,nblines*GameFrame.PIXELS_PER_CELL));
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
-        gameInfoPanel.setBackground(Color.BLACK);
+        gameInfoPanel.setBackground(Color.WHITE);
         gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
 
         HoldTetroPanel=new JPanel(); // sera dans nextTetroPanel en bas
@@ -70,13 +70,15 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         ////////////// gridPanel ////////////////////////
 
-        add(gridPanel,BorderLayout.EAST);
+       
 
         ////////////// nextTetroPanel ////////////////////////
         gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
         gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
         gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
         add(gameInfoPanel,BorderLayout.WEST);
+        
+        add(gridPanel,BorderLayout.EAST);
 
     }
 
