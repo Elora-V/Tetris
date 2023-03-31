@@ -7,11 +7,13 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
+import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.security.Provider;
+import java.util.Arrays;
 import java.util.List;
 
 public class GamePanelImpl extends JPanel implements GamePanel {
@@ -132,18 +134,18 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (int i; i < tcoord.getLine(); i++) {
-            for (int j; j < tcoord.getCol(); j++) {
-                if ( != TetrisCell.EMPTY){
-                    g.setColor(Color.BLUE);
+        for(int i =0 ; i < tcoord.getLine(); i++) {
+            for(int j = 0; j < tcoord.getCol(); j++) {
+                if (TetrisCell.T != TetrisCell.EMPTY){
+                    g.setColor(ReturnColorCase(TetrominoShape.ISHAPE));
                     g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.setColor(Color.red);
+                    g.setColor(ReturnColorCase(TetrominoShape.ISHAPE));
                     g.drawRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                 }
             }
         }
 
-        g.setColor(Color.black);
+        g.setColor(Color.YELLOW);
 
 
         // public void paintComponent(Graphics g){
@@ -167,6 +169,28 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         // + tetromino
         // }
     }
+
+    public Color ReturnColorCase(TetrominoShape shape) {
+        switch (shape){
+            case ISHAPE:
+                return Color.black;
+            case JSHAPE:
+                return Color.red;
+            case LSHAPE:
+                return Color.CYAN;
+            case SSHAPE:
+                return Color.GREEN;
+            case OSHAPE:
+                return Color.magenta;
+            case ZSHAPE:
+                return  Color.ORANGE;
+            case TSHAPE:
+                return Color.lightGray;
+            default:
+                return Color.yellow;
+        }
+    }
+
     /**
      * Sets the number of lines in the game
      * @param nblines
