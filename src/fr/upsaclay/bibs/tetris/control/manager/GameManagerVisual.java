@@ -29,7 +29,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
         System.out.println("GMV");
         //initialize(); // initialisation du player et de la vue
-        System.out.println("GMV");
+        
     }
     /**
      * Initialize the game Manager
@@ -65,11 +65,12 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
      */
     @Override
     public void createPlayer(){
-        try {
-            super.setGamePlayer(new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfLines()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
-        }catch (Exception e){
-            throw new UnsupportedOperationException();
-        }
+    	if (super.getPlayerType()!=PlayerType.HUMAN) {
+    		throw new UnsupportedOperationException("playertype not implemented");
+    	}
+
+        super.setGamePlayer( new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
+        
     }
 
     public void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines){ // mettre erreur ??
@@ -105,6 +106,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 System.out.println("GM drawManagementView");
                 break;
             case QUIT:
+            	view.setVisible(false);
+            	view.dispose();
+            	System.exit(1);
                 break;
             default:
                 break;

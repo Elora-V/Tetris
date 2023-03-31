@@ -30,7 +30,10 @@ public class GamePlayerSimple implements GamePlayer{
 
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
-        this.initialize(grid, scoreComputer, provider);
+        //this.initialize(grid, scoreComputer, provider);
+    	score=scoreComputer;
+        this.grid=grid;
+        this.provider=provider;
         this.typeHuman=type;
         delay=GamePanelImpl.INITIAL_DELAY;
     }
@@ -41,9 +44,9 @@ public class GamePlayerSimple implements GamePlayer{
      * @param provider a TetrominoProvider
      */
     public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider){
-        score=scoreComputer;
-        this.grid=grid;
-        this.provider=provider;
+    //    score=scoreComputer;
+      //  this.grid=grid;
+       // this.provider=provider;
     }
 
     /**
@@ -76,6 +79,9 @@ public class GamePlayerSimple implements GamePlayer{
         return score.getLevel();
     }
 
+    public TetrominoProvider getProvider(){
+        return  provider;
+    }
 
 
     public boolean getsoftdrop(){

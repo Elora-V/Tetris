@@ -38,9 +38,14 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
      */
     public void initialize(){
         panel.initialize();
+
         //panel.setLoopAction(...); //?
         panel.setLoopDelay(delay);
 
+    }
+
+    public TetrominoProvider getProvider(){
+        return super.getProvider();
     }
 
     /**

@@ -30,6 +30,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton resumeButton;
     ManagerButton quitButton;
     ManagerButton restartButton;
+    ManagerButton quit2Button;
+    ManagerButton restart2Button;
     ManagerButton comandeButton;
 
     public GameFrameImpl(String name) {
@@ -51,6 +53,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
         add( gamePanel, BorderLayout.CENTER );
+        
         controlPanel.setPreferredSize(new Dimension(200, gamePanel.getPreferredSize().height));
         add( controlPanel, BorderLayout.EAST);
 
@@ -62,8 +65,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
-        initialPanel.add(quitButton);
-        initialPanel.add(comandeButton);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
@@ -78,21 +79,22 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
+       // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
         endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        endPanel.add(restartButton);
-        endPanel.add(quitButton);
+        endPanel.add(restart2Button);
+        endPanel.add(quit2Button);
         controlPanel.add(endPanel);
         ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
         comandePanel = new JPanel();
         comandePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        comandePanel.add(quitButton);
-        comandePanel.add(resumeButton);
-        comandePanel.add(restartButton);
-        comandePanel.add(pausePanel);
+        //comandePanel.add(quitButton);
+        //comandePanel.add(resumeButton);
+        //comandePanel.add(restartButton);
+        //comandePanel.add(pausePanel);
         
         pack();
         System.out.println("GFI initialize");
@@ -113,7 +115,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
-       // gamePanel.drawManagementView();
+        gamePanel.drawManagementView();
         
     }
 
@@ -132,7 +134,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         System.out.println("drawGamePlayView1");
         gamePanel.drawGamePlayView();
         System.out.println("drawGamePlayView2");
-        //comandePanel.setVisible(true);
+        
         
     }
 
@@ -189,6 +191,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quitButton.setManagerAction(ManagerAction.QUIT);
         restartButton=new ManagerButton("Restart a new game");
         restartButton.setManagerAction(ManagerAction.RESTART);
+        quit2Button=new ManagerButton("Quit Tetris");
+        quit2Button.setManagerAction(ManagerAction.QUIT);
+        restart2Button=new ManagerButton("Restart a new game");
+        restart2Button.setManagerAction(ManagerAction.RESTART);
         comandeButton=new ManagerButton("Control");
 
         ///// Bouton radio
@@ -216,6 +222,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pauseButton.addActionListener(listener);
         resumeButton.addActionListener(listener);
         quitButton.addActionListener(listener);
+        restart2Button.addActionListener(listener);
+        quit2Button.addActionListener(listener);
     }
 
     /** 
@@ -269,7 +277,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 	 */
     @Override
 	public void update() {
-    	 controlPanel.repaint();
+    	 controlPanel.repaint();//ne sert a rien il me semble
     	 
 	}
 	
