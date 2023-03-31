@@ -37,10 +37,13 @@ public abstract class AbstractGameManager implements GameManager {
 
     // la vue est dans la classe fille visual
 
-
+    public void createPlayer() {
+    	throw new UnsupportedOperationException();
+    	
+    }
     /////////// Actions ///////////////////
 
-    public void initialize(){
+    public void initialize(){ 
         // pour le moment pas d'actions spéciales à faire
     }
 

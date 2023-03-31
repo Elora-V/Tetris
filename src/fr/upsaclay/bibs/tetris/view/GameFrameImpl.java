@@ -115,7 +115,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(false);
         endPanel.setVisible(false);
-       // gamePanel.drawManagementView();
+        gamePanel.drawManagementView();
         
     }
 
@@ -134,7 +134,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         System.out.println("drawGamePlayView1");
         gamePanel.drawGamePlayView();
         System.out.println("drawGamePlayView2");
-        //comandePanel.setVisible(true);
+        
         
     }
 
