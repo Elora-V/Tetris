@@ -90,7 +90,7 @@ public abstract class AbstractGameManager implements GameManager {
 
                 break;
             case QUIT:
-
+            	
                 break;
             default:
                 break;

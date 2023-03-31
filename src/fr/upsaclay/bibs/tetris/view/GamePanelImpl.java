@@ -83,7 +83,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void drawManagementView(){
     	gameInfoPanel.setVisible(false);
-    	gridPanel.setVisible(true);
+    	gridPanel.setVisible(false);
     	update();
     	System.out.println("GPI drawManagementView ");
     }
@@ -110,7 +110,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     	gameInfoPanel.setVisible(true);
     	gridPanel.setVisible(true);
     	update();
-    	System.out.println("GPI drawGamePlayView ");
+    	System.out.println("GPI drawGamePauseView ");
     }
 
     /**
