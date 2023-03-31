@@ -2,13 +2,18 @@
 package fr.upsaclay.bibs.tetris.view;
 
 import fr.upsaclay.bibs.tetris.control.manager.GameManager;
+import fr.upsaclay.bibs.tetris.model.grid.Mygrid;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
+import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
+import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.security.Provider;
+import java.util.Arrays;
 import java.util.List;
 
 public class GamePanelImpl extends JPanel implements GamePanel {
@@ -19,7 +24,12 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     TetrisGridView grid;
     Provider provider; // set
 
+    Tetromino tetromino;
+    TetrisCoordinates tcoord;
+
     JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
+
+
     JPanel gridPanel; // pour la grille
 
     // les sous-panel de gameInfoPanel :
@@ -32,8 +42,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public static final int MIN_DELAY=100;
 
     public GamePanelImpl() {
-        super();
-
         gridPanel=new JPanel(); // sous-panel pour la grille (droite)
 
         gridPanel.setBackground(Color.BLACK);
@@ -71,6 +79,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         add(gameInfoPanel,BorderLayout.WEST);
 
     }
+
 
     /**
      * Draw itself for the "management view" (before a game is started,
@@ -122,8 +131,26 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     }
 
     //@Override
-   // public void paintComponent(Graphics g){
-     //   throw new UnsupportedOperationException("Not implemented paintComponent");
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        for(int i =0 ; i < tcoord.getLine(); i++) {
+            for(int j = 0; j < tcoord.getCol(); j++) {
+                if (TetrisCell.T != TetrisCell.EMPTY){
+                    g.setColor(ReturnColorCase(TetrominoShape.ISHAPE));
+                    g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                    g.setColor(ReturnColorCase(TetrominoShape.ISHAPE));
+                    g.drawRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                }
+            }
+        }
+
+        g.setColor(Color.YELLOW);
+
+
+        // public void paintComponent(Graphics g){
+        //   throw new UnsupportedOperationException("Not implemented paintComponent");
+
 
         // la grille :
         //grid.drawLine(...);
@@ -140,7 +167,30 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         // holdtetrominopanel : text: 'hold:'
         // + tetromino
-   // }
+        // }
+    }
+
+    public Color ReturnColorCase(TetrominoShape shape) {
+        switch (shape){
+            case ISHAPE:
+                return Color.black;
+            case JSHAPE:
+                return Color.red;
+            case LSHAPE:
+                return Color.CYAN;
+            case SSHAPE:
+                return Color.GREEN;
+            case OSHAPE:
+                return Color.magenta;
+            case ZSHAPE:
+                return  Color.ORANGE;
+            case TSHAPE:
+                return Color.lightGray;
+            default:
+                return Color.yellow;
+        }
+    }
+
     /**
      * Sets the number of lines in the game
      * @param nblines

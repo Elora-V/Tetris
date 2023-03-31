@@ -29,7 +29,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
         System.out.println("GMV");
         //initialize(); // initialisation du player et de la vue
-        System.out.println("GMV");
+        
     }
     /**
      * Initialize the game Manager

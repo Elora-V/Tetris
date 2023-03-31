@@ -51,6 +51,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
         add( gamePanel, BorderLayout.CENTER );
+        
         controlPanel.setPreferredSize(new Dimension(200, gamePanel.getPreferredSize().height));
         add( controlPanel, BorderLayout.EAST);
 
@@ -78,6 +79,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
+       // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
