@@ -44,7 +44,7 @@ public abstract class AbstractGameManager implements GameManager {
     /////////// Actions ///////////////////
 
     public void initialize(){ 
-        // pour le moment pas d'actions spéciales à faire
+        gamePlayer.initialize();
     }
 
     /**
@@ -90,10 +90,10 @@ public abstract class AbstractGameManager implements GameManager {
                 gamePlayer.start();
                 break;
             case RESTART:
-
+                gamePlayer.pause();
                 break;
             case QUIT:
-            	
+                gamePlayer.pause();
                 break;
             default:
                 break;
