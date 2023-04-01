@@ -103,6 +103,12 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             case RESTART:
                 view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
+                view.dispose();
+                super.loadNewGame();
+                view = new GameFrameImpl("View tetris");
+                initialize();
+              
+
                 break;
             case QUIT:
                 view.getGamePanel().pauseActionLoop();
