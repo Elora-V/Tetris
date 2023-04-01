@@ -100,13 +100,14 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
                 break;
+
             case RESTART:
                 view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
-                view.dispose();
-                super.loadNewGame();
-                view = new GameFrameImpl("View tetris");
-                initialize();
+                super.loadNewGame(); // nouveau player
+                super.getPlayer().setPanel(view.getGamePanel());  // on donne au player la vue
+                super.initialize(); // initialisation du player
+                view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
               
 
                 break;
