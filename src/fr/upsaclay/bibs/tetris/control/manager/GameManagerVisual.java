@@ -28,7 +28,8 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
 
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
-        view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
+        view = new GameFrameImpl("--- Tetris Game ---"); // on donne au manager la fenetre view
+        super.getPlayer().setPanel(view.getGamePanel()); // on donne au gameplayer un sous panel de view
     }
     /**
      * Initialize the game Manager
@@ -65,7 +66,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     	if (super.getPlayerType()!=PlayerType.HUMAN) {
     		throw new UnsupportedOperationException("playertype not implemented");
     	}
-
         super.setGamePlayer( new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
         
     }
@@ -120,7 +120,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 break;
 
         }
-
     }
 
     /**
