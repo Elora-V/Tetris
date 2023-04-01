@@ -35,7 +35,7 @@ public class GameManagerSimple extends AbstractGameManager {
      * UnsupportedOperationException
      */
     @Override
-    public void createPlayer(){ // mettre erreur ??
+    public void createPlayer(){
     	if (super.getPlayerType()!=PlayerType.HUMAN) {
     		throw new UnsupportedOperationException("playertype not implemented");
     	}

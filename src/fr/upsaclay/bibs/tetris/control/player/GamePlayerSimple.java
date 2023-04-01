@@ -205,7 +205,6 @@ public class GamePlayerSimple implements GamePlayer{
         // on donne le tétromino suivant
         if(isOver()){ // on vérifie d'abord que le jeu n'est pas fini
             activeGame=false;
-            System.out.println("passage en false");
         }
         if (activeGame) {
             grid.setTetromino(provider.next());

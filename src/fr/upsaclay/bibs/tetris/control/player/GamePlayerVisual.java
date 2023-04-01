@@ -63,7 +63,9 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     }
 
     @Override
-    public boolean isOver(){return super.isOver();}
+    public boolean isOver(){
+        return super.isOver();
+    }
 
 
     @Override
@@ -92,6 +94,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
      */
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (super.getGridView().getTetromino() != null) // on ne fait les actions que si on a un tétromino surlequel les appliquer
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_Q:
@@ -123,7 +126,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {  // action timer
         super.performAction(TetrisAction.DOWN);
         panel.setLoopDelay( super.whichDelay());
     }
