@@ -81,7 +81,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
         gameInfoPanel.setLayout(null);
 
-                ///// next tetromino ///////
+        ///// next tetromino ///////
 
         for (int i=0;i<nbNextTet;i++) {
             TetrominoPanel panelPourListe=new TetrominoPanel(Integer.valueOf(nbNextTet-i)+"° Next");

@@ -36,6 +36,9 @@ public enum ManagerAction {
 	 * Quit the current game
 	 */
 	QUIT,
+
+	MUSIC,
+
 	/**
 	 * Save the current game
 	 */

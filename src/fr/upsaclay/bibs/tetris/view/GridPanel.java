@@ -72,7 +72,7 @@ public class GridPanel extends JPanel {
 
                 TetrisCell cell = grid.visibleCell(i, j);
                 if (cell != TetrisCell.EMPTY) {
-                    Color colcell=Color.decode("#6c7687"); // couleur par default
+                    Color colcell =Color.decode("#6c7687"); // couleur par default
                     if( !(pause || end)){
                         colcell = GamePanelImpl.ReturnColorCase(cell); // si le jeu est pas en pause : vrai couleur
                     }

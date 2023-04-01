@@ -33,7 +33,7 @@ public class GamePlayerSimple implements GamePlayer{
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
         //this.initialize(grid, scoreComputer, provider);
-    	score=scoreComputer;
+        score=scoreComputer;
         this.grid=grid;
         this.provider=provider;
         this.typeHuman=type;
