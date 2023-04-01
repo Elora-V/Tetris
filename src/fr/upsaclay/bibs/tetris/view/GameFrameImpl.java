@@ -14,6 +14,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     GamePanelImpl gamePanel; // au centre : la grille
     JPanel controlPanel; // à droite : les options de jeu
+   
+    
 
 
 
