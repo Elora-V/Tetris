@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.tetris.control.player;
 
 import java.io.PrintStream;
+import java.util.Timer;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
@@ -21,15 +22,17 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 public interface GamePlayer {
 
 
+//
+//	/**
+//	 * Initialiaze the player
+//	 * @param grid a TetrisGris
+//	 * @param scoreComputer a ScoreComputer
+//	 * @param provider a TetrominoProvider
+//	 */
+	//public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider);
 
-	/**
-	 * Initialiaze the player 
-	 * @param grid a TetrisGris
-	 * @param scoreComputer a ScoreComputer
-	 * @param provider a TetrominoProvider
-	 */
-	public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider);
-	
+	// ajout
+	public void initialize();
 	/**
 	 * Return the player type (HUMAN / AI)
 	 * @return a PlayerType
@@ -41,7 +44,7 @@ public interface GamePlayer {
 	 * @param out
 	 */
 	public void setLogPrintStream(PrintStream out);
-	
+
 	/**
 	 * Return the current level
 	 * @return the levle
@@ -109,5 +112,7 @@ public interface GamePlayer {
 	 * @return the held tetromino if it exists or null
 	 */
 	public Tetromino getHeldTetromino();
-	
+
+	// ajout :
+    public TetrominoProvider getProvider();
 }

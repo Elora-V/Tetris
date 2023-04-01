@@ -3,6 +3,7 @@ package fr.upsaclay.bibs.tetris.view;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 
@@ -43,14 +44,16 @@ public interface GamePanel extends GameViewPanel {
 	 * @param view
 	 */
 	public void setGridView(TetrisGridView view);
-	
+
+	// ajout :
+	public void setGamePlayer(GamePlayer player);
 	/**
 	 * Adds an action listener to be called at certain time 
 	 * intervals
 	 * @param listener
 	 */
 	public void setLoopAction(ActionListener listener);
-	
+
 	/**
 	 * starts the action loop
 	 */

@@ -18,8 +18,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+
 public class GameManagerVisual extends AbstractGameManager implements ActionListener{
 
+    //ActionListener des boutons
     // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
     private GameFrameImpl view;
 
@@ -27,9 +29,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
         view = new GameFrameImpl("View tetris"); // on donne au controleur la fenetre (en plus des action faite par SIMPLE)
-        System.out.println("GMV");
-        //initialize(); // initialisation du player et de la vue
-        
     }
     /**
      * Initialize the game Manager
@@ -43,11 +42,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     @Override
     public void initialize(){
         super.initialize(); // initialisation du player
+        view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le modèle à la vue
         view.initialize(); // initialisation de la vue
         view.attachManagerActionListener(this); // ajout de listener à la vue
-
-        // faire les autres liens avec la vue :
-                // donner les elements necessaire à la view : grille, provider?
 
     }
 
@@ -91,21 +88,25 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         switch (action) {
             case START:
                 view.drawGamePlayView();
-                System.out.println("GM drawGamePlayView()");
+                view.getGamePanel().startActionLoop();
                              
                 break;
             case PAUSE:
                 view.drawGamePauseView();
-                
+                view.getGamePanel().pauseActionLoop();
+
                 break;
             case RESUME:
                 view.drawGamePlayView();
+                view.getGamePanel().startActionLoop();
                 break;
             case RESTART:
+                view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
-                System.out.println("GM drawManagementView");
+
                 break;
             case QUIT:
+                view.getGamePanel().pauseActionLoop();
             	view.setVisible(false);
             	view.dispose();
             	System.exit(1);
@@ -116,9 +117,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         }
 
     }
-
- 
-
 
     /**
      * starts the player (i.e. the actual game)
