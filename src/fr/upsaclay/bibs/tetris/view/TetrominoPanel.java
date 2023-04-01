@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class TetrominoPanel extends JPanel {
@@ -13,13 +14,18 @@ public class TetrominoPanel extends JPanel {
     Tetromino tet;
     int width;
     int height;
+    String name;
 
 
-    public TetrominoPanel(){
-        super();
+    public TetrominoPanel(String name){
+        this.name=name;
     }
     public void initialise(){
         setBackground(Color.white);
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(name);
+        title.setTitleColor(Color.decode("#6c7687"));
+        setBorder(title);
     }
     @Override
     public void paintComponent(Graphics g) {

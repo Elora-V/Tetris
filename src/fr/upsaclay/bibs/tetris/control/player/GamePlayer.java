@@ -9,6 +9,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 /**
  * The controller for an ongoing game
@@ -33,6 +34,9 @@ public interface GamePlayer {
 
 	// ajout
 	public void initialize();
+
+	//ajout
+	public void setPanel(GamePanelImpl panel);
 	/**
 	 * Return the player type (HUMAN / AI)
 	 * @return a PlayerType
