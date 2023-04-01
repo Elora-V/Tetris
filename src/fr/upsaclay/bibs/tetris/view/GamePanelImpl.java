@@ -131,7 +131,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
 
     }
-
+    
 
     /**
      * Draw itself for the "management view" (before a game is started,
