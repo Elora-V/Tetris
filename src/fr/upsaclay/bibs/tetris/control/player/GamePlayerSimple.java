@@ -11,6 +11,7 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
+import java.util.Timer;
 
 public class GamePlayerSimple implements GamePlayer{
 
@@ -27,6 +28,7 @@ public class GamePlayerSimple implements GamePlayer{
     boolean alreadyHold=false;
 
     int delay;
+    Timer timer;
 
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
@@ -77,10 +79,6 @@ public class GamePlayerSimple implements GamePlayer{
      */
     public int getLevel(){
         return score.getLevel();
-    }
-
-    public TetrominoProvider getProvider(){
-        return  provider;
     }
 
 
@@ -169,6 +167,10 @@ public class GamePlayerSimple implements GamePlayer{
      */
     public TetrisGridView getGridView(){
         return grid;
+    }
+
+    public TetrominoProvider getProvider(){
+        return provider;
     }
 
     /**

@@ -3,10 +3,7 @@ package fr.upsaclay.bibs.tetris.view;
 
 import fr.upsaclay.bibs.tetris.control.manager.GameManager;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
-import fr.upsaclay.bibs.tetris.model.grid.Mygrid;
-import fr.upsaclay.bibs.tetris.model.grid.TetrisCell;
-import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
-import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
+import fr.upsaclay.bibs.tetris.model.grid.*;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
@@ -15,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.security.Provider;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,17 +22,20 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     int nbcols=GameManager.DEFAULT_COLS;
 
     TetrisGridView grid;
-    TetrominoProvider provider; // set
     GamePlayer player;
+    TetrominoProvider provider;
+    int score;
+    int lines;
+    int level;
+
+
     JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
-
-
     GridPanel gridPanel; // pour la grille
 
     // les sous-panel de gameInfoPanel :
-    TetrominoPanel HoldTetroPanel;
-    TetrominoPanel nextTetroPanel;
-    JPanel scorepanel;
+    //TetrominoPanel HoldTetroPanel;
+    //TetrominoPanel nextTetroPanel;
+    //JPanel scorepanel;
 
     Timer timer;
     public static final int INITIAL_DELAY=2000; // in ms
@@ -43,17 +44,15 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public GamePanelImpl() {
         gridPanel=new GridPanel(); // sous-panel pour la grille (droite)
 
-
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
-        gameInfoPanel.setBackground(Color.WHITE);
-        gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
 
-        HoldTetroPanel=new TetrominoPanel(); // sera dans nextTetroPanel en bas
-        HoldTetroPanel.setBackground(Color.DARK_GRAY);
-        nextTetroPanel=new TetrominoPanel(); // sera en haut de nextTetroPanel
-        nextTetroPanel.setBackground(Color.BLUE);
-        scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
-        scorepanel.setBackground(Color.RED);
+
+        //HoldTetroPanel=new TetrominoPanel(); // sera dans nextTetroPanel en bas
+        //HoldTetroPanel.setBackground(Color.DARK_GRAY);
+        //nextTetroPanel=new TetrominoPanel(); // sera en haut de nextTetroPanel
+        //nextTetroPanel.setBackground(Color.BLUE);
+        //scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
+        //scorepanel.setBackground(Color.RED);
         // Create the loop timer
         timer = new Timer(INITIAL_DELAY, null);
     }
@@ -63,20 +62,26 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void initialize(){
-
         ////////////// gridPanel ////////////////////////
 
+        gridPanel.initialise();
         gridPanel.setGrid(grid);
         gridPanel.setDim(nblines,nbcols);
 
-        ////////////// nextTetroPanel ////////////////////////
-        HoldTetroPanel.setTet();
-        gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
-        gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
-        gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
+
+        ////////////// gameInfoPanel ////////////////////////
+
+        gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
+
+        //gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
+        //gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
+        //gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
+
+        //////////// ADD panel ////////////
+
         add(gameInfoPanel,BorderLayout.WEST);
-        
         add(gridPanel,BorderLayout.EAST);
+
 
     }
 
@@ -89,10 +94,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawManagementView(){
-    	gameInfoPanel.setVisible(false);
-    	gridPanel.setVisible(false);
-    	update();
-    	System.out.println("GPI drawManagementView ");
+        gameInfoPanel.setVisible(false);
+        gridPanel.setVisible(false);
+        update();
     }
 
     /**
@@ -106,7 +110,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
         update();
-        System.out.println("GPI drawGamePlayView ");
     }
 
     /**
@@ -114,10 +117,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePauseView(){
-    	gameInfoPanel.setVisible(true);
-    	gridPanel.setVisible(true);
-    	update();
-    	System.out.println("GPI drawGamePauseView ");
+        gameInfoPanel.setVisible(true);
+        gridPanel.setVisible(true);
+        update();
     }
 
     /**
@@ -136,8 +138,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gridPanel.paintComponent(g);
     }
 
-    public static Color ReturnColorCase(TetrisCell shape) {
-        switch (shape){
+    public static Color ReturnColorCase(TetrisCell cell) {
+        switch (cell){
             case I:
                 return Color.BLUE;
             case J:
@@ -186,6 +188,16 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         grid=view;
     }
 
+    public Timer getTimer(){
+        return  timer;
+    }
+    public void setGamePlayer(GamePlayer player){
+        this.player = player;
+        this.grid = player.getGridView();
+        this.provider=player.getProvider();
+    }
+
+
     /**
      * Adds an action listener to be called at certain time
      * intervals
@@ -221,11 +233,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         timer.setDelay(ms);
     }
 
-    public void setGamePlayer(GamePlayer player){
-        this.player = player;
-        this.grid = player.getGridView(); // Avoir acces a la grid
-        this.provider = player
-    }
+
 
     /**
      * visual interface reaction to certain events in the game
@@ -244,7 +252,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateScore(int score){
-        throw new UnsupportedOperationException("Not implemented");
+        this.score=score;
     }
 
     /**
@@ -253,7 +261,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateScoreLines(int lines){
-        throw new UnsupportedOperationException("Not implemented");
+        this.lines=lines;
     }
 
     /**
@@ -262,7 +270,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateLevel(int level){
-        throw new UnsupportedOperationException("Not implemented");
+        this.level=level;
     }
 
     /**
@@ -271,7 +279,12 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateHeldTetromino(Tetromino tetromino){
-        throw new UnsupportedOperationException("Not implemented");
+        //HoldTetroPanel.setTet(tetromino);
+    }
+
+    // ajout :
+    public void updateGrid(TetrisGridView grid){
+        gridPanel.setGrid(grid);
     }
 
     /**
@@ -280,7 +293,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateNextTetrominos(List<Tetromino> tetrominos){
-        throw new UnsupportedOperationException("Not implemented");
+        // 1 seul tetromino suivant pour le moment
+        //nextTetroPanel.setTet(tetrominos.get(0));
     }
 
     /**
@@ -288,7 +302,26 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void update(){
+
+        // mis à jour grille
+        updateGrid(grid);
+
+        // mis à jour tetromino suivant
+        //List<Tetromino> nextTetro=new ArrayList<Tetromino>();
+        //nextTetro.add(provider.showNext(0));
+        //updateNextTetrominos(nextTetro);
+
+        // mis à jour holdtetromino
+        //updateHeldTetromino(player.getHeldTetromino());
+
+        // mis à jour score
+
+                    // a faire
+
+        // repaint
         gridPanel.repaint();
+        //nextTetroPanel.repaint();
+        //HoldTetroPanel.repaint();
         gameInfoPanel.repaint();
     }
 }
