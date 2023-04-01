@@ -63,6 +63,11 @@ public class GamePlayerSimple implements GamePlayer{
         return typeHuman;
     }
 
+    @Override
+    public void setPanel(GamePanelImpl panel){}; // on la définit car la méthode a été ajoutée dans l'interface
+                                                // sans ça on aurait pas accès à la méthode pour le visual
+                                                // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
+
     public void setAlreadyHold(boolean alreadyHold){
         this.alreadyHold=alreadyHold;
     }

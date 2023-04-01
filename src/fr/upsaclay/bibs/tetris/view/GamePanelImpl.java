@@ -9,6 +9,7 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoShape;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.security.Provider;
@@ -39,24 +40,25 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     TetrominoPanel HoldTetroPanel;
     JPanel nextTetroPanel;
     List<TetrominoPanel> listNextPanel;
-    JPanel scorepanel;
+    JPanel scorePanel;
 
     Timer timer;
     public static final int INITIAL_DELAY=2000; // in ms
     public static final int MIN_DELAY=100;
 
     public GamePanelImpl() {
+
         gridPanel=new GridPanel(); // sous-panel pour la grille (droite)
 
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
 
         // les sous-panels de gameInfoPanel
-        HoldTetroPanel=new TetrominoPanel(); // sera dans nextTetroPanel en bas
+        HoldTetroPanel=new TetrominoPanel("Held tetromino"); // sera dans nextTetroPanel en bas
 
         listNextPanel= new ArrayList<>();
         nextTetroPanel=new JPanel(); // sera en haut de nextTetroPanel
 
-        scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
+        scorePanel=new JPanel(); //sera au milieu de nextTetroPanel
 
         // Create the loop timer
         timer = new Timer(INITIAL_DELAY, null);
@@ -77,25 +79,42 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         ////////////// gameInfoPanel ////////////////////////
 
         gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
+        gameInfoPanel.setLayout(null);
 
                 ///// next tetromino ///////
 
         for (int i=0;i<nbNextTet;i++) {
-            TetrominoPanel panelPourListe=new TetrominoPanel();
+            TetrominoPanel panelPourListe=new TetrominoPanel(Integer.valueOf(nbNextTet-i)+"° Next");
             panelPourListe.initialise();
-            panelPourListe.setDim(gridPanel.getPreferredSize().height/(2*nbNextTet),gridPanel.getPreferredSize().height/(2*nbNextTet));
+            panelPourListe.setDim(gameInfoPanel.getPreferredSize().width/(nbNextTet+1),gameInfoPanel.getPreferredSize().width/(nbNextTet+1));
             listNextPanel.add(panelPourListe); // ajout de panel pour tetromino vide dans la liste
             nextTetroPanel.add(panelPourListe); // et sur le panneau
         }
+
         gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
+        nextTetroPanel.setBounds(0,gameInfoPanel.getPreferredSize().height/8,gameInfoPanel.getPreferredSize().width,gameInfoPanel.getPreferredSize().width/(nbNextTet+1));
 
                 ///// score ///////
 
-        labelScore=new JLabel("Score :"+ String.valueOf(score));
-        labelLevel=new JLabel("Level :"+ String.valueOf(level));
-        scorepanel.add(labelScore);
-        scorepanel.add(labelLevel);
-        gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
+        TitledBorder titleScore;
+        titleScore = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#6c7687"))," Score ");
+        titleScore.setTitleColor(Color.decode("#6c7687"));
+        scorePanel.setBorder(titleScore);
+        scorePanel.setPreferredSize(new Dimension(gameInfoPanel.getPreferredSize().width,gridPanel.getPreferredSize().height/6));
+        scorePanel.setLayout(null);
+                        ////// score label //////
+        labelScore=new JLabel("Score  :  "+ String.valueOf(score));
+        scorePanel.add(labelScore);
+        labelScore.setForeground(Color.decode("#6c7687"));
+        labelScore.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height/3,labelScore.getPreferredSize().width,labelScore.getPreferredSize().height);
+                        ////// level label //////
+        labelLevel=new JLabel("Level  :  "+ String.valueOf(level));
+        scorePanel.add(labelLevel);
+        labelLevel.setForeground(Color.decode("#6c7687"));
+        labelLevel.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height*2/3,labelLevel.getPreferredSize().width,labelLevel.getPreferredSize().height);
+
+        gameInfoPanel.add(scorePanel,BorderLayout.CENTER);
+        scorePanel.setBounds(0,gameInfoPanel.getPreferredSize().height *3/8,scorePanel.getPreferredSize().width,scorePanel.getPreferredSize().height);
 
         ///// held tetromino ///////
 
@@ -103,7 +122,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         HoldTetroPanel.setDim(gridPanel.getPreferredSize().height/4,gridPanel.getPreferredSize().height/4);
         HoldTetroPanel.setTet(null);
         gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
-
+        HoldTetroPanel.setBounds(gameInfoPanel.getPreferredSize().width/4,gameInfoPanel.getPreferredSize().height *5/8, HoldTetroPanel.getPreferredSize().width,HoldTetroPanel.getPreferredSize().height);
 
         //////////// Add panel ////////////
 
@@ -137,6 +156,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public void drawGamePlayView(){
         gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
+        gridPanel.setVisualPlay();
         update();
     }
 
@@ -145,8 +165,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePauseView(){
+
         gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
+        gridPanel.setVisualPause();
         update();
     }
 
@@ -156,7 +178,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void drawEndGameView(){
         gameInfoPanel.setVisible(false);
-        gridPanel.setVisible(false);
+        gridPanel.setVisible(true);
+        gridPanel.setVisualEnd();
         update();
     }
 
@@ -169,21 +192,21 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public static Color ReturnColorCase(TetrisCell cell) {
         switch (cell){
             case I:
-                return Color.BLUE;
+                return Color.decode("#7cf4d1");
             case J:
-                return Color.red;
+                return Color.decode("#f4c77c");
             case L:
-                return Color.CYAN;
+                return Color.decode("#fa9bb5");
             case S:
-                return Color.GREEN;
+                return Color.decode("#b5fa9b");
             case O:
-                return Color.magenta;
+                return Color.decode("#f8fa9b");
             case Z:
-                return  Color.ORANGE;
+                return  Color.decode("#e06767");
             case T:
-                return Color.lightGray;
+                return Color.decode("#ed76eb");
             default:
-                return Color.black;
+                return Color.white;
         }
     }
 

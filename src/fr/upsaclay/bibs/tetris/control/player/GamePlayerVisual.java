@@ -21,18 +21,17 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     int delay; // in ms
 
     //contient la vue :
-    GamePanel panel;
+    GamePanelImpl panel;
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
        super(grid, scoreComputer, provider,type);
-       panel= new GamePanelImpl();
        delay=500; //a changer par la valeur initiale
 
     }
 
     public void initialize(){
-        panel.initialize();
+        super.initialize(); //fais rien, mais à mettre au cas où le game simple doit etre initialisé
         panel.setLoopAction(this);
         panel.setLoopDelay(delay);
     }
@@ -41,6 +40,10 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
         return super.getProvider();
     }
 
+    @Override
+    public void setPanel(GamePanelImpl panel){
+        this.panel=panel;
+    }
     /**
      * Starts the player
      *
@@ -63,11 +66,6 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public boolean isOver(){return super.isOver();}
 
 
-    @Override
-    public void ActionWhenMerge(){
-        super.ActionWhenMerge();
-        // ... mettre a jour le panneau pour qu'il affiche le nouveau score, la nouvelle grille (si ligne effacer à cause merge)...
-    }
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub

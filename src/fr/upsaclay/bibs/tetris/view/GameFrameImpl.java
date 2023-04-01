@@ -163,7 +163,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
      * @return a GamePanel
      */
     @Override
-    public GamePanel getGamePanel(){
+    public GamePanelImpl getGamePanel(){
         return gamePanel;
     }
 
