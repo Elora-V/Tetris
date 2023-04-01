@@ -37,7 +37,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     public GameFrameImpl(String name) {
         super(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
+        this.setResizable(false);
 
         // Create the drawPanel (where we draw the grid)
         gamePanel = new GamePanelImpl();

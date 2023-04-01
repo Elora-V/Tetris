@@ -39,16 +39,20 @@ public class GamePlayerSimple implements GamePlayer{
         this.typeHuman=type;
         delay=GamePanelImpl.INITIAL_DELAY;
     }
-    /**
-     * Initialiaze the player
-     * @param grid a TetrisGris
-     * @param scoreComputer a ScoreComputer
-     * @param provider a TetrominoProvider
-     */
-    public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider){
-    //    score=scoreComputer;
-      //  this.grid=grid;
-       // this.provider=provider;
+//    /**
+//     * Initialiaze the player
+//     * @param grid a TetrisGris
+//     * @param scoreComputer a ScoreComputer
+//     * @param provider a TetrominoProvider
+//     */
+//    public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider){
+//    //    score=scoreComputer;
+//      //  this.grid=grid;
+//       // this.provider=provider;
+//    }
+
+    public void initialize(){
+
     }
 
     /**

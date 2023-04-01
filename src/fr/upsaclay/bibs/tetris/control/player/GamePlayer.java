@@ -22,15 +22,17 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 public interface GamePlayer {
 
 
+//
+//	/**
+//	 * Initialiaze the player
+//	 * @param grid a TetrisGris
+//	 * @param scoreComputer a ScoreComputer
+//	 * @param provider a TetrominoProvider
+//	 */
+	//public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider);
 
-	/**
-	 * Initialiaze the player 
-	 * @param grid a TetrisGris
-	 * @param scoreComputer a ScoreComputer
-	 * @param provider a TetrominoProvider
-	 */
-	public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider);
-	
+	// ajout
+	public void initialize();
 	/**
 	 * Return the player type (HUMAN / AI)
 	 * @return a PlayerType

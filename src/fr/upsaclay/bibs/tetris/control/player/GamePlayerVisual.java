@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 
 public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,ActionListener {
 
+    // listener clavier et timer
     int delay; // in ms
 
     //contient la vue :
@@ -29,19 +30,11 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
        delay=500; //a changer par la valeur initiale
 
     }
-//communication game panel, calcul delay, score (recolter données pr score),debut-pause-fin,listener clavier,placer tetro,provider
-    //cycle tetro,vitesse tetro
 
-    /**
-     *
-     * initialize panel (?)
-     */
     public void initialize(){
         panel.initialize();
-
-        //panel.setLoopAction(...); //?
+        panel.setLoopAction(this);
         panel.setLoopDelay(delay);
-
     }
 
     public TetrominoProvider getProvider(){
@@ -88,13 +81,13 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-    	 switch (e.getKeyCode()) {
-    	 	case KeyEvent.VK_S:
-    	 		super.performAction(TetrisAction.END_SOFT_DROP);
-    	 		break;
-    	 }
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_S:
+                super.performAction(TetrisAction.END_SOFT_DROP);
+                break;
+        }
     }
-    	 
+
     /**
      * Fait les differentes actions en fonction des touches pressées du clavier
      *on a preferé pour des raisons ergonomiques l'utilisation des touches zqsd aux fléches

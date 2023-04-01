@@ -44,7 +44,7 @@ public abstract class AbstractGameManager implements GameManager {
     /////////// Actions ///////////////////
 
     public void initialize(){ 
-        // pour le moment pas d'actions spéciales à faire
+        gamePlayer.initialize();
     }
 
     /**

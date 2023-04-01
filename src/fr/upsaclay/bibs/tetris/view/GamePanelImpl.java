@@ -27,15 +27,19 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     int score;
     int lines;
     int level;
+    int nbNextTet=3;
+    JLabel labelScore;
+    JLabel labelLevel;
 
 
     JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
     GridPanel gridPanel; // pour la grille
 
     // les sous-panel de gameInfoPanel :
-    //TetrominoPanel HoldTetroPanel;
-    //TetrominoPanel nextTetroPanel;
-    //JPanel scorepanel;
+    TetrominoPanel HoldTetroPanel;
+    JPanel nextTetroPanel;
+    List<TetrominoPanel> listNextPanel;
+    JPanel scorepanel;
 
     Timer timer;
     public static final int INITIAL_DELAY=2000; // in ms
@@ -46,13 +50,14 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
 
+        // les sous-panels de gameInfoPanel
+        HoldTetroPanel=new TetrominoPanel(); // sera dans nextTetroPanel en bas
 
-        //HoldTetroPanel=new TetrominoPanel(); // sera dans nextTetroPanel en bas
-        //HoldTetroPanel.setBackground(Color.DARK_GRAY);
-        //nextTetroPanel=new TetrominoPanel(); // sera en haut de nextTetroPanel
-        //nextTetroPanel.setBackground(Color.BLUE);
-        //scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
-        //scorepanel.setBackground(Color.RED);
+        listNextPanel= new ArrayList<>();
+        nextTetroPanel=new JPanel(); // sera en haut de nextTetroPanel
+
+        scorepanel=new JPanel(); //sera au milieu de nextTetroPanel
+
         // Create the loop timer
         timer = new Timer(INITIAL_DELAY, null);
     }
@@ -73,11 +78,34 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
 
-        //gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
-        //gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
-        //gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
+                ///// next tetromino ///////
 
-        //////////// ADD panel ////////////
+        for (int i=0;i<nbNextTet;i++) {
+            TetrominoPanel panelPourListe=new TetrominoPanel();
+            panelPourListe.initialise();
+            panelPourListe.setDim(gridPanel.getPreferredSize().height/(2*nbNextTet),gridPanel.getPreferredSize().height/(2*nbNextTet));
+            listNextPanel.add(panelPourListe); // ajout de panel pour tetromino vide dans la liste
+            nextTetroPanel.add(panelPourListe); // et sur le panneau
+        }
+        gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
+
+                ///// score ///////
+
+        labelScore=new JLabel("Score :"+ String.valueOf(score));
+        labelLevel=new JLabel("Level :"+ String.valueOf(level));
+        scorepanel.add(labelScore);
+        scorepanel.add(labelLevel);
+        gameInfoPanel.add(scorepanel,BorderLayout.CENTER);
+
+        ///// held tetromino ///////
+
+        HoldTetroPanel.initialise();
+        HoldTetroPanel.setDim(gridPanel.getPreferredSize().height/4,gridPanel.getPreferredSize().height/4);
+        HoldTetroPanel.setTet(null);
+        gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
+
+
+        //////////// Add panel ////////////
 
         add(gameInfoPanel,BorderLayout.WEST);
         add(gridPanel,BorderLayout.EAST);
@@ -195,6 +223,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         this.player = player;
         this.grid = player.getGridView();
         this.provider=player.getProvider();
+        this.score=player.getScore();
+        this.lines= player.getLineScore();
+        this.level=player.getLevel();
     }
 
 
@@ -279,7 +310,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateHeldTetromino(Tetromino tetromino){
-        //HoldTetroPanel.setTet(tetromino);
+        HoldTetroPanel.setTet(tetromino);
     }
 
     // ajout :
@@ -293,8 +324,21 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateNextTetrominos(List<Tetromino> tetrominos){
-        // 1 seul tetromino suivant pour le moment
-        //nextTetroPanel.setTet(tetrominos.get(0));
+        for (int i=0;i<nbNextTet;i++){
+            if(i<tetrominos.size()){
+                TetrominoPanel panelList=listNextPanel.get(i); // on récupère le panneau
+                if (i>tetrominos.size()){
+                    panelList.setTet(null);
+                }else {
+                    panelList.setTet(tetrominos.get(nbNextTet-1-i)); // on lui donne sont nouveau tetromino
+                                                                     // de tel sorte que le dernier panel de la liste
+                                                                     // ait le suivant , et le premier panel le 'dernier' des suivant.
+                                                                     // On lit les panneaux de  droite à gauche
+                }
+                listNextPanel.set(i, panelList); // on le remet dans la liste
+            }
+        }
+
     }
 
     /**
@@ -307,16 +351,19 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         updateGrid(grid);
 
         // mis à jour tetromino suivant
-        //List<Tetromino> nextTetro=new ArrayList<Tetromino>();
-        //nextTetro.add(provider.showNext(0));
-        //updateNextTetrominos(nextTetro);
+        List<Tetromino> nextTetro=new ArrayList<Tetromino>();
+        for (int i=0;i<nbNextTet;i++){
+            nextTetro.add(provider.showNext(i));
+        }
+        updateNextTetrominos(nextTetro);
 
         // mis à jour holdtetromino
-        //updateHeldTetromino(player.getHeldTetromino());
+        updateHeldTetromino(player.getHeldTetromino());
 
         // mis à jour score
 
-                    // a faire
+        labelScore.setText("Score :"+ String.valueOf(score));
+        labelLevel.setText("Level :"+ String.valueOf(level));
 
         // repaint
         gridPanel.repaint();

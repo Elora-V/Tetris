@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class TetrominoPanel extends JPanel {
 
+    // ATTENTION inversion x et y !!
     Tetromino tet;
     int width;
     int height;
@@ -16,24 +17,25 @@ public class TetrominoPanel extends JPanel {
 
     public TetrominoPanel(){
         super();
+    }
+    public void initialise(){
         setBackground(Color.white);
     }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(int i =0 ; i < tet.getBoxSize(); i++) {
-            for (int j = 0; j < tet.getBoxSize(); j++) {
-                TetrisCell cell = tet.cell(i,j);
-                if(cell!=TetrisCell.EMPTY){
-                    Color colcell = GamePanelImpl.ReturnColorCase(cell);
-                    int pixelsCellWidth = width/tet.getBoxSize();
-                    int pixelsCellHeight =  height/tet.getBoxSize();
-                    g.fillRect(i * pixelsCellWidth, j * pixelsCellHeight, pixelsCellWidth, pixelsCellHeight);
-                    g.setColor(colcell);
-                    g.drawRect(i * pixelsCellWidth, j * pixelsCellHeight, pixelsCellWidth, pixelsCellHeight);
-                    // Definir deux autres classes
-                    // colorier et la faire apparaitre sur Jpanel
-                    // g.fillRect(i * GameFrame.PIXELS_PER_CELL, j * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+        if (tet != null) {
+            for (int i = 0; i < tet.getBoxSize(); i++) {
+                for (int j = 0; j < tet.getBoxSize(); j++) {
+                    TetrisCell cell = tet.cell(i, j);
+                    if (cell != TetrisCell.EMPTY) {
+                        Color colcell = GamePanelImpl.ReturnColorCase(cell);
+                        int pixelsCellWidth = width / tet.getBoxSize();
+                        int pixelsCellHeight = height / tet.getBoxSize();
+                        g.fillRect(j * pixelsCellHeight ,i * pixelsCellWidth , pixelsCellWidth, pixelsCellHeight);
+                        g.setColor(colcell);
+                        g.drawRect(j * pixelsCellHeight , i * pixelsCellWidth, pixelsCellWidth, pixelsCellHeight);
+                    }
                 }
             }
         }
