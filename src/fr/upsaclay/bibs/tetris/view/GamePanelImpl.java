@@ -224,7 +224,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public void setGamePlayer(GamePlayer player){
         this.player = player;
         this.grid = player.getGridView(); // Avoir acces a la grid
-        this.provider = player
+        //this.provider = play
     }
 
     /**
