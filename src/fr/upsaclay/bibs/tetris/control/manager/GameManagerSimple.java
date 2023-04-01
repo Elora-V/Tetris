@@ -35,12 +35,13 @@ public class GameManagerSimple extends AbstractGameManager {
      * UnsupportedOperationException
      */
     @Override
-    public void createPlayer(){ // mettre erreur ??
-        try {
-            super.setGamePlayer( new GamePlayerSimple(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
-        }catch (Exception e){
-            throw new UnsupportedOperationException();
-        }
+    public void createPlayer(){
+    	if (super.getPlayerType()!=PlayerType.HUMAN) {
+    		throw new UnsupportedOperationException("playertype not implemented");
+    	}
+
+        super.setGamePlayer( new GamePlayerSimple(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
+        
     }
     public void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines){ // mettre erreur ??
         try {

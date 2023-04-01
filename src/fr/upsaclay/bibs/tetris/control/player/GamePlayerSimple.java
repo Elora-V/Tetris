@@ -11,6 +11,7 @@ import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
+import java.util.Timer;
 
 public class GamePlayerSimple implements GamePlayer{
 
@@ -27,6 +28,7 @@ public class GamePlayerSimple implements GamePlayer{
     boolean alreadyHold=false;
 
     int delay;
+    Timer timer;
 
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
@@ -37,16 +39,20 @@ public class GamePlayerSimple implements GamePlayer{
         this.typeHuman=type;
         delay=GamePanelImpl.INITIAL_DELAY;
     }
-    /**
-     * Initialiaze the player
-     * @param grid a TetrisGris
-     * @param scoreComputer a ScoreComputer
-     * @param provider a TetrominoProvider
-     */
-    public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider){
-    //    score=scoreComputer;
-      //  this.grid=grid;
-       // this.provider=provider;
+//    /**
+//     * Initialiaze the player
+//     * @param grid a TetrisGris
+//     * @param scoreComputer a ScoreComputer
+//     * @param provider a TetrominoProvider
+//     */
+//    public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider){
+//    //    score=scoreComputer;
+//      //  this.grid=grid;
+//       // this.provider=provider;
+//    }
+
+    public void initialize(){
+
     }
 
     /**
@@ -56,6 +62,11 @@ public class GamePlayerSimple implements GamePlayer{
     public PlayerType getType(){
         return typeHuman;
     }
+
+    @Override
+    public void setPanel(GamePanelImpl panel){}; // on la définit car la méthode a été ajoutée dans l'interface
+                                                // sans ça on aurait pas accès à la méthode pour le visual
+                                                // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
 
     public void setAlreadyHold(boolean alreadyHold){
         this.alreadyHold=alreadyHold;
@@ -77,10 +88,6 @@ public class GamePlayerSimple implements GamePlayer{
      */
     public int getLevel(){
         return score.getLevel();
-    }
-
-    public TetrominoProvider getProvider(){
-        return  provider;
     }
 
 
@@ -171,6 +178,10 @@ public class GamePlayerSimple implements GamePlayer{
         return grid;
     }
 
+    public TetrominoProvider getProvider(){
+        return provider;
+    }
+
     /**
      * Return the held tetromino (saved for later)
      * @return the held tetromino if it exists or null
@@ -194,7 +205,6 @@ public class GamePlayerSimple implements GamePlayer{
         // on donne le tétromino suivant
         if(isOver()){ // on vérifie d'abord que le jeu n'est pas fini
             activeGame=false;
-            System.out.println("passage en false");
         }
         if (activeGame) {
             grid.setTetromino(provider.next());

@@ -37,11 +37,14 @@ public abstract class AbstractGameManager implements GameManager {
 
     // la vue est dans la classe fille visual
 
-
+    public void createPlayer() {
+    	throw new UnsupportedOperationException();
+    	
+    }
     /////////// Actions ///////////////////
 
-    public void initialize(){
-        // pour le moment pas d'actions spéciales à faire
+    public void initialize(){ 
+        gamePlayer.initialize();
     }
 
     /**
@@ -87,10 +90,11 @@ public abstract class AbstractGameManager implements GameManager {
                 gamePlayer.start();
                 break;
             case RESTART:
-
+                gamePlayer.pause();
+                // restart non fonctionnel en simple, ce n'est pas grave ici car on ne fera restart qu'avec bouton (donc en visuel)
                 break;
             case QUIT:
-            	
+                gamePlayer.pause();
                 break;
             default:
                 break;

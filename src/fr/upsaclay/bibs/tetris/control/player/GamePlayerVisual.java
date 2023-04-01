@@ -17,37 +17,33 @@ import java.awt.event.ActionEvent;
 
 public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,ActionListener {
 
+    // listener clavier et timer
     int delay; // in ms
 
     //contient la vue :
-    GamePanel panel;
+    GamePanelImpl panel;
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
        super(grid, scoreComputer, provider,type);
-       panel= new GamePanelImpl();
        delay=500; //a changer par la valeur initiale
 
     }
-//communication game panel, calcul delay, score (recolter données pr score),debut-pause-fin,listener clavier,placer tetro,provider
-    //cycle tetro,vitesse tetro
 
-    /**
-     *
-     * initialize panel (?)
-     */
     public void initialize(){
-        panel.initialize();
-
-        //panel.setLoopAction(...); //?
+        super.initialize(); //fais rien, mais à mettre au cas où le game simple doit etre initialisé
+        panel.setLoopAction(this);
         panel.setLoopDelay(delay);
-
     }
 
     public TetrominoProvider getProvider(){
         return super.getProvider();
     }
 
+    @Override
+    public void setPanel(GamePanelImpl panel){
+        this.panel=panel;
+    }
     /**
      * Starts the player
      *
@@ -67,14 +63,11 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     }
 
     @Override
-    public boolean isOver(){return super.isOver();}
-
-
-    @Override
-    public void ActionWhenMerge(){
-        super.ActionWhenMerge();
-        // ... mettre a jour le panneau pour qu'il affiche le nouveau score, la nouvelle grille (si ligne effacer à cause merge)...
+    public boolean isOver(){
+        return super.isOver();
     }
+
+
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
@@ -88,19 +81,20 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-    	 switch (e.getKeyCode()) {
-    	 	case KeyEvent.VK_S:
-    	 		super.performAction(TetrisAction.END_SOFT_DROP);
-    	 		break;
-    	 }
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_S:
+                super.performAction(TetrisAction.END_SOFT_DROP);
+                break;
+        }
     }
-    	 
+
     /**
      * Fait les differentes actions en fonction des touches pressées du clavier
      *on a preferé pour des raisons ergonomiques l'utilisation des touches zqsd aux fléches
      */
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (super.getGridView().getTetromino() != null) // on ne fait les actions que si on a un tétromino surlequel les appliquer
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_Q:
@@ -132,7 +126,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {  // action timer
         super.performAction(TetrisAction.DOWN);
         panel.setLoopDelay( super.whichDelay());
     }
