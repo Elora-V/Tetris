@@ -36,6 +36,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
         super.initialize(); //fais rien, mais à mettre au cas où le game simple doit etre initialisé
         panel.setLoopAction(this);
         panel.setLoopDelay(delay);
+        System.out.println("initialize");
     }
 
     public TetrominoProvider getProvider(){
@@ -135,5 +136,6 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
         super.performAction(TetrisAction.DOWN);
         panel.setLoopDelay(super.whichDelay());
         panel.update();
+        
     }
 }

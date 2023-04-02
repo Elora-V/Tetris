@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import javax.sound.sampled.*;
+import javax.swing.SwingUtilities;
 
 public class GameManagerVisual extends AbstractGameManager implements ActionListener{
 
@@ -101,16 +102,27 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 break;
 
             case RESTART:
+            	
                 if(currentClip!=null){
                     currentClip.stop();
                     currentClip = null;
                 }
-                view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
-                super.loadNewGame(); // nouveau player
-                super.getPlayer().setView(view);  // on donne au player la vue
-                super.initialize(); // initialisation du player
-                view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
+                view.getGamePanel().pauseActionLoop();
+                
+                view.dispose();
+                SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize());
+                /*
+                 * A ameliorer : on peut surement réussir à réinitialisé de la bonne façon pour que la loop reboot
+                 */
+                
+                //super.loadNewGame(); // nouveau player
+                //super.getPlayer().setView(view);  // on donne au player la vue
+                //super.initialize(); // initialisation du player
+                
+                //view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
+                
+                
                 break;
 
             case QUIT:
@@ -146,7 +158,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             default:
                 break;
 
-        }
+        }  
     }
 
     /**
