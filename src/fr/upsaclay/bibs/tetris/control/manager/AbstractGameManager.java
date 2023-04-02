@@ -96,6 +96,8 @@ public abstract class AbstractGameManager implements GameManager {
             case QUIT:
                 gamePlayer.pause();
                 break;
+            case MUSIC:
+                gamePlayer.start(); // pour recupérer le clavier
             default:
                 break;
 
