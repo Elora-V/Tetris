@@ -166,6 +166,13 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public void pausePlayer(){
         super.getPlayer().pause();
     }
-
+    
+    //class UpdateActionListener implements ActionListener {
+    	//public void actionPerformed(ActionEvent e) {
+			//field.evolve();
+			//view.update();
+	//	}
+   // }
 
 }
+
