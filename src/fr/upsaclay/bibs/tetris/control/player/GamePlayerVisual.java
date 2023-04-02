@@ -104,7 +104,6 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_Q:
                     super.performAction(TetrisAction.MOVE_LEFT);
-                    System.out.println(" touche Q");
                     break;
                 case KeyEvent.VK_D:
                     super.performAction(TetrisAction.MOVE_RIGHT);
