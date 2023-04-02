@@ -8,6 +8,7 @@ import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputerImpl;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
@@ -25,7 +26,7 @@ public class GamePlayerSimple implements GamePlayer{
 
     boolean activeGame=false;
     boolean beginning=true;
-    boolean softDrop=false;
+    boolean softDrop;
     boolean alreadyHold=false;
 
     int delay;
@@ -34,10 +35,11 @@ public class GamePlayerSimple implements GamePlayer{
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
         //this.initialize(grid, scoreComputer, provider);
-    	score=scoreComputer;
+        score=scoreComputer;
         this.grid=grid;
         this.provider=provider;
         this.typeHuman=type;
+        softDrop=false;
         delay=GamePanelImpl.INITIAL_DELAY;
     }
 //    /**
@@ -65,7 +67,9 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
     @Override
-    public void setPanel(GamePanelImpl panel){}; // on la définit car la méthode a été ajoutée dans l'interface
+    public void setView(GameFrameImpl view){
+
+    }; // on la définit car la méthode a été ajoutée dans l'interface
                                                 // sans ça on aurait pas accès à la méthode pour le visual
                                                 // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
 
@@ -295,7 +299,7 @@ public class GamePlayerSimple implements GamePlayer{
 
 
     protected int whichDelay() {
-        delay=GamePanelImpl.INITIAL_DELAY-100;
+        delay=GamePanelImpl.INITIAL_DELAY-100*(getLevel()/2); // on change le delai 1 niveau sur 2
         if(softDrop){
             delay=delay-100; // si on est en softdrop le delay diminue
         }

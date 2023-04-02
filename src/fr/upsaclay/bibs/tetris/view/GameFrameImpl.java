@@ -36,6 +36,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton restart2Button;
     ManagerButton comandeButton;
 
+    ManagerButton music;
+
     public GameFrameImpl(String name) {
         super(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,9 +56,9 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
-        add( gamePanel,BorderLayout.WEST);
+        add(gamePanel,BorderLayout.WEST);
         controlPanel.setPreferredSize(new Dimension(200, gamePanel.getPreferredSize().height));
-        add( controlPanel,BorderLayout.EAST);
+        add(controlPanel,BorderLayout.EAST);
 
 
         ///////////////// Creation des éléments de management//////////////
@@ -72,7 +74,9 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel = new JPanel();
         playPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         playPanel.add(pauseButton);
+        playPanel.add(music);
         controlPanel.add(playPanel);
+
 
         /////////////////  The pause panel (when the game is on pause) /////////////////
         pausePanel = new JPanel();
@@ -80,7 +84,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
-       // pausePanel.add(comandeButton);
+        // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
@@ -194,6 +198,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         ///// Bouton radio
 
+        music=new ManagerButton("Audio");
+        music.setManagerAction(ManagerAction.MUSIC);
                 // quand on aura des options (fichier/random ?)
         // ManagerRadioButton r1=new ManagerRadioButton("option A");
         // ManagerRadioButton r2=new ManagerRadioButton("option B");
@@ -219,6 +225,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quitButton.addActionListener(listener);
         restart2Button.addActionListener(listener);
         quit2Button.addActionListener(listener);
+        music.addActionListener(listener);
     }
 
     /** 
@@ -232,7 +239,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     @Override
     public void startGameKeyListener(KeyListener listener){
         addKeyListener(listener);
-        //requestFocus(); à ajouter si on voit que c'est necessaire
+        requestFocus(); //à ajouter si on voit que c'est necessaire
     }
 
     /**

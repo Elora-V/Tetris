@@ -91,10 +91,13 @@ public abstract class AbstractGameManager implements GameManager {
                 break;
             case RESTART:
                 gamePlayer.pause();
+                // restart non fonctionnel en simple, ce n'est pas grave ici car on ne fera restart qu'avec bouton (donc en visuel)
                 break;
             case QUIT:
                 gamePlayer.pause();
                 break;
+            case MUSIC:
+                gamePlayer.start(); // pour recupérer le clavier même quand il y a la musique
             default:
                 break;
 

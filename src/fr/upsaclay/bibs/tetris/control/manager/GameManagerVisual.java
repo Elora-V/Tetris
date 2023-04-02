@@ -17,7 +17,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
+import javax.sound.sampled.*;
 
 public class GameManagerVisual extends AbstractGameManager implements ActionListener{
 
@@ -25,11 +27,12 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
     private GameFrameImpl view;
 
+    private Clip currentClip; // Keeps in memory the state of the music
 
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
         view = new GameFrameImpl("--- Tetris Game ---"); // on donne au manager la fenetre view
-        super.getPlayer().setPanel(view.getGamePanel()); // on donne au gameplayer un sous panel de view
+        super.getPlayer().setView(view); // on donne au gameplayer un sous panel de view
     }
     /**
      * Initialize the game Manager
@@ -63,9 +66,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
      */
     @Override
     public void createPlayer(){
-    	if (super.getPlayerType()!=PlayerType.HUMAN) {
-    		throw new UnsupportedOperationException("playertype not implemented");
-    	}
+        if (super.getPlayerType()!=PlayerType.HUMAN) {
+            throw new UnsupportedOperationException("playertype not implemented");
+        }
         super.setGamePlayer( new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
         
     }
@@ -89,32 +92,61 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             case START:
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
-                             
                 break;
+
             case PAUSE:
                 view.drawGamePauseView();
                 view.getGamePanel().pauseActionLoop();
-
                 break;
+
             case RESUME:
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
                 break;
+
             case RESTART:
+                if(currentClip!=null){
+                    currentClip.stop();
+                    currentClip = null;
+                }
                 view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
-                super.loadNewGame();
-                view = new GameFrameImpl("View tetris");
-                initialize();
-              
-
+                super.loadNewGame(); // nouveau player
+                super.getPlayer().setView(view);  // on donne au player la vue
+                super.initialize(); // initialisation du player
+                view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
                 break;
+
             case QUIT:
                 view.getGamePanel().pauseActionLoop();
-            	view.setVisible(false);
-            	view.dispose();
-            	System.exit(1);
+                view.setVisible(false);
+                view.dispose();
+                System.exit(1);
                 break;
+            case MUSIC:
+                try {
+                        if(currentClip!=null){
+                            currentClip.stop();
+                            currentClip = null;
+                        }
+                        else{
+                            File file = new File("03. A-Type Music (Korobeiniki).wav");
+                            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+                            Clip newCLip = AudioSystem.getClip();
+                            newCLip.open(audioStream);
+                            System.out.println("TET");
+                            newCLip.start();
+                            currentClip = newCLip;
+                        }
+                } catch (UnsupportedAudioFileException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (LineUnavailableException ex) {
+                    throw new RuntimeException(ex);
+                }
+                break;
+
             default:
                 break;
 

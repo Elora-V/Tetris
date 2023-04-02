@@ -43,7 +43,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     JPanel scorePanel;
 
     Timer timer;
-    public static final int INITIAL_DELAY=2000; // in ms
+    public static final int INITIAL_DELAY=1000; // in ms
     public static final int MIN_DELAY=100;
 
     public GamePanelImpl() {
@@ -81,7 +81,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
         gameInfoPanel.setLayout(null);
 
-                ///// next tetromino ///////
+        ///// next tetromino ///////
 
         for (int i=0;i<nbNextTet;i++) {
             TetrominoPanel panelPourListe=new TetrominoPanel(Integer.valueOf(nbNextTet-i)+"° Next");
