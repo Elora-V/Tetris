@@ -103,7 +103,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             case RESTART:
                 view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
-                view.dispose();
                 super.loadNewGame();
                 view = new GameFrameImpl("View tetris");
                 initialize();
@@ -136,6 +135,13 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public void pausePlayer(){
         super.getPlayer().pause();
     }
-
+    
+    //class UpdateActionListener implements ActionListener {
+    	//public void actionPerformed(ActionEvent e) {
+			//field.evolve();
+			//view.update();
+	//	}
+   // }
 
 }
+

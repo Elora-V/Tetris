@@ -49,6 +49,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void start(){
         super.start();
+        
     }
 
     /**
@@ -57,6 +58,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void pause(){
         super.pause();
+        
     }
 
     @Override
@@ -128,5 +130,6 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public void actionPerformed(ActionEvent e) {
         super.performAction(TetrisAction.DOWN);
         panel.setLoopDelay( super.whichDelay());
+        
     }
 }

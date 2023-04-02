@@ -12,6 +12,7 @@ import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class GamePlayerSimple implements GamePlayer{
 
@@ -142,7 +143,7 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
     /**
-     * Starts the player
+     * Starts the player (le lecteur)
      *
      * If it is the beginning of the game, it should put a new Tetromino on the grid
      */
@@ -152,6 +153,8 @@ public class GamePlayerSimple implements GamePlayer{
             grid.setTetromino(provider.next());
             grid.setAtStartingCoordinates();
             beginning=false;
+           
+             	 
         }
 
     }
