@@ -90,6 +90,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
 
         switch (action) {
             case START:
+            case RESUME:
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
                 break;
@@ -97,11 +98,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             case PAUSE:
                 view.drawGamePauseView();
                 view.getGamePanel().pauseActionLoop();
-                break;
-
-            case RESUME:
-                view.drawGamePlayView();
-                view.getGamePanel().startActionLoop();
                 break;
 
             case RESTART:
@@ -168,10 +164,10 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     }
     
     //class UpdateActionListener implements ActionListener {
-    	//public void actionPerformed(ActionEvent e) {
-			//field.evolve();
-			//view.update();
-	//	}
+    //public void actionPerformed(ActionEvent e) {
+    //field.evolve();
+    //view.update();
+    //	}
    // }
 
 }

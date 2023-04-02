@@ -22,6 +22,14 @@ public class ManagerButton extends JButton implements ManagerComponent  {
         setForeground(Color.DARK_GRAY);
         setBackground(Color.WHITE);
     }
+
+    public ManagerButton(ImageIcon image){
+        super(image);
+        setForeground(Color.DARK_GRAY);
+        setBackground(Color.WHITE);
+    }
+
+
     /**
      * Set the Manager action attached to the component
      * @param action

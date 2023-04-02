@@ -78,11 +78,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         ////////////// gameInfoPanel ////////////////////////
 
-        gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
+        gameInfoPanel.setPreferredSize(new Dimension(400,gridPanel.getPreferredSize().height));
         gameInfoPanel.setLayout(null);
 
         ///// next tetromino ///////
-
         for (int i=0;i<nbNextTet;i++) {
             TetrominoPanel panelPourListe=new TetrominoPanel(Integer.valueOf(nbNextTet-i)+"° Next");
             panelPourListe.initialise();
@@ -94,7 +93,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
         nextTetroPanel.setBounds(0,gameInfoPanel.getPreferredSize().height/8,gameInfoPanel.getPreferredSize().width,gameInfoPanel.getPreferredSize().width/(nbNextTet+1));
 
-                ///// score ///////
+
+        ///// score ///////
 
         TitledBorder titleScore;
         titleScore = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#6c7687"))," Score ");
@@ -181,12 +181,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gridPanel.setVisible(true);
         gridPanel.setVisualEnd();
         update();
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        gridPanel.paintComponent(g);
     }
 
     public static Color ReturnColorCase(TetrisCell cell) {

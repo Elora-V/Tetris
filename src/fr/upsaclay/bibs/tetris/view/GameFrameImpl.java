@@ -196,11 +196,15 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         restart2Button.setManagerAction(ManagerAction.RESTART);
         comandeButton=new ManagerButton("Control");
 
-        ///// Bouton radio
-
-        music=new ManagerButton("Audio");
+        ///// Bouton musique
+        ImageIcon speakerIcon = new ImageIcon("speaker.png");
+        Image speakerImage = speakerIcon.getImage();
+        Image smallSpeakerImage = speakerImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
+        music = new ManagerButton(smallSpeakerIcon);
         music.setManagerAction(ManagerAction.MUSIC);
-                // quand on aura des options (fichier/random ?)
+
+        // quand on aura des options (fichier/random ?)
         // ManagerRadioButton r1=new ManagerRadioButton("option A");
         // ManagerRadioButton r2=new ManagerRadioButton("option B");
 //        ButtonGroup bg=new ButtonGroup();
