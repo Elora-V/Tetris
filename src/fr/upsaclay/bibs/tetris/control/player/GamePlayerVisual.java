@@ -123,11 +123,9 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
                     break;
                 case KeyEvent.VK_SPACE:
                     super.performAction(TetrisAction.HARD_DROP);
-                    break;                  
-
+                    break;
             }
         panel.update();
-
     }
 
 
