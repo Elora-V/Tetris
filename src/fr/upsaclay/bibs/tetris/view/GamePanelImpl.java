@@ -43,7 +43,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     JPanel scorePanel;
 
     Timer timer;
-    public static final int INITIAL_DELAY=2000; // in ms
+    public static final int INITIAL_DELAY=30; // in ms
     public static final int MIN_DELAY=100;
 
     public GamePanelImpl() {
