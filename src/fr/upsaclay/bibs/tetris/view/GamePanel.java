@@ -64,6 +64,7 @@ public interface GamePanel extends GameViewPanel {
 	 */
 	public void pauseActionLoop();
 	
+
 	/**
 	 * set / update the loop delay in milliseconds
 	 * @param ms
