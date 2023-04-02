@@ -103,7 +103,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
         if (super.getGridView().getTetromino() != null) // on ne fait les actions que si on a un tétromino surlequel les appliquer
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_Q:
+                case KeyEvent.VK_A:
                     super.performAction(TetrisAction.MOVE_LEFT);
                     break;
                 case KeyEvent.VK_D:
@@ -115,7 +115,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
                 case KeyEvent.VK_Z:
                     super.performAction(TetrisAction.HOLD);
                     break;
-                case KeyEvent.VK_A:
+                case KeyEvent.VK_Q:
                     super.performAction(TetrisAction.ROTATE_LEFT);
                     break;
                 case KeyEvent.VK_E:
@@ -134,7 +134,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void actionPerformed(ActionEvent e) {  // action timer
         super.performAction(TetrisAction.DOWN);
-        panel.setLoopDelay( super.whichDelay());
+        panel.setLoopDelay(super.whichDelay());
         panel.update();
         
     }
