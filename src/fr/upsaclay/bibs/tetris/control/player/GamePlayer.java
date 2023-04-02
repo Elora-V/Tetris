@@ -1,5 +1,7 @@
 package fr.upsaclay.bibs.tetris.control.player;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.PrintStream;
 import java.util.Timer;
 
@@ -9,6 +11,7 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 /**
@@ -36,7 +39,7 @@ public interface GamePlayer {
 	public void initialize();
 
 	//ajout
-	public void setPanel(GamePanelImpl panel);
+	public void setView(GameFrameImpl view);
 	/**
 	 * Return the player type (HUMAN / AI)
 	 * @return a PlayerType
@@ -119,4 +122,5 @@ public interface GamePlayer {
 
 	// ajout :
     public TetrominoProvider getProvider();
+
 }
