@@ -4,6 +4,7 @@ import fr.upsaclay.bibs.tetris.TetrisAction;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.GamePanel;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
@@ -21,6 +22,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     int delay; // in ms
 
     //contient la vue :
+    GameFrameImpl view; // on en a besoin pour donner le focus au clavier
     GamePanelImpl panel;
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
@@ -41,8 +43,9 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     }
 
     @Override
-    public void setPanel(GamePanelImpl panel){
-        this.panel=panel;
+    public void setView(GameFrameImpl view){
+        this.view=view;
+        this.panel=view.getGamePanel();
     }
     /**
      * Starts the player
@@ -52,6 +55,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void start(){
         super.start();
+        view.startGameKeyListener(this);
     }
 
     /**
@@ -60,6 +64,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     @Override
     public void pause(){
         super.pause();
+        view.stopGameKeyListener(this);
     }
 
     @Override
@@ -129,5 +134,6 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public void actionPerformed(ActionEvent e) {  // action timer
         super.performAction(TetrisAction.DOWN);
         panel.setLoopDelay( super.whichDelay());
+        panel.update();
     }
 }

@@ -239,7 +239,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     @Override
     public void startGameKeyListener(KeyListener listener){
         addKeyListener(listener);
-        //requestFocus(); à ajouter si on voit que c'est necessaire
+        requestFocus(); //à ajouter si on voit que c'est necessaire
     }
 
     /**

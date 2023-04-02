@@ -32,7 +32,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
         view = new GameFrameImpl("--- Tetris Game ---"); // on donne au manager la fenetre view
-        super.getPlayer().setPanel(view.getGamePanel()); // on donne au gameplayer un sous panel de view
+        super.getPlayer().setView(view); // on donne au gameplayer un sous panel de view
     }
     /**
      * Initialize the game Manager
@@ -112,13 +112,11 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
                 super.loadNewGame(); // nouveau player
-                super.getPlayer().setPanel(view.getGamePanel());  // on donne au player la vue
+                super.getPlayer().setView(view);  // on donne au player la vue
                 super.initialize(); // initialisation du player
                 view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
-
-
-
                 break;
+
             case QUIT:
                 view.getGamePanel().pauseActionLoop();
                 view.setVisible(false);
@@ -168,6 +166,13 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public void pausePlayer(){
         super.getPlayer().pause();
     }
-
+    
+    //class UpdateActionListener implements ActionListener {
+    	//public void actionPerformed(ActionEvent e) {
+			//field.evolve();
+			//view.update();
+	//	}
+   // }
 
 }
+
