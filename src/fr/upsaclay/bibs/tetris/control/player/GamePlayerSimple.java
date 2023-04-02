@@ -8,6 +8,7 @@ import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputerImpl;
 import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
@@ -64,7 +65,9 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
     @Override
-    public void setPanel(GamePanelImpl panel){}; // on la définit car la méthode a été ajoutée dans l'interface
+    public void setView(GameFrameImpl view){
+
+    }; // on la définit car la méthode a été ajoutée dans l'interface
                                                 // sans ça on aurait pas accès à la méthode pour le visual
                                                 // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
 
