@@ -182,8 +182,15 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////// Bouton 'classique'
         startButton=new ManagerButton("Start Game");
         startButton.setManagerAction(ManagerAction.START);
-        pauseButton=new ManagerButton("Pause");
+
+        ImageIcon pauseIcon = new ImageIcon("pause.png");
+        Image pauseImage = pauseIcon.getImage();
+        Image smallPauseImage = pauseImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallPauseIcon = new ImageIcon(smallPauseImage);
+        pauseButton = new ManagerButton(smallPauseIcon);
         pauseButton.setManagerAction(ManagerAction.PAUSE);
+
+
         resumeButton=new ManagerButton("Resume Game");
         resumeButton.setManagerAction(ManagerAction.RESUME);
         quitButton=new ManagerButton("Quit Tetris");
@@ -197,12 +204,15 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         comandeButton=new ManagerButton("Control");
 
         ///// Bouton musique
+
         ImageIcon speakerIcon = new ImageIcon("speaker.png");
         Image speakerImage = speakerIcon.getImage();
-        Image smallSpeakerImage = speakerImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image smallSpeakerImage = speakerImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
         music = new ManagerButton(smallSpeakerIcon);
         music.setManagerAction(ManagerAction.MUSIC);
+
+
 
         // quand on aura des options (fichier/random ?)
         // ManagerRadioButton r1=new ManagerRadioButton("option A");
