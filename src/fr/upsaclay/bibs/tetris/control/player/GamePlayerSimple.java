@@ -25,7 +25,7 @@ public class GamePlayerSimple implements GamePlayer{
 
     boolean activeGame=false;
     boolean beginning=true;
-    boolean softDrop=false;
+    boolean softDrop;
     boolean alreadyHold=false;
 
     int delay;
@@ -38,6 +38,7 @@ public class GamePlayerSimple implements GamePlayer{
         this.grid=grid;
         this.provider=provider;
         this.typeHuman=type;
+        softDrop=false;
         delay=GamePanelImpl.INITIAL_DELAY;
     }
 //    /**
@@ -295,7 +296,7 @@ public class GamePlayerSimple implements GamePlayer{
 
 
     protected int whichDelay() {
-        delay=GamePanelImpl.INITIAL_DELAY-100;
+        delay=GamePanelImpl.INITIAL_DELAY-100*(getLevel()/2); // on change le delai 1 niveau sur 2
         if(softDrop){
             delay=delay-100; // si on est en softdrop le delay diminue
         }
