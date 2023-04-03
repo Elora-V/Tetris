@@ -156,6 +156,22 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
 
     }
 
+    public TetrisCell projectionVisibleCell(int i, int j){
+        TetrisCoordinates coorHardDrop= coordHardDrop();
+        int idrop = coorHardDrop.getLine();
+        int jdrop = coorHardDrop.getCol();
+        TetrisCell visiblecell=visibleCell(i,j);
+        if (visiblecell==TetrisCell.EMPTY) { // si la case de la grille est vide, on regarde si la projection est sur la case
+            // si la case demandée est au niveau du tetromino hardDrop :
+            if (idrop <= i && i <= idrop - 1 + tet.getBoxSize() && jdrop <= j && j <= jdrop - 1 + tet.getBoxSize()) {
+                if (tet.cell(i - idrop, j - jdrop) != TetrisCell.EMPTY) { // si la case du tetromino n'est pas vide:
+                    return TetrisCell.GREY; // on renvoie la case du tétromino
+                }
+
+            }
+        }
+        return  visiblecell;
+    }
 
     /**
          * Return if the current tetromino has a "conflict" with the grid
@@ -499,6 +515,14 @@ public class Mygrid implements TetrisGrid,TetrisGridView {
             while (tryMove(TetrisCoordinates.DOWN) == true){
             }
         }
+
+    public TetrisCoordinates coordHardDrop () {
+        TetrisCoordinates coordBefore= tcoord;
+        hardDrop();
+        TetrisCoordinates coordHardDrop= tcoord;
+        setCoordinates(coordBefore);
+        return coordHardDrop;
+    }
 
     /**
      * "Pack" the grid
