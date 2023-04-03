@@ -28,7 +28,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
        super(grid, scoreComputer, provider,type);
-       delay=500; //a changer par la valeur initiale
+       delay=GamePanelImpl.INITIAL_DELAY;
 
     }
 
@@ -72,7 +72,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public boolean isOver(){
         boolean isOver= super.isOver();
         if( isOver) {
-            panel.drawEndGameView();
+            view.drawEndGameView();
         }
         return isOver;
     }
@@ -136,9 +136,10 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
     @Override
     public void actionPerformed(ActionEvent e) {  // action timer
-        super.performAction(TetrisAction.DOWN);
-        panel.setLoopDelay(super.whichDelay());
-        panel.update();
-        
+        if(activeGame) {
+            super.performAction(TetrisAction.DOWN);
+            panel.setLoopDelay(super.whichDelay());
+            panel.update();
+        }
     }
 }
