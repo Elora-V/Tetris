@@ -208,10 +208,13 @@ public class GamePanelImpl extends JPanel implements GamePanel {
                 return  Color.decode("#e06767");
             case T:
                 return Color.decode("#ed76eb");
+            case GREY:
+                return Color.decode("#dce0dd");
             default:
                 return Color.white;
         }
     }
+
 
     /**
      * Sets the number of lines in the game
@@ -273,8 +276,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void startActionLoop(){
         timer.start();
-        System.out.println("start");
-        
     }
 
     /**
@@ -283,7 +284,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void pauseActionLoop(){
         timer.stop();
-        System.out.println("pause");
     }
    
 
@@ -294,7 +294,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void setLoopDelay(int ms){
         timer.setDelay(ms);
-        System.out.println("setloopDelay");
     }
 
 

@@ -88,7 +88,7 @@ public class GridPanel extends JPanel {
         for(int i = 0 ; i < grid.numberOfLines(); i++) {
             for (int j = 0; j < grid.numberOfCols(); j++) {
 
-                TetrisCell cell = grid.visibleCell(i,j);
+                TetrisCell cell = grid.projectionVisibleCell(i,j);
                 Color colcell = Color.decode("#6c7687"); // couleur par default
 
                 if (cell != TetrisCell.EMPTY) {

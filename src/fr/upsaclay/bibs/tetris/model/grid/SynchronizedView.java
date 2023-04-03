@@ -34,7 +34,6 @@ public class SynchronizedView implements TetrisGridView {
 	public int numberOfCols() {
 		return grid.numberOfCols();
 	}
-	
 
 	public TetrisCell gridCell(int i, int j) {
 		return grid.gridCell(i, j);
@@ -61,6 +60,11 @@ public class SynchronizedView implements TetrisGridView {
 	
 
 	public TetrisCell visibleCell(int i, int j) {
+		return grid.visibleCell(i, j);
+	}
+
+	//ajout
+	public TetrisCell projectionVisibleCell(int i, int j) {
 		return grid.visibleCell(i, j);
 	}
 	

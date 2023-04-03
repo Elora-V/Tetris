@@ -73,7 +73,9 @@ public interface TetrisGridView {
 	 * @return the visible cell
 	 */
 	public TetrisCell visibleCell(int i, int j);
-	
+
+	// ajout
+	public TetrisCell projectionVisibleCell(int i, int j);
 	
 	/**
 	 * Return if the current tetromino has a "conflict" with the grid
