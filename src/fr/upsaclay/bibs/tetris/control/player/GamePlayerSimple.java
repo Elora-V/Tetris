@@ -13,6 +13,7 @@ import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 
 import java.io.PrintStream;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class GamePlayerSimple implements GamePlayer{
 
@@ -151,7 +152,7 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
     /**
-     * Starts the player
+     * Starts the player (le lecteur)
      *
      * If it is the beginning of the game, it should put a new Tetromino on the grid
      */
@@ -161,6 +162,8 @@ public class GamePlayerSimple implements GamePlayer{
             grid.setTetromino(provider.next());
             grid.setAtStartingCoordinates();
             beginning=false;
+           
+             	 
         }
 
     }
@@ -239,7 +242,7 @@ public class GamePlayerSimple implements GamePlayer{
                 score.registerBeforeAction(TetrisAction.DOWN,grid);
                 boolean moveDown= grid.tryMove(TetrisCoordinates.DOWN);
                 score.registerAfterAction(grid);
-
+                System.out.println("performeAction");
                 // si on a pas pu descendre le tetromino :
                 if(!moveDown) {
                     grid.merge(); // alors on merge car on touche le sol (ou le tetromino d'en dessous)
@@ -298,7 +301,7 @@ public class GamePlayerSimple implements GamePlayer{
     protected int whichDelay() {
         delay=GamePanelImpl.INITIAL_DELAY-100*(getLevel()/2); // on change le delai 1 niveau sur 2
         if(softDrop){
-            delay=delay-100; // si on est en softdrop le delay diminue
+            delay=GamePanelImpl.MIN_DELAY; // si on est en softdrop le delay diminue
         }
         if(delay <= GamePanelImpl.MIN_DELAY){ // on ne vaut pas descendre en dessous de cette valeur
             delay=GamePanelImpl.MIN_DELAY;

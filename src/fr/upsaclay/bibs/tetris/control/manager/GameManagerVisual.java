@@ -8,6 +8,7 @@ import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
+import fr.upsaclay.bibs.tetris.view.Audio;
 import fr.upsaclay.bibs.tetris.view.GameFrame;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import javax.sound.sampled.*;
+import javax.swing.SwingUtilities;
 
 public class GameManagerVisual extends AbstractGameManager implements ActionListener{
 
@@ -27,7 +29,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
     private GameFrameImpl view;
 
-    private Clip currentClip; // Keeps in memory the state of the music
+    private static Audio musicPlayer = new Audio();
+
+    private int musicState = 0; // Keeps in memory the state of the music
 
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
@@ -90,6 +94,12 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
 
         switch (action) {
             case START:
+                musicPlayer.musicPlay();
+                musicState = 1;
+                view.drawGamePlayView();
+                view.getGamePanel().startActionLoop();
+                break;
+            case RESUME:
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
                 break;
@@ -99,22 +109,28 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 view.getGamePanel().pauseActionLoop();
                 break;
 
-            case RESUME:
-                view.drawGamePlayView();
-                view.getGamePanel().startActionLoop();
-                break;
-
             case RESTART:
-                if(currentClip!=null){
-                    currentClip.stop();
-                    currentClip = null;
+            	
+                if(musicState!=0){
+                    musicPlayer.musicStop();
+                    musicState = 0;
                 }
-                view.getGamePanel().pauseActionLoop();
                 view.drawManagementView();
-                super.loadNewGame(); // nouveau player
-                super.getPlayer().setView(view);  // on donne au player la vue
-                super.initialize(); // initialisation du player
-                view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
+                view.getGamePanel().pauseActionLoop();
+                
+                view.dispose();
+                SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize());
+                /*
+                 * A ameliorer : on peut surement réussir à réinitialisé de la bonne façon pour que la loop reboot
+                 */
+                
+                //super.loadNewGame(); // nouveau player
+                //super.getPlayer().setView(view);  // on donne au player la vue
+                //super.initialize(); // initialisation du player
+                
+                //view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
+                
+                
                 break;
 
             case QUIT:
@@ -124,33 +140,15 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 System.exit(1);
                 break;
             case MUSIC:
-                try {
-                        if(currentClip!=null){
-                            currentClip.stop();
-                            currentClip = null;
-                        }
-                        else{
-                            File file = new File("03. A-Type Music (Korobeiniki).wav");
-                            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-                            Clip newCLip = AudioSystem.getClip();
-                            newCLip.open(audioStream);
-                            System.out.println("TET");
-                            newCLip.start();
-                            currentClip = newCLip;
-                        }
-                } catch (UnsupportedAudioFileException ex) {
-                    throw new RuntimeException(ex);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (LineUnavailableException ex) {
-                    throw new RuntimeException(ex);
-                }
+
+                musicPlayer.musicStop();
+
                 break;
 
             default:
                 break;
 
-        }
+        }  
     }
 
     /**
@@ -166,6 +164,13 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public void pausePlayer(){
         super.getPlayer().pause();
     }
-
+    
+    //class UpdateActionListener implements ActionListener {
+    //public void actionPerformed(ActionEvent e) {
+    //field.evolve();
+    //view.update();
+    //	}
+   // }
 
 }
+

@@ -26,10 +26,13 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     GamePlayer player;
     TetrominoProvider provider;
     int score;
+    int scoremax = 1000000;// si on le defini pas on a un probleme d'affichage
     int lines;
+    int linesmax = 1000000;// si on le defini pas on a un probleme d'affichage
     int level;
     int nbNextTet=3;
     JLabel labelScore;
+    JLabel labelLines;
     JLabel labelLevel;
 
 
@@ -62,6 +65,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         // Create the loop timer
         timer = new Timer(INITIAL_DELAY, null);
+        
     }
 
     /**
@@ -78,11 +82,10 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         ////////////// gameInfoPanel ////////////////////////
 
-        gameInfoPanel.setPreferredSize(new Dimension(300,gridPanel.getPreferredSize().height));
+        gameInfoPanel.setPreferredSize(new Dimension(400,gridPanel.getPreferredSize().height));
         gameInfoPanel.setLayout(null);
 
         ///// next tetromino ///////
-
         for (int i=0;i<nbNextTet;i++) {
             TetrominoPanel panelPourListe=new TetrominoPanel(Integer.valueOf(nbNextTet-i)+"° Next");
             panelPourListe.initialise();
@@ -94,7 +97,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
         nextTetroPanel.setBounds(0,gameInfoPanel.getPreferredSize().height/8,gameInfoPanel.getPreferredSize().width,gameInfoPanel.getPreferredSize().width/(nbNextTet+1));
 
-                ///// score ///////
+
+        ///// score ///////
 
         TitledBorder titleScore;
         titleScore = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#6c7687"))," Score ");
@@ -103,20 +107,25 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         scorePanel.setPreferredSize(new Dimension(gameInfoPanel.getPreferredSize().width,gridPanel.getPreferredSize().height/6));
         scorePanel.setLayout(null);
                         ////// score label //////
-        labelScore=new JLabel("Score  :  "+ String.valueOf(score));
+        labelScore=new JLabel("Score  :  "+ scoremax);
         scorePanel.add(labelScore);
         labelScore.setForeground(Color.decode("#6c7687"));
-        labelScore.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height/3,labelScore.getPreferredSize().width,labelScore.getPreferredSize().height);
+        labelScore.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height/4,labelScore.getPreferredSize().width,labelScore.getPreferredSize().height);
                         ////// level label //////
         labelLevel=new JLabel("Level  :  "+ String.valueOf(level));
         scorePanel.add(labelLevel);
         labelLevel.setForeground(Color.decode("#6c7687"));
-        labelLevel.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height*2/3,labelLevel.getPreferredSize().width,labelLevel.getPreferredSize().height);
+        labelLevel.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height*2/4,labelLevel.getPreferredSize().width,labelLevel.getPreferredSize().height);
+        				////// score label //////
+        labelLines=new JLabel("Lines  :  "+ linesmax);
+        scorePanel.add(labelLines);
+        labelLines.setForeground(Color.decode("#6c7687"));
+        labelLines.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height*3/4,labelLines.getPreferredSize().width,labelLines.getPreferredSize().height);
 
         gameInfoPanel.add(scorePanel,BorderLayout.CENTER);
         scorePanel.setBounds(0,gameInfoPanel.getPreferredSize().height *3/8,scorePanel.getPreferredSize().width,scorePanel.getPreferredSize().height);
 
-        ///// held tetromino ///////
+        ///// hold tetromino ///////
 
         HoldTetroPanel.initialise();
         HoldTetroPanel.setDim(gridPanel.getPreferredSize().height/4,gridPanel.getPreferredSize().height/4);
@@ -183,12 +192,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         update();
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        gridPanel.paintComponent(g);
-    }
-
     public static Color ReturnColorCase(TetrisCell cell) {
         switch (cell){
             case I:
@@ -240,7 +243,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     }
 
     public Timer getTimer(){
+    	 
         return  timer;
+     
     }
     public void setGamePlayer(GamePlayer player){
         this.player = player;
@@ -268,6 +273,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void startActionLoop(){
         timer.start();
+        System.out.println("start");
+        
     }
 
     /**
@@ -276,7 +283,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void pauseActionLoop(){
         timer.stop();
+        System.out.println("pause");
     }
+   
 
     /**
      * set / update the loop delay in milliseconds
@@ -285,6 +294,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void setLoopDelay(int ms){
         timer.setDelay(ms);
+        System.out.println("setloopDelay");
     }
 
 
@@ -384,10 +394,12 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         updateHeldTetromino(player.getHeldTetromino());
 
         // mis à jour score
-
-        labelScore.setText("Score :"+ String.valueOf(score));
+        score = player.getScore();
+        level = player.getLevel();
+        lines = player.getLineScore();
+        labelScore.setText("Score :"+ score);
         labelLevel.setText("Level :"+ String.valueOf(level));
-
+        labelLines.setText("Lines :"+ lines);
         // repaint
         gridPanel.repaint();
         //nextTetroPanel.repaint();
