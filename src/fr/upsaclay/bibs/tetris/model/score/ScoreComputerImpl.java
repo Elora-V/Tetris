@@ -195,10 +195,33 @@ public class ScoreComputerImpl implements ScoreComputer {
 		}
 		
 		lines = lines + packResult.size();
-		if (lines > 5 && lines % 5 == 0 ) {
-			level ++;
+		if (lines == 10 ) {
+			level = 2;
 		}
-		
+		else if (lines == 15 ) {
+			level = 3;
+		}
+		else if (lines == 20 ) {
+			level = 4;
+		}
+		else if (lines == 25 ) {
+			level = 5;
+		}
+		else if (lines == 30 ) {
+			level = 6;
+		}
+		else if (lines == 35 ) {
+			level = 7;
+		}
+		else if (lines == 40 ) {
+			level = 8;
+		}
+		else if (lines == 45 ) {
+			level = 9;
+		}
+		else if (lines == 50 ) {
+			level = 10;
+		}
 	}
 
 
