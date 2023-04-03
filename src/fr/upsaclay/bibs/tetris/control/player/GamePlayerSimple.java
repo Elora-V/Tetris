@@ -302,7 +302,7 @@ public class GamePlayerSimple implements GamePlayer{
 
 
     protected int whichDelay() {
-        delay=GamePanelImpl.INITIAL_DELAY-100*(getLevel()/2); // on change le delai 1 niveau sur 2
+        delay=GamePanelImpl.INITIAL_DELAY-100*getLevel();
         if(softDrop){
             delay=GamePanelImpl.MIN_DELAY; // si on est en softdrop le delay diminue
         }
