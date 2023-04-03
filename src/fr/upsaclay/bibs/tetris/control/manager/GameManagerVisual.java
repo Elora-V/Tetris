@@ -22,7 +22,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     private GameFrameImpl view;
 
     private Audio musicPlayer = new Audio();
-    public boolean isQwertyLayout;
+    public static boolean isQwertyLayout;
 
 
     public GameManagerVisual() {
@@ -104,6 +104,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 if(musicPlayer.musicRunning()){
                     musicPlayer.musicStop();
                 }
+                isQwertyLayout = false;
                 view.drawManagementView();
                 view.getGamePanel().pauseActionLoop();
                 
@@ -155,15 +156,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
      */
     public void pausePlayer(){
         super.getPlayer().pause();
-    }
-
-    // Setter method to set the keyboard layout
-
-    public boolean getQwertyLayout() {
-        return this.isQwertyLayout;
-    }
-    public void setQwertyLayout(boolean qwerty) {
-        this.isQwertyLayout = qwerty;
     }
 
 
