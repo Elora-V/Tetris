@@ -25,6 +25,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     JPanel pausePanel;
     JPanel endPanel;
     JPanel comandePanel;
+    
 
     // boutons de bases
     ManagerButton startButton;
@@ -35,6 +36,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton quit2Button;
     ManagerButton restart2Button;
     ManagerButton comandeButton;
+    
+    
 
     ManagerButton music;
 
@@ -68,6 +71,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
+        
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
@@ -96,10 +100,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
         comandePanel = new JPanel();
         comandePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        //comandePanel.add(quitButton);
-        //comandePanel.add(resumeButton);
-        //comandePanel.add(restartButton);
-        //comandePanel.add(pausePanel);
+       
         
         pack();
         drawManagementView();
