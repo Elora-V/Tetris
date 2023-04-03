@@ -123,18 +123,16 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
                     break;
                 case KeyEvent.VK_SPACE:
                     super.performAction(TetrisAction.HARD_DROP);
-                    break;                  
-
+                    break;
             }
         panel.update();
-
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {  // action timer
         super.performAction(TetrisAction.DOWN);
-        panel.setLoopDelay( super.whichDelay());
+        panel.setLoopDelay(super.whichDelay());
         panel.update();
         
     }
