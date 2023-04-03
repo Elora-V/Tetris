@@ -70,7 +70,11 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
     @Override
     public boolean isOver(){
-        return super.isOver();
+        boolean isOver= super.isOver();
+        if( isOver) {
+            panel.drawEndGameView();
+        }
+        return isOver;
     }
 
 
@@ -111,6 +115,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
                     break;
                 case KeyEvent.VK_S:
                     super.performAction(TetrisAction.START_SOFT_DROP);
+                    panel.setLoopDelay(super.whichDelay()); // change le delai
                     break;
                 case KeyEvent.VK_Z:
                     super.performAction(TetrisAction.HOLD);

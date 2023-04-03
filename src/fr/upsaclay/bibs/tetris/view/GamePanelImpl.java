@@ -187,7 +187,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawEndGameView(){
-        gameInfoPanel.setVisible(false);
+        gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
         gridPanel.setVisualEnd();
         update();
