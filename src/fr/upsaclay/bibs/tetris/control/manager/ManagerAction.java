@@ -31,7 +31,10 @@ public enum ManagerAction {
 	 * Go back on settings to start a new game
 	 */
 	RESTART,
-
+	/**
+	 * affiche le panneau des touche
+	 */
+	CONTROL,
 	/**
 	 * Quit the current game
 	 */
