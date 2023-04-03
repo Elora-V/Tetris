@@ -34,8 +34,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     JLabel labelScore;
     JLabel labelLines;
     JLabel labelLevel;
-
-
+    
     JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
     GridPanel gridPanel; // pour la grille
 
@@ -52,8 +51,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     public GamePanelImpl() {
 
         gridPanel=new GridPanel(); // sous-panel pour la grille (droite)
-
+        
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
+        
 
         // les sous-panels de gameInfoPanel
         HoldTetroPanel=new TetrominoPanel("Held tetromino"); // sera dans nextTetroPanel en bas
@@ -79,7 +79,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gridPanel.setGrid(grid);
         gridPanel.setDim(nblines,nbcols);
 
-
+        
         ////////////// gameInfoPanel ////////////////////////
 
         gameInfoPanel.setPreferredSize(new Dimension(400,gridPanel.getPreferredSize().height));
@@ -137,6 +137,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         add(gameInfoPanel,BorderLayout.WEST);
         add(gridPanel,BorderLayout.EAST);
+        
 
 
     }
