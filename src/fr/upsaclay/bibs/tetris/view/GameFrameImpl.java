@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.tetris.view;
 
+import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.control.manager.ManagerAction;
 
 import javax.swing.*;
@@ -14,9 +15,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     GamePanelImpl gamePanel; // au centre : la grille
     JPanel controlPanel; // à droite : les options de jeu
-   
-    
-
 
 
     // les versions du panel de controle
@@ -28,6 +26,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     // boutons de bases
     ManagerButton startButton;
+
+    ManagerButton keyboardButton;
     ManagerButton pauseButton;
     ManagerButton resumeButton;
     ManagerButton quitButton;
@@ -37,6 +37,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton comandeButton;
 
     ManagerButton music;
+
+    ManagerButton musicmute;
+
+    ManagerButton qwerty;
 
     public GameFrameImpl(String name) {
         super(name);
@@ -68,13 +72,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
+        initialPanel.add(qwerty);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
         playPanel = new JPanel();
         playPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         playPanel.add(pauseButton);
-        playPanel.add(music);
         controlPanel.add(playPanel);
 
 
@@ -84,6 +88,9 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
+        pausePanel.add(music);
+        pausePanel.add(musicmute);
+
         // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
@@ -182,6 +189,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////// Bouton 'classique'
         startButton=new ManagerButton("Start Game");
         startButton.setManagerAction(ManagerAction.START);
+        keyboardButton=new ManagerButton("QWERTY");
+        keyboardButton.setManagerAction(ManagerAction.CHANGE);
 
         ImageIcon pauseIcon = new ImageIcon("pause.png");
         Image pauseImage = pauseIcon.getImage();
@@ -212,6 +221,18 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         music = new ManagerButton(smallSpeakerIcon);
         music.setManagerAction(ManagerAction.MUSIC);
 
+        ImageIcon muteIcon = new ImageIcon("mute.png");
+        Image muteImage = muteIcon.getImage();
+        Image smallMuteImage = muteImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallMuteIcon = new ImageIcon(smallMuteImage);
+        musicmute = new ManagerButton(smallMuteIcon);
+        musicmute.setManagerAction(ManagerAction.MUSICMUTE);
+
+        ///// QWERTY
+
+        qwerty=new ManagerButton("qwerty");
+        qwerty.setManagerAction(ManagerAction.QWERTY);
+
 
 
         // quand on aura des options (fichier/random ?)
@@ -240,6 +261,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         restart2Button.addActionListener(listener);
         quit2Button.addActionListener(listener);
         music.addActionListener(listener);
+        musicmute.addActionListener(listener);
+        qwerty.addActionListener(listener);
     }
 
     /** 

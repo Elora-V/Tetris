@@ -273,8 +273,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void startActionLoop(){
         timer.start();
-        System.out.println("start");
-        
     }
 
     /**
@@ -283,7 +281,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     @Override
     public void pauseActionLoop(){
         timer.stop();
-        System.out.println("pause");
     }
    
 
