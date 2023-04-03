@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.Timer;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
+import fr.upsaclay.bibs.tetris.control.manager.GameManager;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
@@ -40,6 +41,7 @@ public interface GamePlayer {
 
 	//ajout
 	public void setView(GameFrameImpl view);
+
 	/**
 	 * Return the player type (HUMAN / AI)
 	 * @return a PlayerType

@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.tetris.control.player;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
+import fr.upsaclay.bibs.tetris.control.manager.GameManager;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
@@ -30,7 +31,7 @@ public class GamePlayerSimple implements GamePlayer{
     boolean alreadyHold=false;
 
     int delay;
-    Timer timer;
+
 
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
@@ -72,6 +73,8 @@ public class GamePlayerSimple implements GamePlayer{
     }; // on la définit car la méthode a été ajoutée dans l'interface
                                                 // sans ça on aurait pas accès à la méthode pour le visual
                                                 // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
+
+
 
     public void setAlreadyHold(boolean alreadyHold){
         this.alreadyHold=alreadyHold;
