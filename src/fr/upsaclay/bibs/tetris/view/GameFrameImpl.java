@@ -292,7 +292,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         keyboardButton=new ManagerButton("QWERTY");
         keyboardButton.setManagerAction(ManagerAction.CHANGE);
 
-        ImageIcon pauseIcon = new ImageIcon("pause.png");
+        ImageIcon pauseIcon = new ImageIcon("Button_icons/pause.png");
         Image pauseImage = pauseIcon.getImage();
         Image smallPauseImage = pauseImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallPauseIcon = new ImageIcon(smallPauseImage);
@@ -315,14 +315,14 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         ///// Bouton musique
 
-        ImageIcon speakerIcon = new ImageIcon("speaker.png");
+        ImageIcon speakerIcon = new ImageIcon("Button_icons/speaker.png");
         Image speakerImage = speakerIcon.getImage();
         Image smallSpeakerImage = speakerImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
         music = new ManagerButton(smallSpeakerIcon);
         music.setManagerAction(ManagerAction.MUSIC);
 
-        ImageIcon muteIcon = new ImageIcon("mute.png");
+        ImageIcon muteIcon = new ImageIcon("Button_icons/mute.png");
         Image muteImage = muteIcon.getImage();
         Image smallMuteImage = muteImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallMuteIcon = new ImageIcon(smallMuteImage);
