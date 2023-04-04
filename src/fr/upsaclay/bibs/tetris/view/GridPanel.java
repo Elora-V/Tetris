@@ -13,6 +13,7 @@ public class GridPanel extends JPanel {
     TetrisGridView grid;
     int nblines;
     int nbcols;
+    boolean projection=true;
 
     boolean pause=false;
     JLabel pauseLabel;
@@ -60,6 +61,10 @@ public class GridPanel extends JPanel {
         this.nbcols = numcol;
         setPreferredSize(new Dimension(nbcols*GameFrame.PIXELS_PER_CELL,nblines*GameFrame.PIXELS_PER_CELL));
     }
+
+    public void setProjection(boolean projection){
+        this.projection=projection;
+    }
     @Override
     public void paintComponent(Graphics g) {
 
@@ -87,8 +92,11 @@ public class GridPanel extends JPanel {
 
         for(int i = 0 ; i < grid.numberOfLines(); i++) {
             for (int j = 0; j < grid.numberOfCols(); j++) {
-
                 TetrisCell cell = grid.visibleCell(i,j);
+                if(projection){
+                    cell = grid.projectionVisibleCell(i,j);
+                }
+
                 Color colcell = Color.decode("#6c7687"); // couleur par default
 
                 if (cell != TetrisCell.EMPTY) {

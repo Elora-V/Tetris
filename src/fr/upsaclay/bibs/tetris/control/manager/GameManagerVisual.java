@@ -98,7 +98,11 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             case PAUSE:
                 view.drawGamePauseView();
                 view.getGamePanel().pauseActionLoop();
+               
                 break;
+            case CONTROL:
+            	view.commandeview();
+            	break;
 
             case RESTART:
                 if(musicPlayer.musicRunning()){
