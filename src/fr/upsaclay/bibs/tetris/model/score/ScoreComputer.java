@@ -29,9 +29,9 @@ public interface ScoreComputer {
 	public static final int STARTING_LEVEL = 1;
 	public static final int STARTING_LINES = 0;
 	public static final int STARTING_COMBO = -1;
-	
-	
-	
+
+
+	//////////////////// Get et Set ///////////////////////////
 	/**
 	 * The level of the game
 	 * 
@@ -69,6 +69,12 @@ public interface ScoreComputer {
 	 * @return
 	 */
 	public int getComboCount();
+
+	public static ScoreComputer getScoreComputer(TetrisMode mode) {
+		return getScoreComputer(mode, STARTING_SCORE, STARTING_LEVEL, STARTING_LINES);
+	}
+
+	//////////////////// Actions ///////////////////////////
 	
 	/**
 	 * methode pour incrementer les combo
@@ -124,8 +130,6 @@ public interface ScoreComputer {
 		}
 	}
 	
-	public static ScoreComputer getScoreComputer(TetrisMode mode) {
-		return getScoreComputer(mode, STARTING_SCORE, STARTING_LEVEL, STARTING_LINES);
-	}
+
 	
 }

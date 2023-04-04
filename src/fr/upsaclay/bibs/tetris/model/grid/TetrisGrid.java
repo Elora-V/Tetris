@@ -28,6 +28,7 @@ import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
  */
 
 public interface TetrisGrid extends TetrisGridView {
+	////////////////// Get et Set ////////////////////
 	
 	/**
 	 * Return a view of self that cannot be used to modify the grid
@@ -64,8 +65,9 @@ public interface TetrisGrid extends TetrisGridView {
 	 * col -- (numberOfCols() - tetromino box size)/2
 	 */
 	public void setAtStartingCoordinates();
-	
-	
+
+	/////////// Mouvements tetromino ////////////
+
 	/**
 	 * Try to move the current tetromino by the given direction
 	 * 
@@ -121,20 +123,7 @@ public interface TetrisGrid extends TetrisGridView {
 	 * @return true if the tetromino has been rotated, false otherwise
 	 */
 	public boolean tryRotateLeft(); 
-	
-	/**
-	 * Merge the current tetromino into the grid 
-	 * 
-	 * If there is no tetromino, the grid is left unchanged.
-	 * 
-	 * An illegalStateException is thrown if there is a tetromino but no coordinates.
-	 * 
-	 * If the tetromino is in conflict with the grid, the merge still happens: the tetromino
-	 * visible cell replace the grid cell.
-	 * 
-	 * After the operation, the current tetromino and coordinates are set to null
-	 */
-	public void merge();
+
 	
 	/**
 	 * Move the current tetromino as much down as possible without getting a conflict
@@ -144,8 +133,22 @@ public interface TetrisGrid extends TetrisGridView {
 	 * If there is no tetromino or no coordinates, it throws an IllegalStateException
 	 */
 	public void hardDrop();
-	
-	
+
+	/////////// Mouvements grille ////////////
+
+	/**
+	 * Merge the current tetromino into the grid
+	 *
+	 * If there is no tetromino, the grid is left unchanged.
+	 *
+	 * An illegalStateException is thrown if there is a tetromino but no coordinates.
+	 *
+	 * If the tetromino is in conflict with the grid, the merge still happens: the tetromino
+	 * visible cell replace the grid cell.
+	 *
+	 * After the operation, the current tetromino and coordinates are set to null
+	 */
+	public void merge();
 	/**
 	 * "Pack" the grid
 	 * i.e. remove all full lines and replace them with empty lines on top

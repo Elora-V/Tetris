@@ -8,18 +8,26 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGridView;
 
 public class ScoreComputerImpl implements ScoreComputer {
+
+	// Cette classe permet de caluler le score en mode de jeu Marathon.
+
+	//////////////////// Elements de classe ///////////////////////////
+
 	TetrisMode scoreMode;
-	int score;
-	int level;
-	int lines;
-	int comboCount;
+	int score; //nombre de points gagné
+	int level; //niveau atteint
+	int lines; // nombres de lignes complétées
+	int comboCount; // nombre de tour de combo actuel
 	
-	boolean SoftDrop;
-	boolean HardDrop;
-	int scoreBefore;
-	int linesBefore;
-	boolean registerBeforeAction;
-	
+	boolean SoftDrop; //booléen permettant de savoir si un soft drop est en cours
+
+	boolean HardDrop; //booléen permettant de savoir si  hard drop est en cours
+	int scoreBefore; //bonus de point lié au hard et soft drop
+	int linesBefore; //ligne du tetromino avant de réaliser l’action
+
+	boolean registerBeforeAction; //booléen permettant de savoir si la fonction registerBeforeAction() a bien été réalisée
+
+	//////////////////// Constructeur ///////////////////////////
 
 	public ScoreComputerImpl(TetrisMode mode,int score, int level, int lines) {
 		this.scoreMode = mode;
@@ -34,6 +42,9 @@ public class ScoreComputerImpl implements ScoreComputer {
 		this.linesBefore = 0;
 		this.registerBeforeAction =false;
 	}
+
+
+	//////////////////// Get et Set ///////////////////////////
 	
 	@Override 
 	public int getLevel() {
@@ -76,6 +87,8 @@ public class ScoreComputerImpl implements ScoreComputer {
 		// renvoi le score actuel
 		return SoftDrop;
 	}
+
+	//////////////////// Actions ///////////////////////////
 	@Override
 	public void registerBeforeAction(TetrisAction action, TetrisGridView gridView) {
 		/**

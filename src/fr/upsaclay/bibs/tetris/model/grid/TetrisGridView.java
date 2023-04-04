@@ -14,6 +14,8 @@ import fr.upsaclay.bibs.tetris.model.tetromino.Tetromino;
  *
  */
 public interface TetrisGridView {
+
+	///////////////// Get et Set /////////////
 	
 	/**
 	 * Return the number of lines
@@ -36,19 +38,8 @@ public interface TetrisGridView {
 	 * @return the cell on the grid
 	 */
 	public TetrisCell gridCell(int i, int j);
-	
-	/**
-	 * Prints the grid cells line by line on the out stream
-	 * (for example on the console or in a file)
-	 * @param out the out stream to print the grid
-	 */
-	public void printGrid(PrintStream out);
-	
-	/**
-	 * Return if the grid has a tetromino
-	 * @return true if a tetromino has been attached
-	 */
-	public boolean hasTetromino();
+
+
 	
 	/**
 	 * Return the current tetromino attached to the grid
@@ -61,7 +52,37 @@ public interface TetrisGridView {
 	 * @return some TetrisCoordinates
 	 */
 	public TetrisCoordinates getCoordinates();
-	
+
+
+	//////////////////////// Actions /////////////////////////
+
+
+	/**
+	 * Return if the grid has a tetromino
+	 * @return true if a tetromino has been attached
+	 */
+	public boolean hasTetromino();
+
+	/**
+	 * Return if the current tetromino has a "conflict" with the grid
+	 * i.e. : if it is overlapping on some non empty cells
+	 *
+	 * If there is no current tetromino, there is no conflict
+	 * If there is a tetromino but bo coordinates, it raises an IllegalStateException
+	 *
+	 * @return true if some non empty cells are overlapping
+	 */
+	public boolean hasConflicts();
+
+
+	/////////// Affichage grille ////////////
+	/**
+	 * Prints the grid cells line by line on the out stream
+	 * (for example on the console or in a file)
+	 * @param out the out stream to print the grid
+	 */
+	public void printGrid(PrintStream out);
+
 	/**
 	 * Return the cell that is visible on the grid
 	 * this is the grid cell unless there is an non-empty tetromino cell
@@ -74,19 +95,12 @@ public interface TetrisGridView {
 	 */
 	public TetrisCell visibleCell(int i, int j);
 
-	// ajout
+	// Ajout par rapport à l'interface originale :
 	public TetrisCell projectionVisibleCell(int i, int j);
-	
-	/**
-	 * Return if the current tetromino has a "conflict" with the grid
-	 * i.e. : if it is overlapping on some non empty cells
-	 * 
-	 * If there is no current tetromino, there is no conflict
-	 * If there is a tetromino but bo coordinates, it raises an IllegalStateException
-	 * 
-	 * @return true if some non empty cells are overlapping
-	 */
-	public boolean hasConflicts();
+
+
+	/////////// Etat de la grille ////////////
+
 	
 	/**
 	 * Return if a given line is full (no empty cell)
