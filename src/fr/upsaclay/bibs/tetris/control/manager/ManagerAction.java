@@ -19,6 +19,8 @@ public enum ManagerAction {
 	 * Start the current game (or a new game at begining)
 	 */
 	START,
+
+	CHANGE,
 	/**
 	 * Pause the current game
 	 */
@@ -41,6 +43,10 @@ public enum ManagerAction {
 	QUIT,
 
 	MUSIC,
+
+	MUSICMUTE,
+
+	QWERTY,
 
 	/**
 	 * Save the current game

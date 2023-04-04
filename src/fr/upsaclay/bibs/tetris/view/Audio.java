@@ -31,4 +31,12 @@ public class Audio {
         musiClip.stop();
     }
 
+    public boolean musicRunning(){
+        if(musiClip.isRunning()){
+            return true;
+        }
+        return false;
+    }
+
+
 }
