@@ -1,6 +1,7 @@
 package fr.upsaclay.bibs.tetris.control.player;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
+import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
@@ -21,9 +22,13 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     // listener clavier et timer
     int delay; // in ms
 
-    //contient la vue :
+    GameManagerVisual qwerty;
+
+
+
     GameFrameImpl view; // on en a besoin pour donner le focus au clavier
     GamePanelImpl panel;
+
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
@@ -104,11 +109,14 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
         if (super.getGridView().getTetromino() != null) // on ne fait les actions que si on a un tétromino surlequel les appliquer
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_Q:
-                    super.performAction(TetrisAction.MOVE_LEFT);
+                case KeyEvent.VK_A:
+                    if (GameManagerVisual.isQwertyLayout) {
+                        super.performAction(TetrisAction.MOVE_LEFT);
+                    } else {
+                        super.performAction(TetrisAction.ROTATE_LEFT);
+                    }
                     break;
                 case KeyEvent.VK_D:
                     super.performAction(TetrisAction.MOVE_RIGHT);
@@ -120,8 +128,12 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
                 case KeyEvent.VK_Z:
                     super.performAction(TetrisAction.HOLD);
                     break;
-                case KeyEvent.VK_A:
-                    super.performAction(TetrisAction.ROTATE_LEFT);
+                case KeyEvent.VK_Q:
+                    if (GameManagerVisual.isQwertyLayout) {
+                        super.performAction(TetrisAction.ROTATE_LEFT);
+                    } else {
+                        super.performAction(TetrisAction.MOVE_LEFT);
+                    }
                     break;
                 case KeyEvent.VK_E:
                     super.performAction(TetrisAction.ROTATE_RIGHT);
@@ -132,6 +144,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
             }
         panel.update();
     }
+
 
 
     @Override

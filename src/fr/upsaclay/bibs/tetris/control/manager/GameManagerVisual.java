@@ -1,37 +1,29 @@
 package fr.upsaclay.bibs.tetris.control.manager;
 
 import fr.upsaclay.bibs.tetris.TetrisMode;
-import fr.upsaclay.bibs.tetris.control.player.GamePlayer;
-import fr.upsaclay.bibs.tetris.control.player.GamePlayerSimple;
 import fr.upsaclay.bibs.tetris.control.player.GamePlayerVisual;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
-import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
 import fr.upsaclay.bibs.tetris.view.Audio;
-import fr.upsaclay.bibs.tetris.view.GameFrame;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
 
-import javax.sound.sampled.*;
 import javax.swing.SwingUtilities;
 
 public class GameManagerVisual extends AbstractGameManager implements ActionListener{
+
 
     //ActionListener des boutons
     // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
     private GameFrameImpl view;
 
-    private static Audio musicPlayer = new Audio();
+    private Audio musicPlayer = new Audio();
+    public static boolean isQwertyLayout;
 
-    private int musicState = 0; // Keeps in memory the state of the music
 
     public GameManagerVisual() {
         super.loadNewGame(); // creation du player
@@ -95,7 +87,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         switch (action) {
             case START:
                 musicPlayer.musicPlay();
-                musicState = 1;
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
                 break;
@@ -107,14 +98,17 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             case PAUSE:
                 view.drawGamePauseView();
                 view.getGamePanel().pauseActionLoop();
+               
                 break;
+            case CONTROL:
+            	view.commandeview();
+            	break;
 
             case RESTART:
-            	
-                if(musicState!=0){
+                if(musicPlayer.musicRunning()){
                     musicPlayer.musicStop();
-                    musicState = 0;
                 }
+                isQwertyLayout = false;
                 view.drawManagementView();
                 view.getGamePanel().pauseActionLoop();
                 
@@ -140,11 +134,14 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 System.exit(1);
                 break;
             case MUSIC:
-
-                musicPlayer.musicStop();
-
+                musicPlayer.musicPlay();
                 break;
-
+            case MUSICMUTE:
+                musicPlayer.musicStop();
+                break;
+            case QWERTY:
+                isQwertyLayout = true;
+                break;
             default:
                 break;
 
@@ -164,7 +161,8 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     public void pausePlayer(){
         super.getPlayer().pause();
     }
-    
+
+
     //class UpdateActionListener implements ActionListener {
     //public void actionPerformed(ActionEvent e) {
     //field.evolve();
