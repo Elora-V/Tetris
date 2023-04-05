@@ -165,8 +165,8 @@ public class GamePlayerSimple implements GamePlayer{
             grid.setTetromino(provider.next());
             grid.setAtStartingCoordinates();
             beginning=false;
-           
-             	 
+
+
         }
 
     }
@@ -214,6 +214,7 @@ public class GamePlayerSimple implements GamePlayer{
 
         // on donne le tétromino suivant
         if(isOver()){ // on vérifie d'abord que le jeu n'est pas fini
+            System.out.println("fin??");
             activeGame=false;
         }
         if (activeGame) {

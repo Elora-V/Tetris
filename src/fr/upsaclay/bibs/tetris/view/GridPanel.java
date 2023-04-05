@@ -13,6 +13,7 @@ public class GridPanel extends JPanel {
     TetrisGridView grid;
     int nblines;
     int nbcols;
+    boolean projection=true;
 
     boolean pause=false;
     JLabel pauseLabel;
@@ -60,6 +61,10 @@ public class GridPanel extends JPanel {
         this.nbcols = numcol;
         setPreferredSize(new Dimension(nbcols*GameFrame.PIXELS_PER_CELL,nblines*GameFrame.PIXELS_PER_CELL));
     }
+
+    public void setProjection(boolean projection){
+        this.projection=projection;
+    }
     @Override
     public void paintComponent(Graphics g) {
 
@@ -67,49 +72,30 @@ public class GridPanel extends JPanel {
 
        super.paintComponent(g);
 
-       /* for(int i = 0 ; i < grid.numberOfLines(); i++) {
-            System.out.println(i);
-            for (int j = 1; j < grid.numberOfCols(); j++) {
-
-                TetrisCell cell = grid.visibleCell(i, j);
-                if (cell != TetrisCell.EMPTY) {
-                    // =Color.decode("#6c7687")
-                    Color colcell; // couleur par default
-                    if(!(pause || end)) {
-                        colcell = GamePanelImpl.ReturnColorCase(cell); // si le jeu est pas en pause : vrai couleur
-                        g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                        g.setColor(colcell);
-                        g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    }
-                }
-            }
-        }*/
 
         for(int i = 0 ; i < grid.numberOfLines(); i++) {
             for (int j = 0; j < grid.numberOfCols(); j++) {
+                TetrisCell cell = grid.visibleCell(i,j);
+                if(projection){
+                    cell = grid.projectionVisibleCell(i,j);
+                }
 
-                TetrisCell cell = grid.projectionVisibleCell(i,j);
                 Color colcell = Color.decode("#6c7687"); // couleur par default
 
                 if (cell != TetrisCell.EMPTY) {
                     if (!(pause || end)) {
                         colcell = GamePanelImpl.ReturnColorCase(cell); // si le jeu est pas en pause : vrai couleur
                     }
-                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.setColor(colcell);
                     g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                     g.setColor(colcell);
-                    g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                 }
 
                 if(pause){
-                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.setColor(colcell);
+
                     g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                     g.setColor(colcell);
-                    g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
                 }
             }
         }

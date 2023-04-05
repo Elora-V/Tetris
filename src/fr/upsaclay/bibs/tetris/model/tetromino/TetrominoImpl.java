@@ -11,18 +11,67 @@ import java.util.List;
 
 public class TetrominoImpl implements Tetromino{
 
-    TetrominoShape typeShape;
-    TetrisCell[][] shape;
-    int rotation;
+    // Cette classe repésente un tetromino.
 
+    //////////////////////  Elements de la classe ////////////////////////////////
+
+    TetrominoShape typeShape; // forme du tetromino
+    TetrisCell[][] shape;  // tableau de cellules indiquant les cases remplies et vides
+    int rotation; // numero de rotation du tétromino (0 étant celle de base)
+
+
+    //////////////////////  Constructeur  ////////////////////////////////
     public TetrominoImpl(TetrominoShape type,int rotation){
         this.rotation=rotation;
         this.typeShape=type;
-        this.shape= type.listPosition.get(rotation); //recup la version tournée dans la liste des positions possibles
+        //on récupère la version tournée dans la liste des rotations possibles du tetromino
+        this.shape= type.listRotation.get(rotation);
+    }
+
+    //////////////////////  Méthodes de base  ////////////////////////////////
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!TetrominoImpl.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        // comparaison d'objet tetromino :
+        TetrominoImpl tetro= (TetrominoImpl) obj; // conversion en tetromino
+        // on veut que nos 3 champs soient égaux pour renvoyer vrai
+        if (!this.typeShape.equals(tetro.typeShape)){
+            return false;
+        }
+        if (this.rotation!=tetro.rotation){
+            return false;
+        }
+        if ( ! Arrays.deepEquals(this.shape,tetro.shape) ){
+            return false;
+        }
+        else{ return true;}
+
+    }
+
+    @Override
+    public String toString(){
+        String tetro="\n";
+        for (int i=0;i<typeShape.getBoxSize();i++){
+            for (int j=0;j<typeShape.getBoxSize();j++){
+                if(cell(i,j).equals(TetrisCell.EMPTY)){
+                    tetro+=' ';
+                }else {
+                    tetro += cell(i, j).toString();
+                }
+            }
+            tetro+='\n';
+        }
+        return tetro;
     }
 
 
-
+    //////////////////////  Get et Set  ////////////////////////////////
     /**
      * Return the Tetromino shape
      *
@@ -42,6 +91,36 @@ public class TetrominoImpl implements Tetromino{
     public int getRotationNumber(){
         return this.rotation;
     }
+
+    /**
+     * The box size
+     *
+     * a tetromino has cells for
+     * 0 <= line < boxSize
+     * 0 <= col < boxSize
+     *
+     * @return the box size
+     */
+    @Override
+    public int getBoxSize(){
+        return typeShape.getBoxSize();
+    }
+
+    /**
+     * The cell at position line, col
+     * the top line is 0
+     * the left colmun is 0
+     *
+     * @param line
+     * @param col
+     * @return a tetris cell (can be empty tetris cell)
+     */
+    @Override
+    public TetrisCell cell(int line, int col){
+        return shape[line][col];
+    }
+
+    //////////////////////  Actions ////////////////////////////////
 
     /**
      * Return the tetromino obtained by
@@ -65,72 +144,6 @@ public class TetrominoImpl implements Tetromino{
         return new TetrominoImpl(this.typeShape, (this.rotation -1 +typeShape.getNumberOfRotations()) % typeShape.getNumberOfRotations()) ;
     }
 
-    /**
-     * The cell at position line, col
-     * the top line is 0
-     * the left colmun is 0
-     *
-     * @param line
-     * @param col
-     * @return a tetris cell (can be empty tetris cell)
-     */
-    @Override
-    public TetrisCell cell(int line, int col){
-        return shape[line][col];
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!TetrominoImpl.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        // comparaison d'objet tetromino :
-        TetrominoImpl tetro= (TetrominoImpl) obj; // conversion en tetromino
-        if (!this.typeShape.equals(tetro.typeShape)){
-            return false;
-        }
-        if (this.rotation!=tetro.rotation){
-            return false;
-        }
-        if ( ! Arrays.deepEquals(this.shape,tetro.shape) ){
-            return false;
-        }
-        else{ return true;}
-
-    }
-
-
-    @Override
-    public String toString(){
-        String tetro="\n";
-        for (int i=0;i<typeShape.getBoxSize();i++){
-            for (int j=0;j<typeShape.getBoxSize();j++){
-                if(cell(i,j).equals(TetrisCell.EMPTY)){
-                    tetro+=' ';
-                }else {
-                    tetro += cell(i, j).toString();
-                }
-            }
-            tetro+='\n';
-        }
-        return tetro;
-    }
-    /**
-     * The box size
-     *
-     * a tetromino has cells for
-     * 0 <= line < boxSize
-     * 0 <= col < boxSize
-     *
-     * @return the box size
-     */
-    @Override
-    public int getBoxSize(){
-        return typeShape.getBoxSize();
-    }
 
     /**
      * Wall kicks are certain "trick" to handle tetromino
@@ -146,9 +159,9 @@ public class TetrominoImpl implements Tetromino{
      */
     @Override
     public List<TetrisCoordinates> wallKicksFromRight(){
-        // il faut faire attention à nos coordonnées : sur le site x et y sont inversés par rapport à nous
 
-        //de plus changement de signe de la seconde coordonnée ?? (non fait dans test, donc j'ai mis pareil)
+        // il faut faire attention à nos coordonnées : sur wikipédia x et y sont inversés par rapport à nous
+
         switch (typeShape) {
             case ISHAPE:
                 switch (rotation) {

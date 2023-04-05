@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.tetris.view;
 
+import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.control.manager.ManagerAction;
 
 import javax.swing.*;
@@ -17,9 +18,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     GamePanelImpl gamePanel; // au centre : la grille
     JPanel controlPanel; // à droite : les options de jeu
-   
-    
-
 
 
     // les versions du panel de controle
@@ -32,6 +30,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     // boutons de bases
     ManagerButton startButton;
+
+    ManagerButton keyboardButton;
     ManagerButton pauseButton;
     ManagerButton resumeButton;
     ManagerButton quitButton;
@@ -48,6 +48,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     
 
     ManagerButton music;
+
+    ManagerButton musicmute;
+
+    ManagerButton qwerty;
 
     public GameFrameImpl(String name) {
         super(name);
@@ -79,14 +83,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
-        
+        initialPanel.add(qwerty);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
         playPanel = new JPanel();
         playPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         playPanel.add(pauseButton);
-        playPanel.add(music);
         controlPanel.add(playPanel);
 
 
@@ -96,7 +99,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
-        pausePanel.add(comandeButton);
+        pausePanel.add(music);
+        pausePanel.add(musicmute);
+
+        // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
@@ -362,8 +368,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////// Bouton 'classique'
         startButton=new ManagerButton("Start Game");
         startButton.setManagerAction(ManagerAction.START);
+        keyboardButton=new ManagerButton("QWERTY");
+        keyboardButton.setManagerAction(ManagerAction.CHANGE);
 
-        ImageIcon pauseIcon = new ImageIcon("pause.png");
+        ImageIcon pauseIcon = new ImageIcon("Button_icons/pause.png");
         Image pauseImage = pauseIcon.getImage();
         Image smallPauseImage = pauseImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallPauseIcon = new ImageIcon(smallPauseImage);
@@ -388,12 +396,24 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         ///// Bouton musique
 
-        ImageIcon speakerIcon = new ImageIcon("speaker.png");
+        ImageIcon speakerIcon = new ImageIcon("Button_icons/speaker.png");
         Image speakerImage = speakerIcon.getImage();
         Image smallSpeakerImage = speakerImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
         music = new ManagerButton(smallSpeakerIcon);
         music.setManagerAction(ManagerAction.MUSIC);
+
+        ImageIcon muteIcon = new ImageIcon("Button_icons/mute.png");
+        Image muteImage = muteIcon.getImage();
+        Image smallMuteImage = muteImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallMuteIcon = new ImageIcon(smallMuteImage);
+        musicmute = new ManagerButton(smallMuteIcon);
+        musicmute.setManagerAction(ManagerAction.MUSICMUTE);
+
+        ///// QWERTY
+
+        qwerty=new ManagerButton("qwerty");
+        qwerty.setManagerAction(ManagerAction.QWERTY);
 
 
 

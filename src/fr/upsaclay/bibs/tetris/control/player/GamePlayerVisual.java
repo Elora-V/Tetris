@@ -1,13 +1,11 @@
 package fr.upsaclay.bibs.tetris.control.player;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
+import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
 import fr.upsaclay.bibs.tetris.model.tetromino.TetrominoProvider;
-import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
-import fr.upsaclay.bibs.tetris.view.GamePanel;
-import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
-import fr.upsaclay.bibs.tetris.view.ManagerComponent;
+import fr.upsaclay.bibs.tetris.view.*;
 
 
 import java.awt.event.ActionListener;
@@ -20,15 +18,18 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
     // listener clavier et timer
     int delay; // in ms
+    Audio gameoverSound = new Audio(); // Création d'une instance d'un objet Audio pour jouer le son du gameover
+    GameManagerVisual MusicPlayer;
+    GameManagerVisual qwerty;
 
-    //contient la vue :
     GameFrameImpl view; // on en a besoin pour donner le focus au clavier
     GamePanelImpl panel;
+
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
        super(grid, scoreComputer, provider,type);
-       delay=500; //a changer par la valeur initiale
+       delay=GamePanelImpl.INITIAL_DELAY;
 
     }
 
@@ -72,7 +73,9 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     public boolean isOver(){
         boolean isOver= super.isOver();
         if( isOver) {
-            panel.drawEndGameView();
+            GameManagerVisual.stopMusic(); // Arrêt de la musique de fond lors d'un gameover
+            view.drawEndGameView();
+            gameoverSound.GameOverPlay(); // Son de fin de partie lorsqu'il y a un gameover
         }
         return isOver;
     }
@@ -104,11 +107,14 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
         if (super.getGridView().getTetromino() != null) // on ne fait les actions que si on a un tétromino surlequel les appliquer
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_Q:
-                    super.performAction(TetrisAction.MOVE_LEFT);
+                case KeyEvent.VK_A:
+                    if (GameManagerVisual.isQwertyLayout) {
+                        super.performAction(TetrisAction.MOVE_LEFT);
+                    } else {
+                        super.performAction(TetrisAction.ROTATE_LEFT);
+                    }
                     break;
                 case KeyEvent.VK_D:
                     super.performAction(TetrisAction.MOVE_RIGHT);
@@ -120,8 +126,12 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
                 case KeyEvent.VK_Z:
                     super.performAction(TetrisAction.HOLD);
                     break;
-                case KeyEvent.VK_A:
-                    super.performAction(TetrisAction.ROTATE_LEFT);
+                case KeyEvent.VK_Q:
+                    if (GameManagerVisual.isQwertyLayout) {
+                        super.performAction(TetrisAction.ROTATE_LEFT);
+                    } else {
+                        super.performAction(TetrisAction.MOVE_LEFT);
+                    }
                     break;
                 case KeyEvent.VK_E:
                     super.performAction(TetrisAction.ROTATE_RIGHT);
@@ -134,11 +144,13 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     }
 
 
+
     @Override
     public void actionPerformed(ActionEvent e) {  // action timer
-        super.performAction(TetrisAction.DOWN);
-        panel.setLoopDelay(super.whichDelay());
-        panel.update();
-        
+        if(activeGame) {
+            super.performAction(TetrisAction.DOWN);
+            panel.setLoopDelay(super.whichDelay());
+            panel.update();
+        }
     }
 }
