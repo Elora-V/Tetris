@@ -21,7 +21,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
     // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
     private GameFrameImpl view;
 
-    private Audio musicPlayer = new Audio();
+    private static Audio musicPlayer = new Audio(); // Création d'une variable musicPlayer pour la musique de fond
     public static boolean isQwertyLayout;
 
 
@@ -86,7 +86,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
 
         switch (action) {
             case START:
-                musicPlayer.musicPlay();
+                musicPlayer.musicPlay(); // La musique est jouée automatiquement dès que le jeu commence
                 view.drawGamePlayView();
                 view.getGamePanel().startActionLoop();
                 break;
@@ -101,12 +101,13 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                
                 break;
             case CONTROL:
-            	view.commandeview();
-            	break;
+                view.commandeview();
+                break;
 
             case RESTART:
                 if(musicPlayer.musicRunning()){
-                    musicPlayer.musicStop();
+                    musicPlayer.musicStop(); // Si la musique est en cours de lecture et que le joueur souhaite
+                                             // redémarrer le jeu, la musique s'arrête.
                 }
                 isQwertyLayout = false;
                 view.drawManagementView();
@@ -134,10 +135,10 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 System.exit(1);
                 break;
             case MUSIC:
-                musicPlayer.musicPlay();
+                musicPlayer.musicPlay(); // La musique est jouée si le joueur le souhaite.
                 break;
             case MUSICMUTE:
-                musicPlayer.musicStop();
+                musicPlayer.musicStop(); // La musique s'arrête si le joueur le souhaite.
                 break;
             case QWERTY:
                 isQwertyLayout = true;
@@ -160,6 +161,11 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
      */
     public void pausePlayer(){
         super.getPlayer().pause();
+    }
+
+    public static void stopMusic(){
+        musicPlayer.musicStop(); // Une méthode statique utilisée pour arrêter la lecture de la musique
+                                 // dans la classe GameManagerVisual
     }
 
 
