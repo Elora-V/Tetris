@@ -57,5 +57,9 @@ public enum ManagerAction {
 	/**
 	 * Select a tetromino files
 	 */
-	LOAD_TETROMINO
+	LOAD_TETROMINO,
+	/**
+	 * sauvegarde le score de la derniere partie
+	 */
+	SAVESCORE
 }
