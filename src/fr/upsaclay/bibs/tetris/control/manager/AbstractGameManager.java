@@ -81,7 +81,6 @@ public abstract class AbstractGameManager implements GameManager {
 
         switch ( action) {
             case START:
-            case MUSIC:
             case RESUME:
                 gamePlayer.start();
                 break;

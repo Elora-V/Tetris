@@ -1,5 +1,6 @@
 package fr.upsaclay.bibs.tetris.view;
 
+import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.control.manager.ManagerAction;
 
 import javax.swing.*;
@@ -14,9 +15,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     GamePanelImpl gamePanel; // au centre : la grille
     JPanel controlPanel; // à droite : les options de jeu
-   
-    
-
 
 
     // les versions du panel de controle
@@ -24,11 +22,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     JPanel playPanel;
     JPanel pausePanel;
     JPanel endPanel;
-    JPanel comandePanel;
-    
+    //JPanel ;
+    JFrame comandePanel;
 
     // boutons de bases
     ManagerButton startButton;
+
+    ManagerButton keyboardButton;
     ManagerButton pauseButton;
     ManagerButton resumeButton;
     ManagerButton quitButton;
@@ -40,6 +40,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     
 
     ManagerButton music;
+
+    ManagerButton musicmute;
+
+    ManagerButton qwerty;
 
     public GameFrameImpl(String name) {
         super(name);
@@ -71,14 +75,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
-        
+        initialPanel.add(qwerty);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
         playPanel = new JPanel();
         playPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         playPanel.add(pauseButton);
-        playPanel.add(music);
         controlPanel.add(playPanel);
 
 
@@ -88,6 +91,9 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(quitButton);
         pausePanel.add(resumeButton);
         pausePanel.add(restartButton);
+        pausePanel.add(music);
+        pausePanel.add(musicmute);
+
         // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
@@ -98,8 +104,108 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         endPanel.add(quit2Button);
         controlPanel.add(endPanel);
         ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
-        comandePanel = new JPanel();
-        comandePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
+       // comandePanel = new JPanel();
+        //comandePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
+        comandePanel = new JFrame();//Remplacer JFrame par ta nouvelle fenetre
+    	JButton btn1 = new JButton("A");  
+        JButton btn2 = new JButton("Z");
+        JButton btn3 = new JButton("E");
+        JButton btn4 = new JButton("Q");
+        JButton btn5 = new JButton("S");
+        JButton btn6 = new JButton("D");
+        JButton btn7 = new JButton("SPACE");
+        
+        
+        
+        //JButton btn1b = new JButton("ROT G");  
+        ImageIcon RotDIcon = new ImageIcon("RotD.png");
+        Image RotDImage = RotDIcon.getImage();
+        Image smallRotDImage = RotDImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        ImageIcon smallRotDIcon = new ImageIcon(smallRotDImage);
+        
+        ImageIcon RotGIcon = new ImageIcon("RotG.png");
+        Image RotGImage = RotGIcon.getImage();
+        Image smallRotGImage = RotGImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        ImageIcon smallRotGIcon = new ImageIcon(smallRotGImage);
+        
+        ImageIcon GchIcon = new ImageIcon("gch.png");
+        Image GchImage = GchIcon.getImage();
+        Image smallGchImage = GchImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        ImageIcon smallGchIcon = new ImageIcon(smallGchImage);
+        
+        ImageIcon DrtIcon = new ImageIcon("drt.png");
+        Image DrtImage = DrtIcon.getImage();
+        Image smallDrtImage = DrtImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        ImageIcon smallDrtIcon = new ImageIcon(smallDrtImage);
+        
+        ImageIcon HIcon = new ImageIcon("hold.png");
+        Image HImage = HIcon.getImage();
+        Image smallHImage = HImage.getScaledInstance(100, 45, Image.SCALE_SMOOTH);
+        ImageIcon smallHIcon = new ImageIcon(smallHImage);
+        
+        ImageIcon HDIcon = new ImageIcon("HD.png");
+        Image HDImage = HDIcon.getImage();
+        Image smallHDImage = HDImage.getScaledInstance(295, 90, Image.SCALE_SMOOTH);
+        ImageIcon smallHDIcon = new ImageIcon(smallHDImage);
+        
+        ImageIcon SDIcon = new ImageIcon("SD.png");
+        Image SDImage = SDIcon.getImage();
+        Image smallSDImage = SDImage.getScaledInstance(100, 45, Image.SCALE_SMOOTH);
+        ImageIcon smallSDIcon = new ImageIcon(smallSDImage);
+        
+        ManagerButton btn1b = new ManagerButton(smallRotGIcon);
+        ManagerButton btn2b = new ManagerButton(smallHIcon);
+        ManagerButton btn3b = new ManagerButton(smallRotDIcon);
+        ManagerButton btn4b = new ManagerButton(smallGchIcon);
+        ManagerButton btn5b = new ManagerButton(smallSDIcon);
+        ManagerButton btn6b = new ManagerButton(smallDrtIcon);
+        ManagerButton btn7b = new ManagerButton(smallHDIcon);
+        
+        
+        //Spécifier la position et la taille du bouton    
+        btn1.setBounds(90,30,50,50);  
+        btn2.setBounds(150,30,50,50);
+        btn3.setBounds(210,30,50,50);
+        
+        btn4.setBounds(100,90,50,50);  
+        btn5.setBounds(160,90,50,50);
+        btn6.setBounds(220,90,50,50);
+        btn7.setBounds(90,150,180,50);
+        
+        btn1b.setBounds(30,230,100,50);  
+        btn2b.setBounds(140,230,75,50);
+        btn3b.setBounds(225,230,100,50);
+        
+        btn4b.setBounds(30,290,100,50);  
+        btn5b.setBounds(140,290,75,50);
+        btn6b.setBounds(225,290,100,50);
+        btn7b.setBounds(30,350,295,50);
+       
+        
+        //Spécifier la couleur d'arrière-plan du bouton
+      //  btn1.setBackground(Color.WHITE);    
+      //  btn2.setBackground(Color.RED); 
+        //Ajouter les deux boutons au JPanel
+       comandePanel.add(btn1); 
+       comandePanel.add(btn2);
+       comandePanel.add(btn3);
+       comandePanel.add(btn4); 
+       comandePanel.add(btn5);
+       comandePanel.add(btn6);
+       comandePanel.add(btn7);
+       
+       comandePanel.add(btn1b); 
+       comandePanel.add(btn2b);
+       comandePanel.add(btn3b);
+       
+       comandePanel.add(btn4b); 
+       comandePanel.add(btn5b);
+       comandePanel.add(btn6b);
+       comandePanel.add(btn7b);
+        //Ajouter le JPanel au JFrame
+        //comandePanel.add(panel);
+        comandePanel.setSize(350,500);  
+        comandePanel.setLayout(null);  
        
         
         pack();
@@ -183,8 +289,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////// Bouton 'classique'
         startButton=new ManagerButton("Start Game");
         startButton.setManagerAction(ManagerAction.START);
+        keyboardButton=new ManagerButton("QWERTY");
+        keyboardButton.setManagerAction(ManagerAction.CHANGE);
 
-        ImageIcon pauseIcon = new ImageIcon("pause.png");
+        ImageIcon pauseIcon = new ImageIcon("Button_icons/pause.png");
         Image pauseImage = pauseIcon.getImage();
         Image smallPauseImage = pauseImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallPauseIcon = new ImageIcon(smallPauseImage);
@@ -203,15 +311,28 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         restart2Button=new ManagerButton("Restart a new game");
         restart2Button.setManagerAction(ManagerAction.RESTART);
         comandeButton=new ManagerButton("Control");
+        comandeButton.setManagerAction(ManagerAction.CONTROL);
 
         ///// Bouton musique
 
-        ImageIcon speakerIcon = new ImageIcon("speaker.png");
+        ImageIcon speakerIcon = new ImageIcon("Button_icons/speaker.png");
         Image speakerImage = speakerIcon.getImage();
         Image smallSpeakerImage = speakerImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
         music = new ManagerButton(smallSpeakerIcon);
         music.setManagerAction(ManagerAction.MUSIC);
+
+        ImageIcon muteIcon = new ImageIcon("Button_icons/mute.png");
+        Image muteImage = muteIcon.getImage();
+        Image smallMuteImage = muteImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallMuteIcon = new ImageIcon(smallMuteImage);
+        musicmute = new ManagerButton(smallMuteIcon);
+        musicmute.setManagerAction(ManagerAction.MUSICMUTE);
+
+        ///// QWERTY
+
+        qwerty=new ManagerButton("qwerty");
+        qwerty.setManagerAction(ManagerAction.QWERTY);
 
 
 
@@ -222,6 +343,11 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 //        bg.add(r1);
 //        bg.add(r2);
 
+    }
+    public void commandeview() {
+    	
+        comandePanel.setVisible(true);  
+     
     }
 
     /**
@@ -240,7 +366,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quitButton.addActionListener(listener);
         restart2Button.addActionListener(listener);
         quit2Button.addActionListener(listener);
+        comandeButton.addActionListener(listener);
         music.addActionListener(listener);
+        musicmute.addActionListener(listener);
+        qwerty.addActionListener(listener);
     }
 
     /** 
