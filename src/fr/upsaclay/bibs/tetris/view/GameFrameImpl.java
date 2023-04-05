@@ -7,7 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +39,12 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton quit2Button;
     ManagerButton restart2Button;
     ManagerButton comandeButton;
+    ManagerButton saveScoreButton;
     
+    // affichage pour l'enregistrement du score
+    JTextField textArea;
+    JTable tableauScore;
+    String[][]tableau;
     
 
     ManagerButton music;
@@ -93,6 +101,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(restartButton);
         pausePanel.add(music);
         pausePanel.add(musicmute);
+        pausePanel.add(comandeButton);
 
         // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
@@ -100,8 +109,27 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  The end panel (when the game is over) /////////////////
         endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
+        
+        textArea = new JTextField();
+        textArea.setPreferredSize( new Dimension( controlPanel.getPreferredSize().width - 10, 25 ));
+       
+        //String[][]tableau = new String[100][4];
+        //loadtableau score
+        Object[][] tableau = {
+        	      {"Cysboy", "1", "1", "1"},
+        	      {"BZHHydde", "2", "1", "1"},
+        	      {"IamBow", "2", "1", "3"},
+        	      {"FunMan", "3", "1", "4"}
+        	    };
+        String  title[] = {"Pseudo", "score", "lines", "level"};
+        tableauScore = new JTable(tableau, title);
+        tableauScore.setBounds(290, 40, 300, 120);
+        
         endPanel.add(restart2Button);
         endPanel.add(quit2Button);
+        endPanel.add(tableauScore);
+        endPanel.add(textArea);
+        endPanel.add(saveScoreButton);
         controlPanel.add(endPanel);
         ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
        // comandePanel = new JPanel();
@@ -118,37 +146,37 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         
         
         //JButton btn1b = new JButton("ROT G");  
-        ImageIcon RotDIcon = new ImageIcon("RotD.png");
+        ImageIcon RotDIcon = new ImageIcon("Button_icons/RotD.png");
         Image RotDImage = RotDIcon.getImage();
         Image smallRotDImage = RotDImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallRotDIcon = new ImageIcon(smallRotDImage);
         
-        ImageIcon RotGIcon = new ImageIcon("RotG.png");
+        ImageIcon RotGIcon = new ImageIcon("Button_icons/RotG.png");
         Image RotGImage = RotGIcon.getImage();
         Image smallRotGImage = RotGImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallRotGIcon = new ImageIcon(smallRotGImage);
         
-        ImageIcon GchIcon = new ImageIcon("gch.png");
+        ImageIcon GchIcon = new ImageIcon("Button_icons/gch.png");
         Image GchImage = GchIcon.getImage();
         Image smallGchImage = GchImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallGchIcon = new ImageIcon(smallGchImage);
         
-        ImageIcon DrtIcon = new ImageIcon("drt.png");
+        ImageIcon DrtIcon = new ImageIcon("Button_icons/drt.png");
         Image DrtImage = DrtIcon.getImage();
         Image smallDrtImage = DrtImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallDrtIcon = new ImageIcon(smallDrtImage);
         
-        ImageIcon HIcon = new ImageIcon("hold.png");
+        ImageIcon HIcon = new ImageIcon("Button_icons/hold.png");
         Image HImage = HIcon.getImage();
         Image smallHImage = HImage.getScaledInstance(100, 45, Image.SCALE_SMOOTH);
         ImageIcon smallHIcon = new ImageIcon(smallHImage);
         
-        ImageIcon HDIcon = new ImageIcon("HD.png");
+        ImageIcon HDIcon = new ImageIcon("Button_icons/HD.png");
         Image HDImage = HDIcon.getImage();
         Image smallHDImage = HDImage.getScaledInstance(295, 90, Image.SCALE_SMOOTH);
         ImageIcon smallHDIcon = new ImageIcon(smallHDImage);
         
-        ImageIcon SDIcon = new ImageIcon("SD.png");
+        ImageIcon SDIcon = new ImageIcon("Button_icons/SD.png");
         Image SDImage = SDIcon.getImage();
         Image smallSDImage = SDImage.getScaledInstance(100, 45, Image.SCALE_SMOOTH);
         ImageIcon smallSDIcon = new ImageIcon(smallSDImage);
@@ -254,6 +282,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
         endPanel.setVisible(false);
+        
         gamePanel.drawGamePauseView();
         update();
     }
@@ -269,6 +298,57 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         endPanel.setVisible(true);
         gamePanel.drawEndGameView();
         update();
+    }
+    /**
+     * sauvegarde du score
+     */
+    public void saveScore(){
+    	String content ;
+   	 
+		content= textArea.getText();
+	  
+		int  score = 1 ;
+		int  lines = 2 ;
+		int  level = 3 ;
+		
+		try {
+		 File file = new File("save.txt");
+
+		 // créer le fichier s'il n'existe pas
+		 if (!file.exists()) {
+		 file.createNewFile();
+		 }
+
+		 FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		 PrintWriter bw = new PrintWriter(fw);
+		 bw.println("score");
+		 
+		 int i = 0;
+		 int j = 0;
+		 while(tableau[i][j]!=null) {
+			 bw.println(tableau[i][j]);  
+			 
+			 j++;
+		       if (j>3) {
+		    	   i++;
+		    	   j = 0;
+		       }
+		 }
+		 bw.println(content);
+		 bw.println(score);
+		 bw.println(lines);
+		 bw.println(level);  
+		 bw.close();
+
+		 System.out.println("save");
+		} 
+		catch (IOException e) {
+		 e.printStackTrace();
+		 }
+		 
+		
+		 
+		
     }
     /**
      * Return the panel handling the game action
@@ -312,6 +392,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         restart2Button.setManagerAction(ManagerAction.RESTART);
         comandeButton=new ManagerButton("Control");
         comandeButton.setManagerAction(ManagerAction.CONTROL);
+        saveScoreButton=new ManagerButton("Savescore");
+        saveScoreButton.setManagerAction(ManagerAction.SAVESCORE);
 
         ///// Bouton musique
 
@@ -368,8 +450,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quit2Button.addActionListener(listener);
         comandeButton.addActionListener(listener);
         music.addActionListener(listener);
-        musicmute.addActionListener(listener);
-        qwerty.addActionListener(listener);
+        saveScoreButton.addActionListener(listener);
     }
 
     /** 

@@ -101,7 +101,15 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                
                 break;
             case CONTROL:
-                view.commandeview();
+            	view.commandeview();
+            	break;
+            case SAVESCORE:
+            	//view.saveScore();
+                view.drawManagementView();
+                view.getGamePanel().pauseActionLoop();
+                
+                view.dispose();
+                SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize());
                 break;
 
             case RESTART:

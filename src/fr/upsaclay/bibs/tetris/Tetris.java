@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Tetris {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize()); // indiquer la classe du controller qui lance le jeu
+        SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize()); 
     }
 
 }

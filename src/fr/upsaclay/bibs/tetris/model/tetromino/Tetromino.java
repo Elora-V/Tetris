@@ -35,7 +35,10 @@ import fr.upsaclay.bibs.tetris.model.grid.TetrisCoordinates;
  *
  */
 public interface Tetromino {
-	
+
+
+	//////////////////////  Get et Set  ////////////////////////////////
+
 	/**
 	 * Return the Tetromino shape
 	 * 
@@ -49,7 +52,32 @@ public interface Tetromino {
 	 * @return the rotation number
 	 */
 	public int getRotationNumber();
-	
+
+	/**
+	 * The box size
+	 *
+	 * a tetromino has cells for
+	 * 0 <= line < boxSize
+	 * 0 <= col < boxSize
+	 *
+	 * @return the box size
+	 */
+	public int getBoxSize();
+
+	/**
+	 * The cell at position line, col
+	 * the top line is 0
+	 * the left colmun is 0
+	 *
+	 * @param line
+	 * @param col
+	 * @return a tetris cell (can be empty tetris cell)
+	 */
+	public TetrisCell cell(int line, int col);
+
+	//////////////////////  Actions  ////////////////////////////////
+
+
 	/**
 	 * Return the tetromino obtained by
 	 * rotation to the right
@@ -65,28 +93,7 @@ public interface Tetromino {
 	 * @return a tetromino
 	 */
 	public Tetromino rotateLeft();
-	
-	/**
-	 * The cell at position line, col
-	 * the top line is 0
-	 * the left colmun is 0
-	 * 
-	 * @param line
-	 * @param com
-	 * @return a tetris cell (can be empty tetris cell)
-	 */
-	public TetrisCell cell(int line, int col);
-	
-	/**
-	 * The box size
-	 * 
-	 * a tetromino has cells for
-	 * 0 <= line < boxSize
-	 * 0 <= col < boxSize
-	 * 
-	 * @return the box size
-	 */
-	public int getBoxSize();
+
 	
 	/**
 	 * Wall kicks are certain "trick" to handle tetromino
