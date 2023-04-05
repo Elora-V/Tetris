@@ -101,6 +101,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(restartButton);
         pausePanel.add(music);
         pausePanel.add(musicmute);
+        pausePanel.add(comandeButton);
 
         // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
@@ -145,37 +146,37 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         
         
         //JButton btn1b = new JButton("ROT G");  
-        ImageIcon RotDIcon = new ImageIcon("RotD.png");
+        ImageIcon RotDIcon = new ImageIcon("Button_icons/RotD.png");
         Image RotDImage = RotDIcon.getImage();
         Image smallRotDImage = RotDImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallRotDIcon = new ImageIcon(smallRotDImage);
         
-        ImageIcon RotGIcon = new ImageIcon("RotG.png");
+        ImageIcon RotGIcon = new ImageIcon("Button_icons/RotG.png");
         Image RotGImage = RotGIcon.getImage();
         Image smallRotGImage = RotGImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallRotGIcon = new ImageIcon(smallRotGImage);
         
-        ImageIcon GchIcon = new ImageIcon("gch.png");
+        ImageIcon GchIcon = new ImageIcon("Button_icons/gch.png");
         Image GchImage = GchIcon.getImage();
         Image smallGchImage = GchImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallGchIcon = new ImageIcon(smallGchImage);
         
-        ImageIcon DrtIcon = new ImageIcon("drt.png");
+        ImageIcon DrtIcon = new ImageIcon("Button_icons/drt.png");
         Image DrtImage = DrtIcon.getImage();
         Image smallDrtImage = DrtImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         ImageIcon smallDrtIcon = new ImageIcon(smallDrtImage);
         
-        ImageIcon HIcon = new ImageIcon("hold.png");
+        ImageIcon HIcon = new ImageIcon("Button_icons/hold.png");
         Image HImage = HIcon.getImage();
         Image smallHImage = HImage.getScaledInstance(100, 45, Image.SCALE_SMOOTH);
         ImageIcon smallHIcon = new ImageIcon(smallHImage);
         
-        ImageIcon HDIcon = new ImageIcon("HD.png");
+        ImageIcon HDIcon = new ImageIcon("Button_icons/HD.png");
         Image HDImage = HDIcon.getImage();
         Image smallHDImage = HDImage.getScaledInstance(295, 90, Image.SCALE_SMOOTH);
         ImageIcon smallHDIcon = new ImageIcon(smallHDImage);
         
-        ImageIcon SDIcon = new ImageIcon("SD.png");
+        ImageIcon SDIcon = new ImageIcon("Button_icons/SD.png");
         Image SDImage = SDIcon.getImage();
         Image smallSDImage = SDImage.getScaledInstance(100, 45, Image.SCALE_SMOOTH);
         ImageIcon smallSDIcon = new ImageIcon(smallSDImage);
@@ -279,8 +280,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     public void drawGamePauseView(){
         initialPanel.setVisible(false);
         playPanel.setVisible(false);
-        pausePanel.setVisible(false);
-        endPanel.setVisible(true);
+        pausePanel.setVisible(true);
+        endPanel.setVisible(false);
         
         gamePanel.drawGamePauseView();
         update();
