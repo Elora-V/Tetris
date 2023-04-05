@@ -48,6 +48,8 @@ public enum ManagerAction {
 
 	QWERTY,
 
+	AZERTY,
+
 	/**
 	 * Save the current game
 	 */

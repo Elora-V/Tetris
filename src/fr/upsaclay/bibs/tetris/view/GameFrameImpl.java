@@ -22,6 +22,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     // les versions du panel de controle
     JPanel initialPanel;
+
+    JPanel keyboardPanel;
     JPanel playPanel;
     JPanel pausePanel;
     JPanel endPanel;
@@ -30,7 +32,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     // boutons de bases
     ManagerButton startButton;
-
     ManagerButton keyboardButton;
     ManagerButton pauseButton;
     ManagerButton resumeButton;
@@ -40,7 +41,11 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     ManagerButton restart2Button;
     ManagerButton comandeButton;
     ManagerButton saveScoreButton;
-    
+
+    ManagerRadioButton qwerty;
+    ManagerRadioButton azerty;
+
+
     // affichage pour l'enregistrement du score
     JTextField textArea;
     JTable tableauScore;
@@ -51,7 +56,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
     ManagerButton musicmute;
 
-    ManagerButton qwerty;
 
     public GameFrameImpl(String name) {
         super(name);
@@ -63,6 +67,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         // Create the control panel
         controlPanel = new JPanel();
+
 
 
     }
@@ -81,9 +86,13 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
         ///////////////// The initial panel /////////////////
         initialPanel = new JPanel();
+        keyboardPanel = new JPanel();
         initialPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
+        keyboardPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         initialPanel.add(startButton);
-        initialPanel.add(qwerty);
+        initialPanel.add(keyboardPanel);
+        keyboardPanel.add(qwerty);
+        keyboardPanel.add(azerty);
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
@@ -395,7 +404,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         saveScoreButton=new ManagerButton("Savescore");
         saveScoreButton.setManagerAction(ManagerAction.SAVESCORE);
 
-        ///// Bouton musique
+        ///// Boutons musique
 
         ImageIcon speakerIcon = new ImageIcon("Button_icons/speaker.png");
         Image speakerImage = speakerIcon.getImage();
@@ -411,10 +420,17 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         musicmute = new ManagerButton(smallMuteIcon);
         musicmute.setManagerAction(ManagerAction.MUSICMUTE);
 
-        ///// QWERTY
+        ///// Boutons radio (choix AZERTY/QWERTY)
 
-        qwerty=new ManagerButton("qwerty");
+        qwerty=new ManagerRadioButton("qwerty");
+        azerty = new ManagerRadioButton("azerty");
+
         qwerty.setManagerAction(ManagerAction.QWERTY);
+        azerty.setManagerAction(ManagerAction.AZERTY);
+
+        ButtonGroup keyboard = new ButtonGroup();
+        keyboard.add(qwerty);
+        keyboard.add(azerty);
 
 
 
@@ -450,7 +466,10 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quit2Button.addActionListener(listener);
         comandeButton.addActionListener(listener);
         music.addActionListener(listener);
+        qwerty.addActionListener(listener);
+        azerty.addActionListener(listener);
         saveScoreButton.addActionListener(listener);
+
     }
 
     /** 
