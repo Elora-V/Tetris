@@ -104,10 +104,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             	view.commandeview();
             	break;
             case SAVESCORE:
-            	if(musicState!=0){
-                    musicPlayer.musicStop();
-                    musicState = 0;
-                }
             	//view.saveScore();
                 view.drawManagementView();
                 view.getGamePanel().pauseActionLoop();
