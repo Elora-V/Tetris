@@ -104,7 +104,8 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
             	view.commandeview();
             	break;
             case SAVESCORE:
-            	//view.saveScore();
+            	
+            	view.saveScore();
                 view.drawManagementView();
                 view.getGamePanel().pauseActionLoop();
                 
