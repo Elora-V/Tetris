@@ -403,8 +403,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         labelLines.setText("Lines :"+ lines);
         // repaint
         gridPanel.repaint();
-        //nextTetroPanel.repaint();
-        //HoldTetroPanel.repaint();
         gameInfoPanel.repaint();
     }
 }

@@ -4,6 +4,8 @@ import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.control.manager.ManagerAction;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -112,19 +114,30 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  The end panel (when the game is over) /////////////////
         endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        
+        // création de la zone de saisie du pseudo
         textArea = new JTextField();
         textArea.setPreferredSize( new Dimension( controlPanel.getPreferredSize().width - 10, 25 ));
-       
-        tableau = new String[10][4];
+        // tableau des scores enregistré
+        tableau = new String[10][4]; //limitation à 10 score enregistré
         loadScore(tableau);
-        String  title[] = {"Pseudo", "score", "lines", "level"};
+        String  title[] = {"Pseudo", "S", "L", "N"};
         tableauScore = new JTable(tableau, title);
-        tableauScore.setBounds(290, 40, 300, 120);
+        tableauScore.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumn col = tableauScore.getColumnModel().getColumn(0);
+        col.setPreferredWidth(70);//largeur colonne pseudo
+        col = tableauScore.getColumnModel().getColumn(1);
+        col.setPreferredWidth(67);//largeur colonne score
+        col = tableauScore.getColumnModel().getColumn(2);
+        col.setPreferredWidth(25);// largeur colonnne lines
+        col = tableauScore.getColumnModel().getColumn(3);
+        col.setPreferredWidth(25);// largeur colonne level
         
+        JScrollPane scroll = new JScrollPane(tableauScore);//permet que le titre des colonnes soit afficher
+        scroll.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width - 10, 182));// control de la taille du tableau
+        //ajout des differents elements au panel de fin
         endPanel.add(restart2Button);
         endPanel.add(quit2Button);
-        endPanel.add(tableauScore);
+        endPanel.add(scroll);
         endPanel.add(textArea);
         endPanel.add(saveScoreButton);
         controlPanel.add(endPanel);
@@ -272,9 +285,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     public void drawGamePauseView(){
         initialPanel.setVisible(false);
         playPanel.setVisible(false);
-        pausePanel.setVisible(false);
-        endPanel.setVisible(true);
-        
+        pausePanel.setVisible(true);
+        endPanel.setVisible(false);
         gamePanel.drawGamePauseView();
         update();
     }
@@ -317,21 +329,28 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 		 
 		 int i = 0;
 		 int j = 0;
-		 while(tableau[i][j]!=null) {
+		 boolean flag = true;
+		 while(flag == true) {
 			 bw.println(tableau[i][j]);  
-			 
+			  
 			 j++;
 		       if (j>3) {
 		    	   i++;
 		    	   j = 0;
 		       }
+		      if ( tableau[i][j]==null) {
+		    	  flag =false;
+		      }
+		      else if(i == 9 && j == 4) {
+		    	  flag =false;
+		      }
 		 }
 		 bw.println(content);
 		 bw.println(score);
 		 bw.println(lines);
 		 bw.println(level);  
 		 bw.close();
-		 System.out.println("save");
+		
 		} 
 		catch (IOException e) {
 		 e.printStackTrace();
@@ -375,19 +394,14 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     		      if (tableau[i][j]== "null") {
     		    	  tableau[i][j] = null;
     		      }
-    		      System.out.println(line);
+    		      
     		      j++;
     		       if (j>3) {
     		    	   i++;
     		    	   j = 0;
     		       }
     		       
-    		    }
-    		        
-    		   // String str = builder.toString();
-    		   //System.out.println(str);
-    		 System.out.println("load");
-    		 
+    		    }   		 
     		} 
     		catch (IOException e) {
     		 e.printStackTrace();
