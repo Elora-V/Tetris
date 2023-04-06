@@ -4,12 +4,18 @@ import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.control.manager.ManagerAction;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
@@ -112,38 +118,42 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(musicmute);
         pausePanel.add(comandeButton);
 
-        // pausePanel.add(comandeButton);
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
         endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        
+        // création de la zone de saisie du pseudo
         textArea = new JTextField();
         textArea.setPreferredSize( new Dimension( controlPanel.getPreferredSize().width - 10, 25 ));
-       
-        //String[][]tableau = new String[100][4];
-        //loadtableau score
-        Object[][] tableau = {
-        	      {"Cysboy", "1", "1", "1"},
-        	      {"BZHHydde", "2", "1", "1"},
-        	      {"IamBow", "2", "1", "3"},
-        	      {"FunMan", "3", "1", "4"}
-        	    };
-        String  title[] = {"Pseudo", "score", "lines", "level"};
+        // tableau des scores enregistré
+        tableau = new String[10][4]; //limitation à 10 score enregistré
+        loadScore(tableau);
+        String  title[] = {"Pseudo", "S", "L", "N"};
         tableauScore = new JTable(tableau, title);
-        tableauScore.setBounds(290, 40, 300, 120);
+        tableauScore.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumn col = tableauScore.getColumnModel().getColumn(0);
+        col.setPreferredWidth(70);//largeur colonne pseudo
+        col = tableauScore.getColumnModel().getColumn(1);
+        col.setPreferredWidth(67);//largeur colonne score
+        col = tableauScore.getColumnModel().getColumn(2);
+        col.setPreferredWidth(25);// largeur colonnne lines
+        col = tableauScore.getColumnModel().getColumn(3);
+        col.setPreferredWidth(25);// largeur colonne level
         
+        JScrollPane scroll = new JScrollPane(tableauScore);//permet que le titre des colonnes soit afficher
+        scroll.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width - 10, 182));// control de la taille du tableau
+        //ajout des differents elements au panel de fin
         endPanel.add(restart2Button);
         endPanel.add(quit2Button);
-        endPanel.add(tableauScore);
+        endPanel.add(scroll);
         endPanel.add(textArea);
         endPanel.add(saveScoreButton);
         controlPanel.add(endPanel);
+        
         ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
-       // comandePanel = new JPanel();
-        //comandePanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
-        comandePanel = new JFrame();//Remplacer JFrame par ta nouvelle fenetre
+       
+        comandePanel = new JFrame();
     	JButton btn1 = new JButton("A");  
         JButton btn2 = new JButton("Z");
         JButton btn3 = new JButton("E");
@@ -218,10 +228,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         btn6b.setBounds(225,290,100,50);
         btn7b.setBounds(30,350,295,50);
        
-        
-        //Spécifier la couleur d'arrière-plan du bouton
-      //  btn1.setBackground(Color.WHITE);    
-      //  btn2.setBackground(Color.RED); 
         //Ajouter les deux boutons au JPanel
        comandePanel.add(btn1); 
        comandePanel.add(btn2);
@@ -239,8 +245,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
        comandePanel.add(btn5b);
        comandePanel.add(btn6b);
        comandePanel.add(btn7b);
-        //Ajouter le JPanel au JFrame
-        //comandePanel.add(panel);
+ 
         comandePanel.setSize(350,500);  
         comandePanel.setLayout(null);  
        
@@ -291,7 +296,6 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         playPanel.setVisible(false);
         pausePanel.setVisible(true);
         endPanel.setVisible(false);
-        
         gamePanel.drawGamePauseView();
         update();
     }
@@ -316,9 +320,9 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
    	 
 		content= textArea.getText();
 	  
-		int  score = 1 ;
-		int  lines = 2 ;
-		int  level = 3 ;
+		int  score = gamePanel.player.getScore() ;
+		int  lines = gamePanel.player.getLineScore();
+		int  level = gamePanel.player.getLevel() ;
 		
 		try {
 		 File file = new File("save.txt");
@@ -334,22 +338,28 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 		 
 		 int i = 0;
 		 int j = 0;
-		 while(tableau[i][j]!=null) {
+		 boolean flag = true;
+		 while(flag == true) {
 			 bw.println(tableau[i][j]);  
-			 
+			  
 			 j++;
 		       if (j>3) {
 		    	   i++;
 		    	   j = 0;
 		       }
+		      if ( tableau[i][j]==null) {
+		    	  flag =false;
+		      }
+		      else if(i == 9 && j == 4) {
+		    	  flag =false;
+		      }
 		 }
 		 bw.println(content);
 		 bw.println(score);
 		 bw.println(lines);
 		 bw.println(level);  
 		 bw.close();
-
-		 System.out.println("save");
+		
 		} 
 		catch (IOException e) {
 		 e.printStackTrace();
@@ -358,6 +368,54 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 		
 		 
 		
+    }
+    /**
+     * sauvegarde du score
+     */
+    public void loadScore(String[][]tableau){
+    	try {
+
+    		
+
+    		 File file = new File("save.txt");
+
+    		 // créer le fichier s'il n'existe pas
+    		 if (!file.exists()) {
+    			 
+    			 System.out.println("le fichier n'existe pas");
+    			 
+    		 }
+    		 
+    		    InputStream is = new FileInputStream("save.txt");
+    		    InputStreamReader isr = new InputStreamReader(is);
+    		    BufferedReader buffer = new BufferedReader(isr);
+    		    
+    		    String line = buffer.readLine();
+    		    StringBuilder builder = new StringBuilder();
+    		       int i = 0;
+    		       int j = 0;
+    		       int flag = 1;
+    		    while(i< 10 && j< 4){
+    		       builder.append(line).append("\n");
+    		       line = buffer.readLine();
+    		      
+    		      tableau[i][j] = line ;
+    		      if (tableau[i][j]== "null") {
+    		    	  tableau[i][j] = null;
+    		      }
+    		      
+    		      j++;
+    		       if (j>3) {
+    		    	   i++;
+    		    	   j = 0;
+    		       }
+    		       
+    		    }   		 
+    		} 
+    		catch (IOException e) {
+    		 e.printStackTrace();
+    		 }
+    		 
     }
     /**
      * Return the panel handling the game action
