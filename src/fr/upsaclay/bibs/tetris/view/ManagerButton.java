@@ -15,7 +15,13 @@ import java.io.File;
 */
 public class ManagerButton extends JButton implements ManagerComponent  {
 
-    private ManagerAction action;
+    // Cette classe représente les bouton classiques liés à une action.
+
+    ///// Element de la classe //////////
+
+    private ManagerAction action; // une action
+
+    ///// Constructeurs //////////
 
     public ManagerButton(String text) {
         super(text);
@@ -29,6 +35,7 @@ public class ManagerButton extends JButton implements ManagerComponent  {
         setBackground(Color.WHITE);
     }
 
+    /////// Get et Set //////////
 
     /**
      * Set the Manager action attached to the component

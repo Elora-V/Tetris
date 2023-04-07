@@ -7,16 +7,25 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 
-public class Audio { // La classe Audio s'occupe de jouer la musique du jeu et le son de gameover
+public class Audio {
 
-    // Le chemin des fichiers audio est défini dans les variables Music et GameOver
+    // Cette classe Audio s'occupe de jouer la musique du jeu et le son de gameover.
+
+    ///// Element de la classe //////////
+
+         // Le chemin des fichiers audio est défini dans les variables Music et GameOver :
     private String Music = "Audio_sound/03. A-Type Music (Korobeiniki).wav";
     private String GameOver = "Audio_sound/gameover.wav";
 
-    private Clip musiClip,gameoverClip;
+    private Clip musiClip,gameoverClip; // données audio
 
-    // Les clips audio sont initialisés dans le constructeur de la classe
+
+    ///// Constructeur //////////
+
     public Audio(){
+
+        // Les clips audio sont initialisés dans le constructeur
+
         try {
             musiClip = AudioSystem.getClip();
             musiClip.open(AudioSystem.getAudioInputStream(new File(Music)));
@@ -29,6 +38,9 @@ public class Audio { // La classe Audio s'occupe de jouer la musique du jeu et l
             throw new RuntimeException(e);
         }
     }
+
+    //////////// Actions ///////////
+
 
     // Les méthodes musicStop() et GameOverStop() permettent de jouer respectivement la musique et le son de gameover
     public void musicPlay(){

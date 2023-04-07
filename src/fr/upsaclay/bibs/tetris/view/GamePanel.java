@@ -24,31 +24,9 @@ import javax.swing.*;
  *
  */
 public interface GamePanel extends GameViewPanel {
-	
-	/**
-	 * Sets the number of lines in the game
-	 * @param nblines
-	 */
-	public void setNumberOfLines(int nblines);
-	
-	/**
-	 * Sets the number of cols in the game
-	 * @param nbcols
-	 */
-	public void setNumberOfCols(int nbcols);
-	
-	/**
-	 * sets a TetrisGridView containing all synchronized information
-	 * about the grid (current tetromino, cells, etc)
-	 * 
-	 * @param view
-	 */
-	public void setGridView(TetrisGridView view);
 
-	// ajout :
-	public void setGamePlayer(GamePlayer player);
 	/**
-	 * Adds an action listener to be called at certain time 
+	 * Adds an action listener to be called at certain time
 	 * intervals
 	 * @param listener
 	 */
@@ -58,45 +36,22 @@ public interface GamePanel extends GameViewPanel {
 	 * starts the action loop
 	 */
 	public void startActionLoop();
-	
+
 	/**
 	 * pause the action loop
 	 */
 	public void pauseActionLoop();
-	
+
 
 	/**
 	 * set / update the loop delay in milliseconds
 	 * @param ms
 	 */
 	public void setLoopDelay(int ms);
-	
-	/**
-	 * visual interface reaction to certain events in the game
-	 * (like making new lines)
-	 * @param event a GamePanelEvent
-	 * @param attach an attachaed objects (needed for certain events: for example the lines that are destroyed)
-	 */
-	public void launchGamePanelEvent(GamePanelEvent event, Object attach);
-	
-	/**
-	 * Update the score to be displayed
-	 * @param score
-	 */
-	public void updateScore(int score);
-	
-	/**
-	 * Update the score lines to be displayed
-	 * @param lines
-	 */
-	public void updateScoreLines(int lines);
-	
-	/**
-	 * Update the level to be displayed
-	 * @param level
-	 */
-	public void updateLevel(int level);
-	
+
+	// ajout :
+	public void setGamePlayer(GamePlayer player);
+
 	/**
 	 * Update the held tetromino to be displayed
 	 * @param tetromino
@@ -113,7 +68,53 @@ public interface GamePanel extends GameViewPanel {
 	 * update the view
 	 */
 	public void update();
-	
-	
 
+
+	/// fonctions non implémentés car non utilisées :
+	/**
+	 * Sets the number of lines in the game
+	 * @param nblines
+	 */
+	//public void setNumberOfLines(int nblines);
+
+	/**
+	 * Sets the number of cols in the game
+	 * @param nbcols
+	 */
+	//public void setNumberOfCols(int nbcols);
+
+	/**
+	 * sets a TetrisGridView containing all synchronized information
+	 * about the grid (current tetromino, cells, etc)
+	 *
+	 * @param
+	 */
+	//public void setGridView(TetrisGridView view);
+
+
+	/**
+	 * visual interface reaction to certain events in the game
+	 * (like making new lines)
+	 * @param event a GamePanelEvent
+	 * @param attach an attachaed objects (needed for certain events: for example the lines that are destroyed)
+	 */
+	public void launchGamePanelEvent(GamePanelEvent event, Object attach);
+
+	/**
+	 * Update the score to be displayed
+	 * @param score
+	 */
+	public void updateScore(int score);
+
+	/**
+	 * Update the score lines to be displayed
+	 * @param lines
+	 */
+	public void updateScoreLines(int lines);
+
+	/**
+	 * Update the level to be displayed
+	 * @param level
+	 */
+	public void updateLevel(int level);
 }

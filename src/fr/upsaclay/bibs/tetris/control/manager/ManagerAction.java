@@ -20,7 +20,6 @@ public enum ManagerAction {
 	 */
 	START,
 
-	CHANGE,
 	/**
 	 * Pause the current game
 	 */
