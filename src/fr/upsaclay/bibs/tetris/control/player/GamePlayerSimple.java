@@ -214,7 +214,6 @@ public class GamePlayerSimple implements GamePlayer{
 
         // on donne le tétromino suivant
         if(isOver()){ // on vérifie d'abord que le jeu n'est pas fini
-            System.out.println("fin??");
             activeGame=false;
         }
         if (activeGame) {
@@ -246,7 +245,6 @@ public class GamePlayerSimple implements GamePlayer{
                 score.registerBeforeAction(TetrisAction.DOWN,grid);
                 boolean moveDown= grid.tryMove(TetrisCoordinates.DOWN);
                 score.registerAfterAction(grid);
-                System.out.println("performeAction");
                 // si on a pas pu descendre le tetromino :
                 if(!moveDown) {
                     grid.merge(); // alors on merge car on touche le sol (ou le tetromino d'en dessous)

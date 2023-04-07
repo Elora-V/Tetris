@@ -101,7 +101,16 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                
                 break;
             case CONTROL:
-                view.commandeview();
+            	view.commandeview();
+            	break;
+            case SAVESCORE:
+            	
+            	view.saveScore();
+                view.drawManagementView();
+                view.getGamePanel().pauseActionLoop();
+                
+                view.dispose();
+                SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize());
                 break;
 
             case RESTART:
@@ -109,7 +118,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                     musicPlayer.musicStop(); // Si la musique est en cours de lecture et que le joueur souhaite
                                              // redémarrer le jeu, la musique s'arrête.
                 }
-                isQwertyLayout = false;
                 view.drawManagementView();
                 view.getGamePanel().pauseActionLoop();
                 
@@ -142,6 +150,9 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 break;
             case QWERTY:
                 isQwertyLayout = true;
+                break;
+            case AZERTY:
+                isQwertyLayout = false;
                 break;
             default:
                 break;
