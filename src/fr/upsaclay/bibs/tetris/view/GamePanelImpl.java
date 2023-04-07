@@ -19,34 +19,52 @@ import java.util.List;
 
 public class GamePanelImpl extends JPanel implements GamePanel {
 
-    int nblines= GameManager.DEFAULT_LINES;
-    int nbcols=GameManager.DEFAULT_COLS;
+    // Cette classe permet de créer et modifier la grille de jeu et le score afficher.
 
-    TetrisGridView grid;
-    GamePlayer player;
-    TetrominoProvider provider;
+    ///// Elements de la classe //////////
+
+    // Element du modèle (à dessiner) :
+
+    GamePlayer player;  // la player, il contient la grille de jeu, le provider, les elements du score et le tetromino retenu
+    TetrisGridView grid;  // la grille de jeu (on a mis la grille dans une autre variable pour facilité la lecture du code)
+    TetrominoProvider provider; // le provider pour les tetromino suivants  (dans une autre variable pour facilité la lecture du code)
+
+        // elements de score :
     int score;
     int scoremax = 1000000;// si on le defini pas on a un probleme d'affichage
     int lines;
     int linesmax = 1000000;// si on le defini pas on a un probleme d'affichage
     int level;
     int nbNextTet=3;
+
+
+
+    // taille de la grille :
+    int nblines= GameManager.DEFAULT_LINES;
+    int nbcols=GameManager.DEFAULT_COLS;
+
+
+    ///// Panneaux de jeu
+    JPanel gameInfoPanel; // pour le score, le tétromino retenu et les tetrominos suivants
+    GridPanel gridPanel; // pour la grille (voir classe gridPanel)
+
+        // les sous-panel de gameInfoPanel :
+    TetrominoPanel HoldTetroPanel; // le tetromino retenu (voir classe TetrominoPanel)
+    JPanel nextTetroPanel; // panneau pour les tetrominos suivants
+    List<TetrominoPanel> listNextPanel;  // liste de panneaux de tetromino, contenant les tetrominos suivant
+    JPanel scorePanel; // panneau pour afficher le score
+
+    /// textes de score :
     JLabel labelScore;
     JLabel labelLines;
     JLabel labelLevel;
-    
-    JPanel gameInfoPanel; // pour le score, le tétromino hold et les tetrominos suivant
-    GridPanel gridPanel; // pour la grille
 
-    // les sous-panel de gameInfoPanel :
-    TetrominoPanel HoldTetroPanel;
-    JPanel nextTetroPanel;
-    List<TetrominoPanel> listNextPanel;
-    JPanel scorePanel;
-
+    // Timer et delai :
     Timer timer;
     public static final int INITIAL_DELAY=1000; // in ms
     public static final int MIN_DELAY=100;
+
+    /////////////// Constructeur ///////////////////////
 
     public GamePanelImpl() {
 
@@ -67,6 +85,32 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         timer = new Timer(INITIAL_DELAY, null);
         
     }
+
+    ///////////////////////// Get et Set //////////////////////
+
+    public void setGamePlayer(GamePlayer player){
+        this.player = player;
+        this.grid = player.getGridView();
+        this.provider=player.getProvider();
+        this.score=player.getScore();
+        this.lines= player.getLineScore();
+        this.level=player.getLevel();
+    }
+
+
+    /**
+     * Adds an action listener to be called at certain time
+     * intervals
+     * @param listener
+     */
+    @Override
+    public void setLoopAction(ActionListener listener){
+        timer.addActionListener(listener);
+    }
+
+
+    ////////////////////////////////////// Actions //////////////////////////////
+
 
     /**
      * Run all needed initializations
@@ -137,12 +181,11 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         add(gameInfoPanel,BorderLayout.WEST);
         add(gridPanel,BorderLayout.EAST);
-        
 
 
     }
     
-
+    //////// Les différentes versions du gamePanel en fonction de l'état du jeu :
     /**
      * Draw itself for the "management view" (before a game is started,
      * or in between games)
@@ -194,6 +237,12 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         update();
     }
 
+
+    ////////
+    /**
+     * return color of a tetrisCell
+     */
+
     public static Color ReturnColorCase(TetrisCell cell) {
         switch (cell){
             case I:
@@ -218,59 +267,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     }
 
 
-    /**
-     * Sets the number of lines in the game
-     * @param nblines
-     */
-    @Override
-    public void setNumberOfLines(int nblines){
-        this.nblines=nblines;
-    }
-
-    /**
-     * Sets the number of cols in the game
-     * @param nbcols
-     */
-    @Override
-    public void setNumberOfCols(int nbcols){
-        this.nbcols=nbcols;
-    }
-
-    /**
-     * sets a TetrisGridView containing all synchronized information
-     * about the grid (current tetromino, cells, etc)
-     *
-     * @param view
-     */
-    @Override
-    public void setGridView(TetrisGridView view){
-        grid=view;
-    }
-
-    public Timer getTimer(){
-    	 
-        return  timer;
-     
-    }
-    public void setGamePlayer(GamePlayer player){
-        this.player = player;
-        this.grid = player.getGridView();
-        this.provider=player.getProvider();
-        this.score=player.getScore();
-        this.lines= player.getLineScore();
-        this.level=player.getLevel();
-    }
-
-
-    /**
-     * Adds an action listener to be called at certain time
-     * intervals
-     * @param listener
-     */
-    @Override
-    public void setLoopAction(ActionListener listener){
-        timer.addActionListener(listener);
-    }
+    ////// Actions de timer :
 
     /**
      * starts the action loop
@@ -299,17 +296,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
     }
 
 
-
-    /**
-     * visual interface reaction to certain events in the game
-     * (like making new lines)
-     * @param event a GamePanelEvent
-     * @param attach an attachaed objects (needed for certain events: for example the lines that are destroyed)
-     */
-    @Override
-    public void launchGamePanelEvent(GamePanelEvent event, Object attach){
-        throw new UnsupportedOperationException("Not implemented");
-    }
+    ///// Update du panneau :
 
     /**
      * Update the score to be displayed
@@ -317,7 +304,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateScore(int score){
-        this.score=score;
+        labelScore.setText("Score :"+ score);
+
     }
 
     /**
@@ -326,7 +314,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateScoreLines(int lines){
-        this.lines=lines;
+        labelLines.setText("Lines :"+ lines);
     }
 
     /**
@@ -335,7 +323,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void updateLevel(int level){
-        this.level=level;
+        labelLevel.setText("Level :"+ String.valueOf(level));
     }
 
     /**
@@ -395,15 +383,28 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         updateHeldTetromino(player.getHeldTetromino());
 
         // mis à jour score
-        score = player.getScore();
-        level = player.getLevel();
-        lines = player.getLineScore();
-        labelScore.setText("Score :"+ score);
-        labelLevel.setText("Level :"+ String.valueOf(level));
-        labelLines.setText("Lines :"+ lines);
+
+        updateScore(player.getScore());
+        updateLevel(player.getLevel());
+        updateScoreLines(player.getLineScore());
+//
         // repaint
         gridPanel.repaint();
         gameInfoPanel.repaint();
+    }
+
+
+    //// non implémentée :
+
+    /**
+     * visual interface reaction to certain events in the game
+     * (like making new lines)
+     * @param event a GamePanelEvent
+     * @param attach an attachaed objects (needed for certain events: for example the lines that are destroyed)
+     */
+    @Override
+    public void launchGamePanelEvent(GamePanelEvent event, Object attach){
+        throw new UnsupportedOperationException("Not implemented");
     }
 }
 

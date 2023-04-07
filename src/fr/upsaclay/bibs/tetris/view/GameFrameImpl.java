@@ -22,45 +22,66 @@ import java.util.List;
 
 public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
 
-    GamePanelImpl gamePanel; // au centre : la grille
-    JPanel controlPanel; // à droite : les options de jeu
+    // Cette classe gère la fenetre graphique.
+
+    /////////////////////////////// Elements de la classe ////////////////////////////////
+
+    ///////// Panneaux /////////////
+
+    // Les deux panneaux principaux :
+    GamePanelImpl gamePanel; // au centre de la fenetre : le jeu en lui-meme ( voire la classe GamePanelImpl)
+    JPanel controlPanel; // à droite de la fenetre : les reglages
 
 
-    // les versions du panel de controle
+    // les  4 versions du panel de reglage :
     JPanel initialPanel;
-
-    JPanel keyboardPanel;
     JPanel playPanel;
     JPanel pausePanel;
     JPanel endPanel;
-    //JPanel ;
-    JFrame comandePanel;
 
-    // boutons de bases
+    // Fenetre additionnelle contenant les commandes ( barre espace pour hardDrop ... )
+    JFrame comandePanel; // la fenetre
+    JPanel keyboardPanel; // et le panneau pour la fenetre
+
+
+    ///////// boutons //////
+
+    // Pour le start-stop :
     ManagerButton startButton;
-    ManagerButton keyboardButton;
     ManagerButton pauseButton;
     ManagerButton resumeButton;
     ManagerButton quitButton;
     ManagerButton restartButton;
-    ManagerButton quit2Button;
-    ManagerButton restart2Button;
-    ManagerButton comandeButton;
-    ManagerButton saveScoreButton;
+    ManagerButton quit2Button; // besoin de 2 bouton quit, 1 pour chaque panneau l'utilisant (sinon on avait un bug)
+    ManagerButton restart2Button; // besoin de 2 bouton restart, 1 pour chaque panneau l'utilisant
+
+    // Pour les options et la fenetre des commandes :
+    // musique :
+    ManagerButton music;
+    ManagerButton musicmute;
+
+    // choix du clavier :
 
     ManagerRadioButton qwerty;
     ManagerRadioButton azerty;
 
+    // fenetre de commande :
+    ManagerButton commandeButton;
 
-    // affichage pour l'enregistrement du score
+    // enregistrement du score :
+    ManagerButton saveScoreButton;
+
+
+
+    // Element d'affichage pour l'enregistrement du score :
     JTextField textArea;
     JTable tableauScore;
     String[][]tableau;
-    
 
-    ManagerButton music;
 
-    ManagerButton musicmute;
+
+
+    /////////////////////////////// Constructeur ////////////////////////////////
 
 
     public GameFrameImpl(String name) {
@@ -74,9 +95,27 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         // Create the control panel
         controlPanel = new JPanel();
 
-
-
     }
+
+    /////////////////////////////// Get et Set ////////////////////////////////
+
+    /**
+     * Return the panel handling the game action
+     *
+     * @return a GamePanel
+     */
+    @Override
+    public GamePanelImpl getGamePanel(){
+        return gamePanel;
+    }
+
+
+    /////////////////////////////// Actions ////////////////////////////////
+
+
+    /// Création des différents éléments, et leur assemblage /////
+
+
     @Override
     public void initialize(){
 
@@ -99,12 +138,14 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         initialPanel.add(keyboardPanel);
         keyboardPanel.add(qwerty);
         keyboardPanel.add(azerty);
+
         controlPanel.add(initialPanel);
 
         /////////////////  The play panel (when the game is running) /////////////////
         playPanel = new JPanel();
         playPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
         playPanel.add(pauseButton);
+
         controlPanel.add(playPanel);
 
 
@@ -116,16 +157,18 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         pausePanel.add(restartButton);
         pausePanel.add(music);
         pausePanel.add(musicmute);
-        pausePanel.add(comandeButton);
+        pausePanel.add(commandeButton);
 
         controlPanel.add(pausePanel);
 
         /////////////////  The end panel (when the game is over) /////////////////
         endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width, controlPanel.getPreferredSize().height));
+
         // création de la zone de saisie du pseudo
         textArea = new JTextField();
         textArea.setPreferredSize( new Dimension( controlPanel.getPreferredSize().width - 10, 25 ));
+
         // tableau des scores enregistré
         tableau = new String[10][4]; //limitation à 10 score enregistré
         loadScore(tableau);
@@ -149,6 +192,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         endPanel.add(scroll);
         endPanel.add(textArea);
         endPanel.add(saveScoreButton);
+
         controlPanel.add(endPanel);
         
         ////////////////// comandePanel qui rappel quelle touche utilisé pour jouer///////////////////
@@ -161,10 +205,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         JButton btn5 = new JButton("S");
         JButton btn6 = new JButton("D");
         JButton btn7 = new JButton("SPACE");
-        
-        
-        
-        //JButton btn1b = new JButton("ROT G");  
+
         ImageIcon RotDIcon = new ImageIcon("Button_icons/RotD.png");
         Image RotDImage = RotDIcon.getImage();
         Image smallRotDImage = RotDImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
@@ -228,7 +269,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         btn6b.setBounds(225,290,100,50);
         btn7b.setBounds(30,350,295,50);
        
-        //Ajouter les deux boutons au JPanel
+        //Ajouter des boutons au JPanel
        comandePanel.add(btn1); 
        comandePanel.add(btn2);
        comandePanel.add(btn3);
@@ -249,11 +290,76 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         comandePanel.setSize(350,500);  
         comandePanel.setLayout(null);  
        
-        
+        /////// Afficher la fenetre /////////
         pack();
         drawManagementView();
         setVisible(true);
     }
+
+    /**
+     * Creates all the manager components needed for game management
+     */
+    @Override
+    public void createManagerComponents(){
+
+        /////// Bouton 'classique'
+        startButton=new ManagerButton("Start Game");
+        startButton.setManagerAction(ManagerAction.START);
+
+        ImageIcon pauseIcon = new ImageIcon("Button_icons/pause.png");
+        Image pauseImage = pauseIcon.getImage();
+        Image smallPauseImage = pauseImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallPauseIcon = new ImageIcon(smallPauseImage);
+        pauseButton = new ManagerButton(smallPauseIcon);
+        pauseButton.setManagerAction(ManagerAction.PAUSE);
+
+
+        resumeButton=new ManagerButton("Resume Game");
+        resumeButton.setManagerAction(ManagerAction.RESUME);
+        quitButton=new ManagerButton("Quit Tetris");
+        quitButton.setManagerAction(ManagerAction.QUIT);
+        restartButton=new ManagerButton("Restart a new game");
+        restartButton.setManagerAction(ManagerAction.RESTART);
+        quit2Button=new ManagerButton("Quit Tetris");
+        quit2Button.setManagerAction(ManagerAction.QUIT);
+        restart2Button=new ManagerButton("Restart a new game");
+        restart2Button.setManagerAction(ManagerAction.RESTART);
+        commandeButton=new ManagerButton("Control");
+        commandeButton.setManagerAction(ManagerAction.CONTROL);
+        saveScoreButton=new ManagerButton("Savescore");
+        saveScoreButton.setManagerAction(ManagerAction.SAVESCORE);
+
+        ///// Boutons musique
+
+        ImageIcon speakerIcon = new ImageIcon("Button_icons/speaker.png");
+        Image speakerImage = speakerIcon.getImage();
+        Image smallSpeakerImage = speakerImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
+        music = new ManagerButton(smallSpeakerIcon);
+        music.setManagerAction(ManagerAction.MUSIC);
+
+        ImageIcon muteIcon = new ImageIcon("Button_icons/mute.png");
+        Image muteImage = muteIcon.getImage();
+        Image smallMuteImage = muteImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon smallMuteIcon = new ImageIcon(smallMuteImage);
+        musicmute = new ManagerButton(smallMuteIcon);
+        musicmute.setManagerAction(ManagerAction.MUSICMUTE);
+
+        ///// Boutons radio (choix AZERTY/QWERTY)
+
+        qwerty=new ManagerRadioButton("qwerty");
+        azerty = new ManagerRadioButton("azerty");
+
+        qwerty.setManagerAction(ManagerAction.QWERTY);
+        azerty.setManagerAction(ManagerAction.AZERTY);
+
+        ButtonGroup keyboard = new ButtonGroup();
+        keyboard.add(qwerty);
+        keyboard.add(azerty);
+
+    }
+
+    //////// Affichage fenetre en fonction du l'état du jeu ////////
 
     /**
      * Draw itself for the "management view" (before a game is started,
@@ -312,199 +418,22 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         gamePanel.drawEndGameView();
         update();
     }
-    /**
-     * sauvegarde du score
-     */
-    public void saveScore(){
-    	String content ;
-   	 
-		content= textArea.getText();
-	  
-		int  score = gamePanel.player.getScore() ;
-		int  lines = gamePanel.player.getLineScore();
-		int  level = gamePanel.player.getLevel() ;
-		
-		try {
-		 File file = new File("save.txt");
 
-		 // créer le fichier s'il n'existe pas
-		 if (!file.exists()) {
-		 file.createNewFile();
-		 }
-
-		 FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		 PrintWriter bw = new PrintWriter(fw);
-		 bw.println("score");
-		 
-		 int i = 0;
-		 int j = 0;
-		 boolean flag = true;
-		 while(flag == true) {
-			 bw.println(tableau[i][j]);  
-			  
-			 j++;
-		       if (j>3) {
-		    	   i++;
-		    	   j = 0;
-		       }
-		      if ( tableau[i][j]==null) {
-		    	  flag =false;
-		      }
-		      else if(i == 9 && j == 4) {
-		    	  flag =false;
-		      }
-		 }
-		 bw.println(content);
-		 bw.println(score);
-		 bw.println(lines);
-		 bw.println(level);  
-		 bw.close();
-		
-		} 
-		catch (IOException e) {
-		 e.printStackTrace();
-		 }
-		 
-		
-		 
-		
-    }
-    /**
-     * sauvegarde du score
-     */
-    public void loadScore(String[][]tableau){
-    	try {
-
-    		
-
-    		 File file = new File("save.txt");
-
-    		 // créer le fichier s'il n'existe pas
-    		 if (!file.exists()) {
-    			 
-    			 System.out.println("le fichier n'existe pas");
-    			 
-    		 }
-    		 
-    		    InputStream is = new FileInputStream("save.txt");
-    		    InputStreamReader isr = new InputStreamReader(is);
-    		    BufferedReader buffer = new BufferedReader(isr);
-    		    
-    		    String line = buffer.readLine();
-    		    StringBuilder builder = new StringBuilder();
-    		       int i = 0;
-    		       int j = 0;
-    		       int flag = 1;
-    		    while(i< 10 && j< 4){
-    		       builder.append(line).append("\n");
-    		       line = buffer.readLine();
-    		      
-    		      tableau[i][j] = line ;
-    		      if (tableau[i][j]== "null") {
-    		    	  tableau[i][j] = null;
-    		      }
-    		      
-    		      j++;
-    		       if (j>3) {
-    		    	   i++;
-    		    	   j = 0;
-    		       }
-    		       
-    		    }   		 
-    		} 
-    		catch (IOException e) {
-    		 e.printStackTrace();
-    		 }
-    		 
-    }
-    /**
-     * Return the panel handling the game action
-     *
-     * @return a GamePanel
-     */
-    @Override
-    public GamePanelImpl getGamePanel(){
-        return gamePanel;
-    }
-
-    /**
-     * Creates all the manager components needed for game management
-     */
-    @Override
-    public void createManagerComponents(){
-
-        /////// Bouton 'classique'
-        startButton=new ManagerButton("Start Game");
-        startButton.setManagerAction(ManagerAction.START);
-        keyboardButton=new ManagerButton("QWERTY");
-        keyboardButton.setManagerAction(ManagerAction.CHANGE);
-
-        ImageIcon pauseIcon = new ImageIcon("Button_icons/pause.png");
-        Image pauseImage = pauseIcon.getImage();
-        Image smallPauseImage = pauseImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon smallPauseIcon = new ImageIcon(smallPauseImage);
-        pauseButton = new ManagerButton(smallPauseIcon);
-        pauseButton.setManagerAction(ManagerAction.PAUSE);
-
-
-        resumeButton=new ManagerButton("Resume Game");
-        resumeButton.setManagerAction(ManagerAction.RESUME);
-        quitButton=new ManagerButton("Quit Tetris");
-        quitButton.setManagerAction(ManagerAction.QUIT);
-        restartButton=new ManagerButton("Restart a new game");
-        restartButton.setManagerAction(ManagerAction.RESTART);
-        quit2Button=new ManagerButton("Quit Tetris");
-        quit2Button.setManagerAction(ManagerAction.QUIT);
-        restart2Button=new ManagerButton("Restart a new game");
-        restart2Button.setManagerAction(ManagerAction.RESTART);
-        comandeButton=new ManagerButton("Control");
-        comandeButton.setManagerAction(ManagerAction.CONTROL);
-        saveScoreButton=new ManagerButton("Savescore");
-        saveScoreButton.setManagerAction(ManagerAction.SAVESCORE);
-
-        ///// Boutons musique
-
-        ImageIcon speakerIcon = new ImageIcon("Button_icons/speaker.png");
-        Image speakerImage = speakerIcon.getImage();
-        Image smallSpeakerImage = speakerImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon smallSpeakerIcon = new ImageIcon(smallSpeakerImage);
-        music = new ManagerButton(smallSpeakerIcon);
-        music.setManagerAction(ManagerAction.MUSIC);
-
-        ImageIcon muteIcon = new ImageIcon("Button_icons/mute.png");
-        Image muteImage = muteIcon.getImage();
-        Image smallMuteImage = muteImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon smallMuteIcon = new ImageIcon(smallMuteImage);
-        musicmute = new ManagerButton(smallMuteIcon);
-        musicmute.setManagerAction(ManagerAction.MUSICMUTE);
-
-        ///// Boutons radio (choix AZERTY/QWERTY)
-
-        qwerty=new ManagerRadioButton("qwerty");
-        azerty = new ManagerRadioButton("azerty");
-
-        qwerty.setManagerAction(ManagerAction.QWERTY);
-        azerty.setManagerAction(ManagerAction.AZERTY);
-
-        ButtonGroup keyboard = new ButtonGroup();
-        keyboard.add(qwerty);
-        keyboard.add(azerty);
-
-
-
-        // quand on aura des options (fichier/random ?)
-        // ManagerRadioButton r1=new ManagerRadioButton("option A");
-        // ManagerRadioButton r2=new ManagerRadioButton("option B");
-//        ButtonGroup bg=new ButtonGroup();
-//        bg.add(r1);
-//        bg.add(r2);
-
-    }
     public void commandeview() {
-    	
-        comandePanel.setVisible(true);  
-     
+        comandePanel.setVisible(true);
     }
+
+    /**
+     * Updates the view
+     */
+    @Override
+    public void update() {
+        gamePanel.update();
+    }
+
+
+
+    ///////////// Listener des boutons et clavier /////////////
 
     /**
      * All manager components are listened to by a single action listenner,
@@ -522,8 +451,9 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quitButton.addActionListener(listener);
         restart2Button.addActionListener(listener);
         quit2Button.addActionListener(listener);
-        comandeButton.addActionListener(listener);
+        commandeButton.addActionListener(listener);
         music.addActionListener(listener);
+        musicmute.addActionListener(listener);
         qwerty.addActionListener(listener);
         azerty.addActionListener(listener);
         saveScoreButton.addActionListener(listener);
@@ -541,7 +471,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     @Override
     public void startGameKeyListener(KeyListener listener){
         addKeyListener(listener);
-        requestFocus(); //à ajouter si on voit que c'est necessaire
+        requestFocus();
     }
 
     /**
@@ -555,6 +485,106 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     public void stopGameKeyListener(KeyListener listener){
         removeKeyListener(listener);
     }
+
+
+    ////////// Sauvergarde du score de fin de partie /////////////
+
+    /**
+     * sauvegarde du score
+     */
+    public void saveScore(){
+        String content ;
+
+        content= textArea.getText();
+
+        int  score = gamePanel.player.getScore() ;
+        int  lines = gamePanel.player.getLineScore();
+        int  level = gamePanel.player.getLevel() ;
+
+        try {
+            File file = new File("save.txt");
+
+            // créer le fichier s'il n'existe pas
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            PrintWriter bw = new PrintWriter(fw);
+            bw.println("score");
+
+            int i = 0;
+            int j = 0;
+            boolean flag = true;
+            while(flag == true) {
+                bw.println(tableau[i][j]);
+                j++;
+                if (j>3) {
+                    i++;
+                    j = 0;
+                }
+                if ( tableau[i][j]==null) {
+                    flag =false;
+                }
+                else if(i == 9 && j == 4) {
+                    flag =false;
+                }
+            }
+            bw.println(content);
+            bw.println(score);
+            bw.println(lines);
+            bw.println(level);
+            bw.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * sauvegarde du score
+     */
+    public void loadScore(String[][]tableau){
+        try {
+
+            File file = new File("save.txt");
+
+            // créer le fichier s'il n'existe pas
+            if (!file.exists()) {
+                System.out.println("le fichier n'existe pas");
+            }
+            InputStream is = new FileInputStream("save.txt");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+            int i = 0;
+            int j = 0;
+            int flag = 1;
+            while(i< 10 && j< 4){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+
+                tableau[i][j] = line ;
+                if (tableau[i][j]== "null") {
+                    tableau[i][j] = null;
+                }
+                j++;
+                if (j>3) {
+                    i++;
+                    j = 0;
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    ///////////// Fonctions non utilisées (et non faite) //////////////
 
     /**
      * Shows an alert error message on screen
@@ -576,13 +606,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     public void setDefaultSetting(ManagerAction action){
         throw new UnsupportedOperationException("Not implemented ");
     }
-    /**
-     * Updates the view
-     */
-    @Override
-    public void update() {
-        gamePanel.update();
-    }
+
 
 
 }
