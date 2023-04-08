@@ -16,15 +16,19 @@ import java.awt.event.ActionEvent;
 
 public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,ActionListener {
 
-    // listener clavier et timer
-    int delay; // in ms
+    // Cette classe gère le jeu et son côté visuel.
+
+
+    //////////// Elements de classe ///////////////
+    int delay; // delai en ms
     Audio gameoverSound = new Audio(); // Création d'une instance d'un objet Audio pour jouer le son du gameover
-    GameManagerVisual MusicPlayer;
-    GameManagerVisual qwerty;
 
+    // la vue :
     GameFrameImpl view; // on en a besoin pour donner le focus au clavier
-    GamePanelImpl panel;
+    GamePanelImpl panel; // met le gamePanel dans une nouvelle variable pour une meilleure lisibilité de code
 
+
+    ////////////// Constructeur ////////////////
 
     public GamePlayerVisual(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
 
@@ -33,11 +37,7 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
 
     }
 
-    public void initialize(){
-        super.initialize(); //fais rien, mais à mettre au cas où le game simple doit etre initialisé
-        panel.setLoopAction(this);
-        panel.setLoopDelay(delay);
-    }
+    ////////////////////// Get et Set /////////////////////////
 
     public TetrominoProvider getProvider(){
         return super.getProvider();
@@ -48,6 +48,16 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
         this.view=view;
         this.panel=view.getGamePanel();
     }
+
+    ////////////////////// Actions /////////////////////////
+
+    public void initialize(){
+        super.initialize(); //fais rien, mais à mettre au cas où le game simple doit etre initialisé d'un certaine manière
+        // mise en place du listener du timer :
+        panel.setLoopAction(this);
+        panel.setLoopDelay(delay);
+    }
+
     /**
      * Starts the player
      *
@@ -79,11 +89,10 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
         return isOver;
     }
 
-
+    ///////////  Actions du clavier :
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-
 
     }
     /**
@@ -143,13 +152,14 @@ public class GamePlayerVisual extends GamePlayerSimple implements KeyListener,Ac
     }
 
 
-
+    ///////// Action du timer (quand le delai est passé) :
     @Override
     public void actionPerformed(ActionEvent e) {  // action timer
         if(activeGame) {
-            super.performAction(TetrisAction.DOWN);
-            panel.setLoopDelay(super.whichDelay());
-            panel.update();
+            super.performAction(TetrisAction.DOWN); // on descend le tetromino
+            panel.setLoopDelay(super.whichDelay()); // on recalcul le delai au cas où le niveau ait changé
+            // Ce n'est pas optimisé de la faire à chaque fois, mais le calcul n'est pas compliqué
+            panel.update(); // mise à jour de la vue
         }
     }
 }

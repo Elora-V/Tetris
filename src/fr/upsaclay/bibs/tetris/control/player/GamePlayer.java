@@ -27,15 +27,6 @@ import fr.upsaclay.bibs.tetris.view.GamePanelImpl;
 public interface GamePlayer {
 
 
-//
-//	/**
-//	 * Initialiaze the player
-//	 * @param grid a TetrisGris
-//	 * @param scoreComputer a ScoreComputer
-//	 * @param provider a TetrominoProvider
-//	 */
-	//public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider);
-
 	// ajout
 	public void initialize();
 
@@ -52,6 +43,7 @@ public interface GamePlayer {
 	 * Sets a print strem for logging player actions
 	 * @param out
 	 */
+	// non implémentée (car pas compris son rôle)
 	public void setLogPrintStream(PrintStream out);
 
 	/**

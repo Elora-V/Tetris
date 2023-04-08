@@ -16,42 +16,37 @@ import javax.swing.SwingUtilities;
 
 public class GameManagerVisual extends AbstractGameManager implements ActionListener{
 
+    // Cette classe hérite de la classe abstraite du gameManager, elle gère donc le lancement d'une partie de jeu.
+    // La différence avec gameManagerSimple est qu'elle gère en plus le côté visuel du jeu.
+    // La gestion logistique se fait en appelant les méthodes de la classe mère (qui sont donc aussi les méthodes du mode SIMPLE),
+    // et on y ajoute la gestion visuelle.
 
-    //ActionListener des boutons
-    // cette classe utilise les méthodes defini dans la classe mère abstraite et y ajoute les éléments graphiques
-    private GameFrameImpl view;
+    ///////////////////////// Elements de classe /////////////////
 
+    // le modèle est dans la classe mère
+
+    // la vue :
+    private GameFrameImpl view; // fenêtre graphique
+
+    // options :
     private static Audio musicPlayer = new Audio(); // Création d'une variable musicPlayer pour la musique de fond
-    public static boolean isQwertyLayout;
+    public static boolean isQwertyLayout;  // type de clavier (azerty/qwerty ?)
+
+
+    //////////////////// Construteur /////////////////////
 
 
     public GameManagerVisual() {
-        super.loadNewGame(); // creation du player
-        view = new GameFrameImpl("--- Tetris Game ---"); // on donne au manager la fenetre view
-        super.getPlayer().setView(view); // on donne au gameplayer un sous panel de view
-    }
-    /**
-     * Initialize the game Manager
-     *
-     * Should set the necessary fields with their default values
-     *
-     * Note: the player is not created at initilization
-     *
-     * In visual mode, this is where the game frame can be launched
-     */
-    @Override
-    public void initialize(){
-        super.initialize(); // initialisation du player
-        view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le modèle à la vue
-        view.initialize(); // initialisation de la vue
-        view.attachManagerActionListener(this); // ajout de listener à la vue
-
+        super.loadNewGame(); // creation du player (par default)
+        view = new GameFrameImpl("--- Tetris Game ---"); // on crée la fenetre du jeu (la vue)
+        super.getPlayer().setView(view); // on donne aussi au gameplayer la vue
     }
 
 
-    // Actions
+    ///////////////////// Actions ////////////////////////////
 
 
+    ///////////// Creation du player et initialisation :
     /**
      * Creates a player with the correct player type
      *
@@ -65,12 +60,16 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         if (super.getPlayerType()!=PlayerType.HUMAN) {
             throw new UnsupportedOperationException("playertype not implemented");
         }
+        // On donne à la classe mère une instance de player avec les informations de la classes mère (type de provider ...).
+        // Tous est mis par default.
         super.setGamePlayer( new GamePlayerVisual(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
         
     }
 
-    public void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines){ // mettre erreur ??
+    public void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines){
         try {
+            // On donne à la classe mère un player crée à partir d'un fichier de sauvegarde,
+            // les informations du player sont en arguments.
             super.setGamePlayer( new GamePlayerVisual(grid, ScoreComputer.getScoreComputer(mode, score, level, lines), super.getTetrominoProvider(), super.getPlayerType()));
 
         }catch (Exception e){
@@ -78,10 +77,37 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
         }
     }
 
+    /**
+     * Initialize the game Manager
+     *
+     * Should set the necessary fields with their default values
+     *
+     * Note: the player is not created at initilization
+     *
+     * In visual mode, this is where the game frame can be launched
+     */
+    @Override
+    public void initialize(){
+        super.initialize(); // initialisation du player : elle indique le listener du timer et met le delai de celui-ci avec sa valeur par default
+        view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le modèle à la vue
+        view.initialize(); // initialisation de la vue (création et agencement des elements graphique comme les panneaux et boutons)
+        view.attachManagerActionListener(this); // ajout du listener à la vue pour les boutons start/stop (gestion de lancement de jeu)
+
+    }
+
+
+    /////////// Actions du manager VISUAL via les boutons :
+
+    public static void stopMusic(){
+        musicPlayer.musicStop(); // Une méthode statique utilisée pour arrêter la lecture de la musique
+        // dans la classe GameManagerVisual
+    }
+
     public void actionPerformed(ActionEvent e) {
         ManagerComponent comp = (ManagerComponent) e.getSource(); // on récupère le boutton clické
         ManagerAction action = comp.getManagerAction(); // on récupère l'action
-        super.actionPerformed(action); // action à réaliser côté 'logistique'         // block ici
+        super.actionPerformed(action); // action à réaliser côté 'logistique' (voir la classe mère)
+
         // puis ajoute les actions 'visuelles' :
 
         switch (action) {
@@ -123,17 +149,8 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 
                 view.dispose();
                 SwingUtilities.invokeLater(() -> GameManager.getGameManager(GameType.VISUAL).initialize());
-                /*
-                 * A ameliorer : on peut surement réussir à réinitialisé de la bonne façon pour que la loop reboot
-                 */
-                
-                //super.loadNewGame(); // nouveau player
-                //super.getPlayer().setView(view);  // on donne au player la vue
-                //super.initialize(); // initialisation du player
-                
-                //view.getGamePanel().setGamePlayer(super.getPlayer()); // on donne le player à la vue
-                
-                
+                // Nous avons remis la ligne du main qui lance le jeu, il y avait probablement un meilleur moyen de relancer le jeu sans tous relancer,
+                // mais nous étions un peu perdu et nous avions des bug quand on essayait de remettre seulement les commandes qui relancaient ce qui été necessaire.
                 break;
 
             case QUIT:
@@ -159,33 +176,6 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
 
         }  
     }
-
-    /**
-     * starts the player (i.e. the actual game)
-     */
-    public void startPlayer() {
-        super.getPlayer().start();
-    }
-
-    /**
-     * pause the player 
-     */
-    public void pausePlayer(){
-        super.getPlayer().pause();
-    }
-
-    public static void stopMusic(){
-        musicPlayer.musicStop(); // Une méthode statique utilisée pour arrêter la lecture de la musique
-                                 // dans la classe GameManagerVisual
-    }
-
-
-    //class UpdateActionListener implements ActionListener {
-    //public void actionPerformed(ActionEvent e) {
-    //field.evolve();
-    //view.update();
-    //	}
-   // }
 
 }
 
