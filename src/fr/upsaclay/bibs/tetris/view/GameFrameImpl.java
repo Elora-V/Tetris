@@ -524,6 +524,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         quit2Button.addActionListener(listener);
         comandeButton.addActionListener(listener);
         music.addActionListener(listener);
+        musicmute.addActionListener(listener);
         qwerty.addActionListener(listener);
         azerty.addActionListener(listener);
         saveScoreButton.addActionListener(listener);
