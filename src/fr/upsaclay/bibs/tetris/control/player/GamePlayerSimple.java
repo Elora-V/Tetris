@@ -18,24 +18,33 @@ import java.util.TimerTask;
 
 public class GamePlayerSimple implements GamePlayer{
 
-    // contient le modèle
-    PlayerType typeHuman;
-    ScoreComputer score;
-    TetrisGrid grid;
-    TetrominoProvider provider;
-    Tetromino tetroHold=null;
+    // Cette classe gère le jeu ( faire descendre un tetromino, tourner un tetromino ...).
+    // C'est la version SIMPLe, c'est-à-dire qu'elle ne gère pas le côté visuel.
 
-    boolean activeGame=false;
-    boolean beginning=true;
-    boolean softDrop;
-    boolean alreadyHold=false;
+    ////////////////// Elements de la classe //////////////
 
+    // le modèle :
+    PlayerType typeHuman;  // type de joueur
+    ScoreComputer score;  // contient le score, le nombre de lignes réalisées et le niveau
+    TetrisGrid grid; //  la grille de jeu
+    TetrominoProvider provider; // le fournisseur de tetromino
+    Tetromino tetroHold=null; // le tetromino retenu
+
+
+    // booleen pour suivre l'état du jeu :
+
+    boolean activeGame=false; // le jeu est actif ?
+    boolean beginning=true; // c'est le premier tour ?
+    boolean softDrop; // on est en sofDrop ?
+    boolean alreadyHold=false; // on a déja retenu un tetromino depuis le dernier merge ?
+
+    // le delai :
     int delay;
 
 
+    ///////////////// Constructeur //////////////////
 
     public GamePlayerSimple(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider,PlayerType type){
-        //this.initialize(grid, scoreComputer, provider);
         score=scoreComputer;
         this.grid=grid;
         this.provider=provider;
@@ -43,21 +52,8 @@ public class GamePlayerSimple implements GamePlayer{
         softDrop=false;
         delay=GamePanelImpl.INITIAL_DELAY;
     }
-//    /**
-//     * Initialiaze the player
-//     * @param grid a TetrisGris
-//     * @param scoreComputer a ScoreComputer
-//     * @param provider a TetrominoProvider
-//     */
-//    public void initialize(TetrisGrid grid, ScoreComputer scoreComputer, TetrominoProvider provider){
-//    //    score=scoreComputer;
-//      //  this.grid=grid;
-//       // this.provider=provider;
-//    }
 
-    public void initialize(){
-
-    }
+    /////////////////// Get et Set //////////////////
 
     /**
      * Return the player type (HUMAN / AI)
@@ -67,28 +63,6 @@ public class GamePlayerSimple implements GamePlayer{
         return typeHuman;
     }
 
-    @Override
-    public void setView(GameFrameImpl view){
-
-    }; // on la définit car la méthode a été ajoutée dans l'interface
-                                                // sans ça on aurait pas accès à la méthode pour le visual
-                                                // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
-
-
-
-    public void setAlreadyHold(boolean alreadyHold){
-        this.alreadyHold=alreadyHold;
-    }
-    public boolean getAlreadyHold(){
-        return alreadyHold;
-    }
-    /**
-     * Sets a print stream for logging player actions
-     * @param out
-     */
-    public void setLogPrintStream(PrintStream out){
-        throw new UnsupportedOperationException("Not implemented");
-    }
 
     /**
      * Return the current level
@@ -98,10 +72,6 @@ public class GamePlayerSimple implements GamePlayer{
         return score.getLevel();
     }
 
-
-    public boolean getsoftdrop(){
-        return softDrop;
-    }
 
     /**
      * Return the current score
@@ -129,58 +99,6 @@ public class GamePlayerSimple implements GamePlayer{
     }
 
     /**
-     * Return if the game is over
-     *
-     * A game is over if adding a new tetromino created a conflict or if the tetromino provider is empty
-     *
-     * @return true if the game is over
-     */
-    public boolean isOver(){
-        // utilisation de cette fonction avant de redonner un tetromino
-        if( !provider.hasNext()){
-            return true;
-        }
-        Tetromino nextTetro=provider.showNext(0); // regarde le tetromino suivant
-        grid.setTetromino(nextTetro); // on le met dans la grille (pour tester si il tient)
-        grid.setAtStartingCoordinates(); // on le place
-        boolean conflict= grid.hasConflicts(); // on regarde si il y a un conflict
-        // on enlève le tetromino de la grille dans tout les cas, car le role de cette fonction n,'est pas le placement de tetromino
-        grid.setTetromino(null);
-        grid.setCoordinates(null);
-        // si il y a eu conflict, le jeu est fini
-        if (conflict){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Starts the player (le lecteur)
-     *
-     * If it is the beginning of the game, it should put a new Tetromino on the grid
-     */
-    public void start(){
-        activeGame=true;
-        if(beginning) {
-            grid.setTetromino(provider.next());
-            grid.setAtStartingCoordinates();
-            beginning=false;
-
-
-        }
-
-    }
-
-    /**
-     * Pause the player
-     */
-    public void pause(){
-        activeGame=false;
-    }
-
-
-
-    /**
      * Return a grid view of the TetrisGrid
      * @return a TetrisGridView
      */
@@ -200,6 +118,99 @@ public class GamePlayerSimple implements GamePlayer{
         return tetroHold;
     }
 
+    @Override
+    public void setView(GameFrameImpl view){
+
+    }
+    // on la définit car la méthode a été ajoutée dans l'interface,
+    // sans ça on aurait pas accès à la méthode pour le visual
+    // ce n'est pas la bonne manière de faire, mais on sait pas comment faire pour le moment
+    // (problème indiqué dans la conclusion du rapport)
+
+
+    /// non implémentée car non comprise :
+    /**
+     * Sets a print stream for logging player actions
+     * @param out
+     */
+    public void setLogPrintStream(PrintStream out){
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    ///////////////// Actions ///////////////////////
+
+    public void initialize(){
+    // rien a ajouter dans le cas SIMPLE
+    }
+
+
+    /**
+     * Return if the game is over
+     *
+     * A game is over if adding a new tetromino created a conflict or if the tetromino provider is empty
+     *
+     * @return true if the game is over
+     */
+    public boolean isOver(){
+        // utilisation de cette fonction avant de redonner un tetromino
+
+        // si on a plus de tetromino en stock : on arrête
+        if( !provider.hasNext()){
+            return true;
+        }
+
+        // sinon on veut voir si on a la place d'en donner un nouveau:
+
+        Tetromino nextTetro=provider.showNext(0); // regarde le tetromino suivant
+        grid.setTetromino(nextTetro); // on le met dans la grille (pour tester si il tient)
+        grid.setAtStartingCoordinates(); // on le place
+        boolean conflict= grid.hasConflicts(); // on regarde si il y a un conflict
+        // on enlève le tetromino de la grille dans tout les cas, car le role de cette fonction n'est pas le placement de tetromino
+        grid.setTetromino(null);
+        grid.setCoordinates(null);
+        // si il y a eu conflict, le jeu est fini
+        if (conflict){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Starts the player (le lecteur)
+     *
+     * If it is the beginning of the game, it should put a new Tetromino on the grid
+     */
+    public void start(){
+        activeGame=true;
+        if(beginning) { // est vrai seulement au premier tour
+            // on donner un tetromino :
+            grid.setTetromino(provider.next());
+            grid.setAtStartingCoordinates();
+            beginning=false; // on n'est plus au premier tour par la suite
+        }
+
+    }
+
+    /**
+     * Pause the player
+     */
+    public void pause(){
+        activeGame=false;
+    }
+
+
+    /**
+     * Calcul le delai à mettre en fonction de si on est en sofdrop ou pas, et du level
+     */
+    protected int whichDelay() {
+        delay=GamePanelImpl.INITIAL_DELAY-100*getLevel();
+
+        if(delay <= GamePanelImpl.MIN_DELAY || softDrop){ // si on est en softdrop ou en dessous de la valeur minimale :le delai est la valeur minimale
+            delay=GamePanelImpl.MIN_DELAY;
+        }
+        return delay;
+    }
+
     /**
      * do the actions after a merge (when tetromino from grid is null):
      * recalculate score,
@@ -217,6 +228,7 @@ public class GamePlayerSimple implements GamePlayer{
             activeGame=false;
         }
         if (activeGame) {
+            // si le jeu n'est pas fini : on redonne un tetromino
             grid.setTetromino(provider.next());
             grid.setAtStartingCoordinates();
         }
@@ -248,7 +260,7 @@ public class GamePlayerSimple implements GamePlayer{
                 // si on a pas pu descendre le tetromino :
                 if(!moveDown) {
                     grid.merge(); // alors on merge car on touche le sol (ou le tetromino d'en dessous)
-                    ActionWhenMerge();
+                    ActionWhenMerge(); // on fait les actions d'après merge
                     return false; // et on dit qu'on a pas fait le mouvement
                 }
                 return true; // si on est descendu : on renvoie vrai
@@ -258,7 +270,7 @@ public class GamePlayerSimple implements GamePlayer{
                 softDrop=true;
                 return true;
 
-            case END_SOFT_DROP:   // A FAIRE DANS BOUCLE
+            case END_SOFT_DROP:
                 softDrop=false;
                 score.registerBeforeAction(TetrisAction.END_SOFT_DROP, grid);
                 score.registerAfterAction(grid);
@@ -299,15 +311,4 @@ public class GamePlayerSimple implements GamePlayer{
         }
     }
 
-
-    protected int whichDelay() {
-        delay=GamePanelImpl.INITIAL_DELAY-100*getLevel();
-        if(softDrop){
-            delay=GamePanelImpl.MIN_DELAY; // si on est en softdrop le delay diminue
-        }
-        if(delay <= GamePanelImpl.MIN_DELAY){ // on ne vaut pas descendre en dessous de cette valeur
-            delay=GamePanelImpl.MIN_DELAY;
-        }
-        return delay;
-    }
 }

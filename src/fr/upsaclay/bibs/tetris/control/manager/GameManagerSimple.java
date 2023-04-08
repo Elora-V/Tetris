@@ -18,14 +18,20 @@ import java.io.IOException;
 
 public class GameManagerSimple extends AbstractGameManager {
 
-    // cette classe utilise toutes les méthodes de bases défini dans la classe mère abstraite
+    // Cette classe utilise toutes les méthodes de bases défini dans la classe mère abstraite.
+    // On crée donc cette classe seulement pour pouvoir instancier un objet.
+
+    //////////////////// Constructeur ///////////////
 
     public GameManagerSimple() {
-        initialize();
+        // on crée un player :
         super.loadNewGame();
+        // On a pas besoin de definir les autres éléments de classe de AbstractGameManager car cela a été directement fait dans la classe abstraite
+        // (au niveau des elements de classe).
     }
 
 
+    /////////////////// Actions : création d'un player /////////////
     /**
      * Creates a player with the correct player type
      *
@@ -39,12 +45,15 @@ public class GameManagerSimple extends AbstractGameManager {
     	if (super.getPlayerType()!=PlayerType.HUMAN) {
     		throw new UnsupportedOperationException("playertype not implemented");
     	}
-
+        // On donne à la classe mère une instance de player avec les informations de la classes mère (type de provider ...).
+        // Tous est mis par default.
         super.setGamePlayer( new GamePlayerSimple(TetrisGrid.getEmptyGrid(super.getNumberOfLines(), super.getNumberOfCols()), ScoreComputer.getScoreComputer(DEFAULT_MODE), super.getTetrominoProvider(), super.getPlayerType()));
         
     }
     public void loadPlayer(TetrisMode mode,TetrisGrid grid,int score, int level, int lines){ // mettre erreur ??
         try {
+            // On donne à la classe mère un player crée à partir d'un fichier de sauvegarde,
+            // les informations du player sont en arguments.
             super.setGamePlayer( new GamePlayerSimple(grid, ScoreComputer.getScoreComputer(mode, score, level, lines), super.getTetrominoProvider(), super.getPlayerType()));
 
         }catch (Exception e){
