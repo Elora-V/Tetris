@@ -5,6 +5,7 @@ import fr.upsaclay.bibs.tetris.control.player.GamePlayerVisual;
 import fr.upsaclay.bibs.tetris.control.player.PlayerType;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
+import fr.upsaclay.bibs.tetris.view.Audio;
 import fr.upsaclay.bibs.tetris.view.GameFrameImpl;
 import fr.upsaclay.bibs.tetris.view.ManagerComponent;
 

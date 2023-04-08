@@ -1,7 +1,7 @@
 package fr.upsaclay.bibs.tetris.control.player;
 
 import fr.upsaclay.bibs.tetris.TetrisAction;
-import fr.upsaclay.bibs.tetris.control.manager.Audio;
+import fr.upsaclay.bibs.tetris.view.Audio;
 import fr.upsaclay.bibs.tetris.control.manager.GameManagerVisual;
 import fr.upsaclay.bibs.tetris.model.grid.TetrisGrid;
 import fr.upsaclay.bibs.tetris.model.score.ScoreComputer;
