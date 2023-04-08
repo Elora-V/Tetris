@@ -10,16 +10,27 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridPanel extends JPanel {
-    TetrisGridView grid;
+
+    // Cette classe est un panneau représentant la grille de jeu.
+
+    /////////////// Elements de classe //////////////
+    TetrisGridView grid;  // la grille à dessiner (le modèle)
+
+    // les dimensions de la grille :
     int nblines;
     int nbcols;
-    boolean projection=true;
 
+    // booleen d'etat du jeu
+    boolean projection=true; // on met ou non la projection des tetrominos  en fonction de la veleur de ce booleen (faut l'enlever à la fin, sinon ça bug)
     boolean pause=false;
-    JLabel pauseLabel;
     boolean end=false;
+
+    // textes :
+    JLabel pauseLabel;
     JLabel endLabel;
 
+
+    /////////////// Constructeur //////////////
     public GridPanel(){
         super();
 
@@ -34,9 +45,8 @@ public class GridPanel extends JPanel {
         endLabel.setVisible(false);
     }
 
-    public void initialise(){
-        setBackground(Color.WHITE);
-    }
+    /////////////// Get et Set  //////////////
+
     public void setGrid(TetrisGridView grid){
         this.grid = grid;
     }
@@ -54,8 +64,6 @@ public class GridPanel extends JPanel {
         end=true;
     }
 
-
-
     public void setDim(int numligne,int numcol){
         this.nblines = numligne;
         this.nbcols = numcol;
@@ -65,6 +73,13 @@ public class GridPanel extends JPanel {
     public void setProjection(boolean projection){
         this.projection=projection;
     }
+
+    /////////////// Actions  //////////////
+
+    public void initialise(){
+        setBackground(Color.WHITE);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
 
@@ -72,41 +87,51 @@ public class GridPanel extends JPanel {
 
        super.paintComponent(g);
 
+        TetrisCell cell;
+        Color colcell;
 
-        for(int i = 0 ; i < grid.numberOfLines(); i++) {
-            for (int j = 0; j < grid.numberOfCols(); j++) {
-                TetrisCell cell = grid.visibleCell(i,j);
-                if(projection){
-                    cell = grid.projectionVisibleCell(i,j);
-                }
+        // on parcours la grille si le jeu n'est pas en pause:
+        if(!pause) {
+            for (int i = 0; i < grid.numberOfLines(); i++) {
+                for (int j = 0; j < grid.numberOfCols(); j++) {
 
-                Color colcell = Color.decode("#6c7687"); // couleur par default
-
-                if (cell != TetrisCell.EMPTY) {
-                    if (!(pause || end)) {
-                        colcell = GamePanelImpl.ReturnColorCase(cell); // si le jeu est pas en pause : vrai couleur
+                    if (projection) {  // si on veut afficher la projection :
+                        cell = grid.projectionVisibleCell(i, j); // on recupère la case tetris correspondante
+                    } else { // sinon sans projection :
+                        cell = grid.visibleCell(i, j);
                     }
-                    g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.setColor(colcell);
-                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                }
 
-                if(pause){
+                    if (cell != TetrisCell.EMPTY) {  // si la case n'est pas vide :
 
-                    g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
-                    g.setColor(colcell);
-                    g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                        if (!(end || pause)) {
+                            colcell = GamePanelImpl.ReturnColorCase(cell); // si le jeu n'est pas fini (et pas en pause) : on recupère la vrai couleur
+                        } else {
+                            colcell = Color.decode("#6c7687"); // sinon couleur par default
+                        }
+                        // on colorie le rectangle avec la bonne couleur:
+                        g.drawRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                        g.setColor(colcell);
+                        g.fillRect(j * GameFrame.PIXELS_PER_CELL, i * GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL, GameFrame.PIXELS_PER_CELL);
+                    }
+
                 }
             }
         }
 
         if(pause){
+            // si on est en pause : on colorie toutes nos cases en gris
+            g.drawRect(0, 0, nbcols*GameFrame.PIXELS_PER_CELL,nblines* GameFrame.PIXELS_PER_CELL);
+            g.setColor(Color.decode("#6c7687"));
+            g.fillRect(0, 0, nbcols*GameFrame.PIXELS_PER_CELL, nblines*GameFrame.PIXELS_PER_CELL);
+            // et on met un texte
             pauseLabel.setVisible(true);
             endLabel.setVisible(false);
         } else if (end) {
+            // en fin de jeu on ajoute un texte (coloration dans la boucle ci-dessus)
             pauseLabel.setVisible(false);
             endLabel.setVisible(true);
         }else{
+            // pas de label de pause ou game over pendant le jeu sinon :
             pauseLabel.setVisible(false);
             endLabel.setVisible(false);
         }

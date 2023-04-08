@@ -8,11 +8,20 @@ import javax.swing.*;
  * peut etre interesant pour la selection du mode de jeu , du joueur(human ou AI)
  */
 public class ManagerRadioButton extends JRadioButton implements ManagerComponent {
-    private ManagerAction action;
+
+    // Cette classe représente les boutons de reglages en cas d'option (par exemple pour le choix du clavier dans notre cas).
+
+    ////// Element de la classe //////////
+    private ManagerAction action; // une action
+
+    ////// Constructeur //////////
 
     public ManagerRadioButton(String text) {
         super(text);
     }
+
+    ////// Get et Set //////////
+
     /**
      * Set the Manager action attached to the component
      * @param action

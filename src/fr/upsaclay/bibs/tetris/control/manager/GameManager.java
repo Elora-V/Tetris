@@ -41,11 +41,6 @@ public interface GameManager {
 	 */
 	public void initialize();
 
-	/**
-	 * Sets the game mode
-	 * @param mode a TetrisMode
-	 */
-	public void setGameMode(TetrisMode mode);
 	
 	/**
 	 * Return the game mode
@@ -169,6 +164,8 @@ public interface GameManager {
 	 * @return a GameManager
 	 */
 	public static GameManager getGameManager(GameType type) {
+
+		// renvoie une instance du manager en fonction du type SIMPLE ou VISUAL
 		switch (type){
 			case SIMPLE:
 				return new GameManagerSimple();
@@ -182,8 +179,5 @@ public interface GameManager {
 		}
 
 	}
-
-
-	
 	
 }
