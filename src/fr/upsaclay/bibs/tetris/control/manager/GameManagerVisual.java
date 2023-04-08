@@ -127,11 +127,11 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                
                 break;
             case CONTROL:
-            	view.commandeview();
-            	break;
+                view.commandeview();
+                break;
             case SAVESCORE:
-            	
-            	view.saveScore();
+
+                view.saveScore();
                 view.drawManagementView();
                 view.getGamePanel().pauseActionLoop();
                 
@@ -163,6 +163,7 @@ public class GameManagerVisual extends AbstractGameManager implements ActionList
                 musicPlayer.musicPlay(); // La musique est jouée si le joueur le souhaite.
                 break;
             case MUSICMUTE:
+                System.out.println("gggg");
                 musicPlayer.musicStop(); // La musique s'arrête si le joueur le souhaite.
                 break;
             case QWERTY:
