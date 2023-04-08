@@ -1,4 +1,4 @@
-package fr.upsaclay.bibs.tetris.view;
+package fr.upsaclay.bibs.tetris.control.manager;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
