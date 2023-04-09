@@ -78,6 +78,7 @@ public class GridPanel extends JPanel {
 
     public void initialise(){
         setBackground(Color.WHITE);
+
     }
 
     @Override
