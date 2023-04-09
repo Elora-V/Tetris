@@ -46,6 +46,9 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
     ///// Panneaux de jeu
     JPanel gameInfoPanel; // pour le score, le tétromino retenu et les tetrominos suivants
+
+    JPanel imagePanel; // variable imagePanel de type JPanel qui permet d'afficher l'image au panneau initial
+
     GridPanel gridPanel; // pour la grille (voir classe gridPanel)
 
         // les sous-panel de gameInfoPanel :
@@ -71,7 +74,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gridPanel=new GridPanel(); // sous-panel pour la grille (droite)
         
         gameInfoPanel=new JPanel(); // sous panel avec le score et les tetrominos suivant (gauche)
-        
+
+        imagePanel = new JPanel(); // panel pour l'image de couverture du jeu
 
         // les sous-panels de gameInfoPanel
         HoldTetroPanel=new TetrominoPanel("Held tetromino"); // sera dans nextTetroPanel en bas
@@ -123,7 +127,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gridPanel.setGrid(grid);
         gridPanel.setDim(nblines,nbcols);
 
-        
         ////////////// gameInfoPanel ////////////////////////
 
         gameInfoPanel.setPreferredSize(new Dimension(400,gridPanel.getPreferredSize().height));
@@ -140,7 +143,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
 
         gameInfoPanel.add(nextTetroPanel,BorderLayout.NORTH);
         nextTetroPanel.setBounds(0,gameInfoPanel.getPreferredSize().height/8,gameInfoPanel.getPreferredSize().width,gameInfoPanel.getPreferredSize().width/(nbNextTet+1));
-
 
         ///// score ///////
 
@@ -160,7 +162,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         scorePanel.add(labelLevel);
         labelLevel.setForeground(Color.decode("#6c7687"));
         labelLevel.setBounds(scorePanel.getPreferredSize().width/3, scorePanel.getPreferredSize().height*2/4,labelLevel.getPreferredSize().width,labelLevel.getPreferredSize().height);
-        				////// score label //////
+        ////// score label //////
         labelLines=new JLabel("Lines  :  "+ linesmax);
         scorePanel.add(labelLines);
         labelLines.setForeground(Color.decode("#6c7687"));
@@ -177,8 +179,19 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         gameInfoPanel.add(HoldTetroPanel,BorderLayout.SOUTH);
         HoldTetroPanel.setBounds(gameInfoPanel.getPreferredSize().width/4,gameInfoPanel.getPreferredSize().height *5/8, HoldTetroPanel.getPreferredSize().width,HoldTetroPanel.getPreferredSize().height);
 
+
+        //////////// Image de couverture ////////////
+
+        ImageIcon imageCouverture = new ImageIcon("Button_icons/tetris.png");
+        Image petiteImageCouverture = imageCouverture.getImage().getScaledInstance(gridPanel.getPreferredSize().width +
+                gameInfoPanel.getPreferredSize().width , gridPanel.getPreferredSize().height -13, Image.SCALE_SMOOTH);
+        System.out.println(gridPanel.getPreferredSize().height);
+        System.out.println(gridPanel.getPreferredSize().width + gameInfoPanel.getPreferredSize().width);
+        ImageIcon smallImageCouverture = new ImageIcon(petiteImageCouverture);
+
         //////////// Add panel ////////////
 
+        imagePanel.add(new JLabel(smallImageCouverture));
         add(gameInfoPanel,BorderLayout.WEST);
         add(gridPanel,BorderLayout.EAST);
 
@@ -194,6 +207,8 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawManagementView(){
+        add(imagePanel);
+        imagePanel.setVisible(true);
         gameInfoPanel.setVisible(false);
         gridPanel.setVisible(false);
         update();
@@ -207,6 +222,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePlayView(){
+        imagePanel.setVisible(false);
         gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
         gridPanel.setVisualPlay();
@@ -218,7 +234,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawGamePauseView(){
-
+        imagePanel.setVisible(false);
         gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
         gridPanel.setVisualPause();
@@ -230,6 +246,7 @@ public class GamePanelImpl extends JPanel implements GamePanel {
      */
     @Override
     public void drawEndGameView(){
+        imagePanel.setVisible(false);
         gameInfoPanel.setVisible(true);
         gridPanel.setVisible(true);
         gridPanel.setProjection(false);

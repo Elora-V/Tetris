@@ -31,8 +31,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
     // Les deux panneaux principaux :
     GamePanelImpl gamePanel; // au centre de la fenetre : le jeu en lui-meme ( voire la classe GamePanelImpl)
     JPanel controlPanel; // à droite de la fenetre : les reglages
-
-
+    
     // les  4 versions du panel de reglage :
     JPanel initialPanel;
     JPanel playPanel;
@@ -122,6 +121,7 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         /////////////////  General initialization /////////////////
         gamePanel.initialize();
         add(gamePanel,BorderLayout.WEST);
+
         controlPanel.setPreferredSize(new Dimension(200, gamePanel.getPreferredSize().height));
         add(controlPanel,BorderLayout.EAST);
 
@@ -140,6 +140,8 @@ public class GameFrameImpl extends JFrame implements GameFrame,GameViewPanel {
         keyboardPanel.add(azerty);
 
         controlPanel.add(initialPanel);
+
+
 
         /////////////////  The play panel (when the game is running) /////////////////
         playPanel = new JPanel();
