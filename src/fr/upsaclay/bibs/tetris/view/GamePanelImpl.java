@@ -185,8 +185,6 @@ public class GamePanelImpl extends JPanel implements GamePanel {
         ImageIcon imageCouverture = new ImageIcon("Button_icons/tetris.png");
         Image petiteImageCouverture = imageCouverture.getImage().getScaledInstance(gridPanel.getPreferredSize().width +
                 gameInfoPanel.getPreferredSize().width , gridPanel.getPreferredSize().height -13, Image.SCALE_SMOOTH);
-        System.out.println(gridPanel.getPreferredSize().height);
-        System.out.println(gridPanel.getPreferredSize().width + gameInfoPanel.getPreferredSize().width);
         ImageIcon smallImageCouverture = new ImageIcon(petiteImageCouverture);
 
         //////////// Add panel ////////////
